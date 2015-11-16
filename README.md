@@ -1,4 +1,4 @@
-# RAM Book - exemplo de app Node.js + express + socket.io + bootstrap
+# MEAN Book - exemplo de app Node.js + express + MongoDB + socket.io + bootstrap
 ## Instalação
 ### Prerequisitos da aplicação
 - Instalação do server nodejs; e
