@@ -22,7 +22,6 @@ frontController.prototype = {
  
       that.bindEvents(socket);
       that.onUserList(socket);
-      that.loadPosts(socket);
     });
   },
   onDisconnect: function(socket) {
@@ -62,6 +61,8 @@ frontController.prototype = {
       that.loggedUsers[socket.id] = socket;
       socket.emit('userlogin');
       that.onUserList(socket);
+
+      that.loadPosts(socket);
       console.log('O usuário ' + socket.handshake.username + ' logou na app.');
     } else {
       var msg = 'Defina um usuário para usar a app.';
@@ -134,8 +135,7 @@ frontController.prototype = {
   },
   onLikePost: function(socket, data) {
     var that = this;
-    that.postService.doLike(data.postId);
-    that.postService.findById(data.postId, function(err, post) {
+    that.postService.doLike(data.postId, function(err, post) {
       that.updatePostsInMemory(post);
 
       var responseData = {
@@ -149,11 +149,9 @@ frontController.prototype = {
   },
  
   onMakeComment: function(socket, data) {
-    console.log('onMakeComment: data='+data);
     var that = this;
     var comment = that.commentService.create(socket.handshake.username, data.text);
-    that.postService.addComment(data.postId, comment);
-    that.postService.findById(data.postId, function(err, post) {
+    that.postService.addComment(data.postId, comment, function(err, post) {
       that.updatePostsInMemory(post);
       
       var responseData = {
@@ -171,9 +169,8 @@ frontController.prototype = {
   },
   onLikeComment: function(socket, data) {
     var that = this;
-    that.commentService.doLike(data.commentId);
     if (data.commentId) {
-      that.commentService.findById(data.commentId, function(err, comment) {
+      that.commentService.doLike(data.commentId, function(err, comment) {
         that.postService.findById(data.postId, function(err, post) {
           that.updatePostsInMemory(post);
         });

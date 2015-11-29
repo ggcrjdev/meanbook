@@ -1,4 +1,4 @@
-var Comment = require('./comment').Comment;
+var modelComment = require('./comment');
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
@@ -23,11 +23,11 @@ var postSchema = new Schema({
         max: 99999999,
         default: 0
     },
-
-    comments: [Comment]
+    comments: [modelComment.CommentSchema]
 });
 
 var post = mongoose.model('post', postSchema);
 module.exports = {
-    Post: post
+    Post: post,
+    PostSchema: postSchema
 };

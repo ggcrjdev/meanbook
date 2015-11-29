@@ -13,11 +13,13 @@ commentService.prototype = {
     comment.save(ServiceUtils.mongooseCallback);
     return comment;
   },
-  doLike: function(commentId) {
+  doLike: function(commentId, callback) {
     this.findById(commentId, function(err, comment) {
       if (comment) {
         comment.likes += 1;
-        comment.save(ServiceUtils.mongooseCallback);
+        comment.save(function(err) {
+          callback(err, comment);
+        });
       } else {
         console.log('Não foi encontrado o comentario com id ' + commentId);
       }
