@@ -15,7 +15,11 @@ require(['jquery', 'client', 'mustache'], function($, client, Mustache) {
     //Formatador da hora para o mustache
     function formatHour() {
         var today = new Date(this.timestamp);
-        return today.getHours() + ':' + today.getMinutes();
+        var formattedDate = (today.getHours() < 10) ? '0' : '';
+        formattedDate += today.getHours() + ':';
+        formattedDate += (today.getMinutes() < 10) ? '0' : '';
+        formattedDate += today.getMinutes() + '';
+        return formattedDate;
     }
    
     /*********DECLARAÇÃO DE EVENTOS**********/
@@ -23,8 +27,7 @@ require(['jquery', 'client', 'mustache'], function($, client, Mustache) {
    
     .on('click', '#btn-entrar', function(ev) {
       var name = username.val();
-   
-      if(name) {
+      if (name) {
         client.userLogin(name);
       }
     })
@@ -100,21 +103,29 @@ require(['jquery', 'client', 'mustache'], function($, client, Mustache) {
       var html = Mustache.render(userlistTpl, {users: data});
       onlineUsers.html(html);
     };
-   
+
     client.events.makepost = function(data) {
       var html = Mustache.render(postTpl, {post: data, hora: formatHour});
       posts.prepend(html);
+    };
+   
+    client.events.likepost = function(data) {
+      var lnkLikePost = $('.post[data-post-id="' + data.postId + '"] .lnk-like-post');
+      lnkLikePost.html('(' + data.numLikes + ')');
+    };
+
+    client.events.loadposts = function(data) {
+      if (data && data.posts) {
+        for (var i = 0; i < data.posts.length; i++) {
+          client.events.makepost(data.posts[i]);
+        }
+      }
     };
    
     client.events.makecomment = function(data) {
       var html = Mustache.render(commentTpl, {comment: data, hora: formatHour}),
           postComments = $('.post[data-post-id="' + data.postId + '"] .post-comments');
       postComments.prepend(html);
-    };
-   
-    client.events.likepost = function(data) {
-      var lnkLikePost = $('.post[data-post-id="' + data.postId + '"] .lnk-like-post');
-      lnkLikePost.html('(' + data.numLikes + ')');
     };
    
     client.events.likecomment = function(data) {

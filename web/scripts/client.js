@@ -5,9 +5,6 @@ define(['socketio'], function(io) {
       var socket = io.connect("http://localhost:3000");
       console.log("socket-io-client: Connected to server.");
 
-      socket.emit('likecomment', {});
-      socket.emit('unlikecomment', {});
-   
       //listeners
       socket.on('connect', function(data) {
           events.connect(data);
@@ -25,6 +22,10 @@ define(['socketio'], function(io) {
           events.userlist(data);
       });
    
+      socket.on('loadposts', function(data) {
+          events.loadposts(data);
+      });
+   
       socket.on('makepost', function(data) {
           events.makepost(data);
       });
@@ -40,6 +41,7 @@ define(['socketio'], function(io) {
       socket.on('likecomment', function(data) {
           events.likecomment(data);
       });
+
    
       //emits
       function userLogin(username) {
@@ -50,12 +52,12 @@ define(['socketio'], function(io) {
           socket.emit('makepost', post);
       }
    
-      function makeComment(comment) {
-          socket.emit('makecomment', comment);
-      }
-   
       function likePost(likeData) {
           socket.emit('likepost', likeData);
+      }
+   
+      function makeComment(comment) {
+          socket.emit('makecomment', comment);
       }
    
       function likeComment(likeData) {

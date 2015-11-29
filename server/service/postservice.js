@@ -42,7 +42,7 @@ postService.prototype = {
     Post.findOne({_id: postId}, callback);
   },
   listByAuthor: function(username, callback) {
-    Post.find({by: username}, callback);
+    Post.find({by: username}, null, {}, callback);
   },
   listAll: function(callback) {
     Post.find({}, callback);
