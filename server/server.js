@@ -4,7 +4,7 @@ var config = require('./config');
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require("mongoose");
+var mongoose = require('mongoose');
 var app = express();
 var http = require('http').Server(app);
 
@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 // Diz ao Express que o diretório web contém conteúdos estáticos
-app.use(express.static(__dirname + '/web'));
+app.use(express.static(__dirname + config.express.webBaseDir));
 
 // Exporta os módulos
 module.exports.socketIO = io;
