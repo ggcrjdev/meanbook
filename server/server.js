@@ -37,3 +37,4 @@ app.use(express.static(__dirname + config.express.webBaseDir));
 // Exporta os módulos
 module.exports.socketIO = io;
 module.exports.http = http;
+module.exports.app = app;
