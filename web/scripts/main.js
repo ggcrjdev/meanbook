@@ -1,19 +1,24 @@
 requirejs.config({
   basePath: './',
   paths: {
-    'socketio': '/socket.io/socket.io',
-    'jquery': '../bower_components/jquery/dist/jquery.min', 
-    'mustache': '../bower_components/mustache.js/mustache.min'
+    'jquery': '../bower_components/jquery/dist/jquery.min',
+    'angular': '../bower_components/angular/angular.min'
   },
   shim: {
-    'mustache': {
-      exports: 'Mustache'
-    },
-    'socketio': {
-      exports: 'io'
+    'angular': {
+      exports: 'angular'
+    }
+  },
+  dev: {
+    options: {
+      optimize: 'none'
+    }
+  },
+  release: {
+    options: {
+      optimize: 'uglify'
     }
   }
 });
 
-require(['view'], function(view) {
-});
+require(['app'], function(app) {});

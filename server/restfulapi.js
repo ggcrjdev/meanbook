@@ -14,12 +14,12 @@ restfulApi.prototype = {
   init: function() {
     var that = this;
     console.log('Event connection: connected.');
-    that.bindResources();
+    that.bindResources('/api/1.0');
   },
-  bindResources: function() {
-    this.bindUsersResource('/users');
-    this.bindPostsResource('/posts');
-    this.bindCommentsResource('/comments');
+  bindResources: function(resourcePath) {
+    this.bindUsersResource(resourcePath + '/users');
+    this.bindPostsResource(resourcePath + '/posts');
+    this.bindCommentsResource(resourcePath + '/comments');
   },
   bindUsersResource: function(resourceBasePath) {
     var that = this;
