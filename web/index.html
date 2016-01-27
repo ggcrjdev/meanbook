@@ -17,13 +17,14 @@
                     <span class="navbar-brand">MEANBook</span>
                 </div>
  
-                <div class="navbar-form navbar-right hidden" id="frm-join">
-                  <div class="form-group">
-                    <input type="text" id="username" maxlength="10" class="form-control input-sm" placeholder="Digite seu nome">
-                  </div>
-                  <button type="button" id="btn-entrar" class="btn btn-info input-sm">Entrar</button>
-                </div>
-                <div></div>
+                <form name="formUser" novalidate>
+                    <div class="navbar-form navbar-right hidden" id="frm-join">
+                      <div class="form-group">
+                        <input ng-model="formUserUsername" id="username" type="text" maxlength="10" class="form-control input-sm" placeholder="Digite seu nome">
+                      </div>
+                      <button ng-click="login()" id="btn-entrar" type="button" class="btn btn-info input-sm">Entrar</button>
+                    </div>
+                </form>
             </nav>
  
             <div class="row">
@@ -39,14 +40,16 @@
                     </div>
  
                     <div id="logged" class="hidden">
-                        <div class="post-form">
-                            <div class="action">O que você tem em mente?</div>
-                            <textarea class="txt" id="post-content"></textarea>
-                            <div class="pull-right">
-                                <button id="btn-postar" class="btn btn-info glyphicon glyphicon-ok"> Enviar</button>
+                        <form name="formPosts" novalidate>
+                            <div class="post-form">
+                                <div class="action">O que você tem em mente?</div>
+                                <textarea ng-model="formPostContent" id="post-content" class="txt"></textarea>
+                                <div class="pull-right">
+                                    <button ng-click="makePost()" id="btn-postar" class="btn btn-info glyphicon glyphicon-ok"> Enviar</button>
+                                </div>
                             </div>
-                        </div>
-                        <div ng-include="'includes/posts.html'" class="posts"></div>
+                            <div ng-include="'includes/posts.html'" class="posts"></div>
+                        </form>
                     </div>
                 </div>
             </div>
