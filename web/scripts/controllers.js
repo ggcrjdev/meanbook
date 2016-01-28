@@ -1,16 +1,21 @@
 require(['angular'], function(angular) {
   /*********MODULO DO CONTROLADOR**********/
-  angular.module("meanBook").controller("meanBookController", function($scope, meanBookApi) {
+  var mainApp = angular.module("mainApp", []);
+  mainApp.controller("meanBookController", function($scope, meanBookApi) {
     $scope.onlineUsers = new Array();
     $scope.user = {
       username: null,
-      posts: []
+      posts: [],
+
+      loggedIn: function() {
+        return this.username != null;
+      }
     };
 
     $scope.login = function() {
-      meanBookApi.login($scope.formUserUsername, null).then(function(data) {
+      meanBookApi.login($scope.formUserUsername).then(function(data) {
         $scope.user.username = $scope.formUserUsername;
-        $scope.onlineUsers.add($scope.user.username);
+        $scope.onlineUsers.push($scope.user.username);
         loadPostsForCurrentUser();
         $scope.formUserUsername = null;
       });
@@ -23,7 +28,7 @@ require(['angular'], function(angular) {
     };
 
     function loadPostsForCurrentUser() {
-      meanBook.listPosts($scope.user.username).then(function(data) {
+      meanBookApi.listPosts($scope.user.username).then(function(data) {
         $scope.user.posts = data;
       });
     };

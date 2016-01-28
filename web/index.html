@@ -11,18 +11,21 @@
         <link rel="stylesheet" href="styles/main.css" />
     </head>
     <body>
-        <div ng-app="meanBook" ng-controller="meanBookController" class="container">
+        <div ng-app="mainApp" ng-controller="meanBookController" class="container">
             <nav class="navbar navbar-inverse" role="navigation">
                 <div class="navbar-header">
                     <span class="navbar-brand">MEANBook</span>
                 </div>
  
                 <form name="formUser" novalidate>
-                    <div class="navbar-form navbar-right hidden" id="frm-join">
+                    <div ng-hide="user.loggedIn()" id="frm-join" class="navbar-form navbar-right">
                       <div class="form-group">
-                        <input ng-model="formUserUsername" id="username" type="text" maxlength="10" class="form-control input-sm" placeholder="Digite seu nome">
+                        <input ng-model="formUserUsername" id="username" type="text" maxlength="10" class="form-control input-sm" placeholder="Digite seu nome"></input>
                       </div>
                       <button ng-click="login()" id="btn-entrar" type="button" class="btn btn-info input-sm">Entrar</button>
+                    </div>
+                    <div ng-show="user.loggedIn()" id="frm-join" class="navbar-form navbar-right">
+                      <button ng-click="logout()" id="btn-sair" type="button" class="btn btn-warning input-sm">Sair</button>
                     </div>
                 </form>
             </nav>
@@ -33,13 +36,12 @@
                     <div ng-include="'includes/userlist.html'"></div>
                 </div>
                 <div class="col-md-9">
- 
-                    <div id="not-logged">
+                    <div ng-hide="user.loggedIn()" id="not-logged">
                         <h2>Você precisa se conectar</h2>
                         <h3>Digite seu nome e clique em "Entrar"</h3>
                     </div>
  
-                    <div id="logged" class="hidden">
+                    <div ng-show="user.loggedIn()" id="logged">
                         <form name="formPosts" novalidate>
                             <div class="post-form">
                                 <div class="action">O que você tem em mente?</div>

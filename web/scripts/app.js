@@ -1,17 +1,17 @@
 require(['angular'], function(angular) {
   /*********MODULO DA APLICAÇÃO**********/
-  var meanBook = angular.module("meanBook");
-  meanBook.service('meanBookApi', ['$http', function($http) {
+  var mainApp = angular.module("mainApp", []);
+  mainApp.service('meanBookApi', function($http) {
 
     var apiUrl = "http://localhost:3000/api/1.0";
     var urlsByMethod = {
-      userLogin: this.apiUrl + '/users/login',
-      userLogout: this.apiUrl + '/users/logout',
-      listPosts: this.apiUrl + '/posts/list',
-      makePost: this.apiUrl + '/posts/add',
-      likePost: this.apiUrl + '/posts/like',
-      makeComment: this.apiUrl + '/comments/add',
-      likeComment: this.apiUrl + '/comments/like'
+      userLogin: apiUrl + '/users/login',
+      userLogout: apiUrl + '/users/logout',
+      listPosts: apiUrl + '/posts/list',
+      makePost: apiUrl + '/posts/add',
+      likePost: apiUrl + '/posts/like',
+      makeComment: apiUrl + '/comments/add',
+      likeComment: apiUrl + '/comments/like'
     };
 
     function userLogin(username, password) {
@@ -53,9 +53,9 @@ require(['angular'], function(angular) {
     };
 
     function doRequest(methodName, httpMethod, data, callbackSuccess, callbackError) {
-      var requestUrl = this.urlsByMethod[methodName];
+      var requestUrl = urlsByMethod[methodName];
       if (!requestUrl) {
-        throw Exception("O nome do método" + methodName + " não possui uma URL mapeada.");
+        throw Error("O nome do método" + methodName + " não possui uma URL mapeada.");
       }
       if (!httpMethod) {
         httpMethod = 'POST';
@@ -83,7 +83,58 @@ require(['angular'], function(angular) {
       makeComment: makeComment,
       likeComment: likeComment
     };
-  }]);
+  });
 
-  require(['controllers'], function(controllers) {});
+  /*********MODULO DO CONTROLADOR**********/
+  mainApp.controller("meanBookController", function($scope, meanBookApi) {
+    $scope.onlineUsers = new Array();
+    $scope.user = {
+      username: null,
+      posts: [],
+
+      loggedIn: function() {
+        return this.username != null;
+      }
+    };
+
+    $scope.login = function() {
+      meanBookApi.login($scope.formUserUsername).then(function(data) {
+        $scope.user.username = $scope.formUserUsername;
+        $scope.onlineUsers.push({
+          id: $scope.user.username,
+          username: $scope.user.username
+        });
+        loadPostsForCurrentUser();
+        $scope.formUserUsername = null;
+      });
+    };
+
+    $scope.logout = function() {
+      $scope.onlineUsers.pop($scope.user.username);
+      $scope.user.username = null;
+      $scope.user.posts = [];
+    };
+
+    $scope.makePost = function() {
+      meanBookApi.makePost($scope.formPostContent).then(function(data) {});
+      loadPostsForCurrentUser();
+      $scope.formPostContent = null;
+    };
+
+    function loadPostsForCurrentUser() {
+      meanBookApi.listPosts($scope.user.username).then(function(data) {
+        $scope.user.posts = data;
+      });
+    };
+
+    /*********FUNÇÕES UTEIS**********/
+    $scope.formatHour = function(timestamp) {
+      var today = new Date(timestamp);
+      var formattedDate = (today.getHours() < 10) ? '0' : '';
+      formattedDate += today.getHours() + ':';
+      formattedDate += (today.getMinutes() < 10) ? '0' : '';
+      formattedDate += today.getMinutes() + '';
+      return formattedDate;
+    };
+  });
 });
