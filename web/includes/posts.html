@@ -1,8 +1,8 @@
 <div ng-repeat="post in user.posts" class="post" data-post-id="{{post.id}}">
     <div class="poster-info">
         <span class="poster">{{post.author}}</span>
-        <span class="action">escreveu, as </span>
-        <span class="time">{{post.hora}} hs</span>
+        <span class="action">escreveu em </span>
+        <span class="time">{{formatTimestamp(post.timestamp)}} hs</span>
     </div>
     <div class="post-body">{{post.text}}</div>
     <div class="post-actions">

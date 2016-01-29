@@ -130,7 +130,8 @@ restfulApi.prototype = {
   onMakePost: function(req, res) {
     var that = this;
     var data = req.params;
-    var post = that.postService.create(that.loggedUsername(req, res), data);
+    var reqJson = req.body;
+    var post = that.postService.create(that.loggedUsername(req, res), reqJson.text);
     var responseData = {
       id: post._id,
       authorId: post.by,

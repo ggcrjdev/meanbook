@@ -24,7 +24,7 @@
                       </div>
                       <button ng-click="login()" id="btn-entrar" type="button" class="btn btn-info input-sm">Entrar</button>
                     </div>
-                    <div ng-show="user.loggedIn()" id="frm-join" class="navbar-form navbar-right">
+                    <div ng-hide="!user.loggedIn()" id="frm-join" class="navbar-form navbar-right">
                       <button ng-click="logout()" id="btn-sair" type="button" class="btn btn-warning input-sm">Sair</button>
                     </div>
                 </form>
@@ -41,7 +41,7 @@
                         <h3>Digite seu nome e clique em "Entrar"</h3>
                     </div>
  
-                    <div ng-show="user.loggedIn()" id="logged">
+                    <div ng-hide="!user.loggedIn()" id="logged">
                         <form name="formPosts" novalidate>
                             <div class="post-form">
                                 <div class="action">O que você tem em mente?</div>

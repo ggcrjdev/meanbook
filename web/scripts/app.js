@@ -36,7 +36,12 @@ require(['angular'], function(angular) {
       return doGetRequest('listPosts', data);
     };
 
-    function makePost(post) {};
+    function makePost(post) {
+      var data = {
+        text: post
+      };
+      return doPostRequest('makePost', data);
+    };
 
     function likePost(likeData) {};
 
@@ -98,7 +103,7 @@ require(['angular'], function(angular) {
     };
 
     $scope.login = function() {
-      meanBookApi.login($scope.formUserUsername).then(function(data) {
+      meanBookApi.login($scope.formUserUsername).then(function(response) {
         $scope.user.username = $scope.formUserUsername;
         $scope.onlineUsers.push({
           id: $scope.user.username,
@@ -116,21 +121,23 @@ require(['angular'], function(angular) {
     };
 
     $scope.makePost = function() {
-      meanBookApi.makePost($scope.formPostContent).then(function(data) {});
+      meanBookApi.makePost($scope.formPostContent).then(function(response) {});
       loadPostsForCurrentUser();
       $scope.formPostContent = null;
     };
 
     function loadPostsForCurrentUser() {
-      meanBookApi.listPosts($scope.user.username).then(function(data) {
-        $scope.user.posts = data;
+      meanBookApi.listPosts($scope.user.username).then(function(response) {
+        $scope.user.posts = response.data.posts;
       });
     };
 
     /*********FUNÇÕES UTEIS**********/
-    $scope.formatHour = function(timestamp) {
+    $scope.formatTimestamp = function(timestamp) {
       var today = new Date(timestamp);
-      var formattedDate = (today.getHours() < 10) ? '0' : '';
+      var formattedDate = today.getDate() + "/";
+      formattedDate += (today.getMonth() + 1) + " as ";
+      formattedDate += (today.getHours() < 10) ? '0' : '';
       formattedDate += today.getHours() + ':';
       formattedDate += (today.getMinutes() < 10) ? '0' : '';
       formattedDate += today.getMinutes() + '';
