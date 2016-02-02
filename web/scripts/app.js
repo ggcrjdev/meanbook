@@ -22,11 +22,8 @@ require(['angular'], function(angular) {
       return doPostRequest('userLogin', data);
     };
 
-    function userLogout(username) {
-      var data = {
-        username: username
-      };
-      return doPostRequest('userLogout', data);
+    function userLogout() {
+      return doPostRequest('userLogout');
     };
 
     function listPosts(username) {
@@ -104,10 +101,10 @@ require(['angular'], function(angular) {
 
     $scope.login = function() {
       meanBookApi.login($scope.formUserUsername).then(function(response) {
-        $scope.user.username = $scope.formUserUsername;
+        $scope.user.username = response.data.username;
         $scope.onlineUsers.push({
-          id: $scope.user.username,
-          username: $scope.user.username
+          id: response.data.id,
+          username: response.data.username
         });
         loadPostsForCurrentUser();
         $scope.formUserUsername = null;
@@ -115,9 +112,11 @@ require(['angular'], function(angular) {
     };
 
     $scope.logout = function() {
-      $scope.onlineUsers.pop($scope.user.username);
-      $scope.user.username = null;
-      $scope.user.posts = [];
+      meanBookApi.logout().then(function(response) {
+        $scope.onlineUsers.pop($scope.user.username);
+        $scope.user.username = null;
+        $scope.user.posts = [];
+      });
     };
 
     $scope.makePost = function() {

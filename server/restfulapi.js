@@ -23,63 +23,46 @@ restfulApi.prototype = {
   },
   bindUsersResource: function(resourceBasePath) {
     var that = this;
-    that.app.post(resourceBasePath + '/login', function (req, res) {
+    that.app.get(resourceBasePath + '/list', function(req, res) {
+      that.onUserList(req, res);
+    });
+    that.app.post(resourceBasePath + '/login', function(req, res) {
       that.onUserLogin(req, res);
     });
-    that.app.post(resourceBasePath + '/logout', function (req, res) {
+    that.app.post(resourceBasePath + '/logout', function(req, res) {
       that.onDisconnect(req, res);
     });
   },
   bindPostsResource: function(resourceBasePath) {
     var that = this;
-    that.app.get(resourceBasePath + '/list', function (req, res) {
+    that.app.get(resourceBasePath + '/list', function(req, res) {
       that.loadPosts(req, res);
     });
-    that.app.post(resourceBasePath + '/add', function (req, res) {
+    that.app.post(resourceBasePath + '/add', function(req, res) {
       that.onMakePost(req, res);
     });
-    that.app.post(resourceBasePath + '/like', function (req, res) {
+    that.app.post(resourceBasePath + '/like', function(req, res) {
       that.onLikePost(req, res);
     });
   },
   bindCommentsResource: function(resourceBasePath) {
     var that = this;
-    that.app.post(resourceBasePath + '/add', function (req, res) {
+    that.app.post(resourceBasePath + '/add', function(req, res) {
       that.onMakeComment(req, res);
     });
-    that.app.post(resourceBasePath + '/like', function (req, res) {
+    that.app.post(resourceBasePath + '/like', function(req, res) {
       that.onLikeComment(req, res);
     });
-  },  
+  },
 
   loggedUsername: function(req, res) {
-    return 'ggc';
-  },
-  onDisconnect: function(req, res) {
-    delete this.loggedUsers[this.loggedUsername(req, res)];
-    this.onUserList(req, res);
-  },
-  onUserLogin: function(req, res) {
-    var that = this;
-    var data = req.params;
-    if (data.username) {
-      that.loggedUsers[data.username] = {
-        username: data.username,
-        loginDate: new Date()
-      };
-      console.log('O usuário ' + data.username + ' logou na app.');
-      that.onUserList(req, res);
-    } else {
-      var msg = 'Defina um usuário para usar a app.';
-      console.log(msg);
-      that.sendMessage(req, res, msg);
-    }
+    var currentUsername = (req.session.user) ? req.session.user.username : null;
+    console.log('loggedUsername = ' + currentUsername);
+    return currentUsername;
   },
   onUserList: function(req, res) {
     var that = this;
-    var data = req.params;
     var keys = Object.keys(this.loggedUsers);
-
     var responseData = new Array(keys.length);
     var i = 0;
     keys.forEach(function(key) {
@@ -90,7 +73,39 @@ restfulApi.prototype = {
     });
     res.json(responseData);
   },
- 
+  onUserLogin: function(req, res) {
+    var that = this;
+    var data = req.body;
+    if (data.username) {
+      var user = {
+        id: data.username,
+        username: data.username,
+        loginDate: new Date()
+      };
+      req.session.user = user;
+      this.loggedUsers[user.username] = user;
+      console.log('O usuário ' + user.username + ' logou na app e foi incluído na sessão.');
+      res.json(user);
+    } else {
+      var msg = 'Defina um usuário para usar a app.';
+      console.log(msg);
+      that.sendMessage(req, res, msg);
+    }
+  },
+  onDisconnect: function(req, res) {
+    if (this.loggedUsername(req, res)) {
+      delete this.loggedUsers[this.loggedUsername(req, res)];
+      req.session.destroy(function(err) {});
+      res.json({
+        logggedOut: true
+      });
+    } else {
+      res.json({
+        logggedOut: false
+      });
+    }
+  },
+
   sendMessage: function(req, res, msg) {
     var responseData = {
       type: 'info',
@@ -129,9 +144,8 @@ restfulApi.prototype = {
   },
   onMakePost: function(req, res) {
     var that = this;
-    var data = req.params;
-    var reqJson = req.body;
-    var post = that.postService.create(that.loggedUsername(req, res), reqJson.text);
+    var data = req.body;
+    var post = that.postService.create(that.loggedUsername(req, res), data.text);
     var responseData = {
       id: post._id,
       authorId: post.by,
@@ -144,20 +158,20 @@ restfulApi.prototype = {
   },
   onLikePost: function(req, res) {
     var that = this;
-    var data = req.params;
+    var data = req.body;
     that.postService.doLike(data.postId, function(err, post) {
       var responseData = {
-        postId: post._id, 
+        postId: post._id,
         numLikes: post.likes
       };
       console.log('Efetuado like para o post com id ' + post._id);
       res.json(responseData);
     });
   },
- 
+
   onMakeComment: function(req, res) {
     var that = this;
-    var data = req.params;
+    var data = req.body;
     var comment = that.commentService.create(that.loggedUsername(req, res), data.text);
     that.postService.addComment(data.postId, comment, function(err, post) {
       var responseData = {
@@ -174,14 +188,13 @@ restfulApi.prototype = {
   },
   onLikeComment: function(req, res) {
     var that = this;
-    var data = req.params;
+    var data = req.body;
     if (data.commentId) {
       that.commentService.doLike(data.commentId, function(err, comment) {
-        that.postService.findById(data.postId, function(err, post) {
-        });
+        that.postService.findById(data.postId, function(err, post) {});
 
         var responseData = {
-          commentId: comment._id, 
+          commentId: comment._id,
           numLikes: comment.likes
         };
         console.log('Efetuado like para o comentário com id ' + comment._id);
@@ -192,5 +205,5 @@ restfulApi.prototype = {
 };
 
 module.exports = {
-  RestfulApi: restfulApi 
+  RestfulApi: restfulApi
 };

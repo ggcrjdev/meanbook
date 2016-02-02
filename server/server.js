@@ -4,6 +4,7 @@ var config = require('./config');
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
 var mongoose = require('mongoose');
 var app = express();
 var http = require('http').Server(app);
@@ -13,24 +14,30 @@ mongoose.connect(config.mongodb.url);
 
 // Configuração do socket.io
 var io = require('socket.io')(http, {
-    origins: config.socketio.origins,
-    transports: config.socketio.transports
+	origins: config.socketio.origins,
+	transports: config.socketio.transports
 });
 
 // Configuração do express.
 //CORS
 var allowCors = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', config.express.origins);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, x-access-token');
-    next();
+	res.header('Access-Control-Allow-Origin', config.express.origins);
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+	res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, x-access-token');
+	next();
 };
 app.use(allowCors);
+app.use(session({
+  secret: 'voandoalto-8825',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-    extended: false
+	extended: false
 }));
-app.use(cookieParser());
+
 // Diz ao Express que o diretório web contém conteúdos estáticos
 app.use(express.static(__dirname + config.express.webBaseDir));
 
