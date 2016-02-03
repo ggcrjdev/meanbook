@@ -1,5 +1,5 @@
-var usersRouter = function(express, baseUri) {
-  this.init(express, baseUri);
+var usersRouter = function(express, apiBaseUri) {
+  this.init(express, apiBaseUri);
 };
 
 usersRouter.prototype = {
@@ -9,10 +9,10 @@ usersRouter.prototype = {
     this.apiBaseUri = apiBaseUri;
     this.routerBaseUri = '/users';
     this.router = express.Router();
-    useRounterMiddleware();
+    initRounterMiddleware();
     initRoutes();
   },
-  useRounterMiddleware: function() {
+  initRounterMiddleware: function() {
     // middleware that is specific to this router
     var that = this;
     that.router.use(function(req, res, next) {
@@ -32,7 +32,7 @@ usersRouter.prototype = {
       that.logout(req, res);
     });
   },
-  use: function(app) {
+  useRouter: function(app) {
     app.use(this.apiBaseUri + this.routerBaseUri, this.router);
   },
 
