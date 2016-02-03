@@ -12,12 +12,6 @@ var http = require('http').Server(app);
 // Configuração do Mongoose - driver de MongoDB
 mongoose.connect(config.mongodb.url);
 
-// Configuração do socket.io
-var io = require('socket.io')(http, {
-	origins: config.socketio.origins,
-	transports: config.socketio.transports
-});
-
 // Configuração do express.
 //CORS
 var allowCors = function(req, res, next) {
@@ -42,6 +36,6 @@ app.use(bodyParser.urlencoded({
 app.use(express.static(__dirname + config.express.webBaseDir));
 
 // Exporta os módulos
-module.exports.socketIO = io;
 module.exports.http = http;
+module.exports.express = express;
 module.exports.app = app;
