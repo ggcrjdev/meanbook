@@ -6,15 +6,15 @@
     </div>
     <div class="post-body">{{post.text}}</div>
     <div class="post-actions">
-        <a class="glyphicon glyphicon-thumbs-up lnk-like-post" data-post-id="{{post.id}}" data-like="true">(0)</a>  
-        <a class="glyphicon glyphicon-comment lnk-comment" data-post-id="{{post.id}}"></a>
+        <a ng-click="likePost(post.id)" class="glyphicon glyphicon-thumbs-up lnk-like-post" data-post-id="{{post.id}}">({{post.likes}})</a>
+        <span class="glyphicon glyphicon-comment lnk-comment" data-post-id="{{post.id}}">({{post.commentsCount}})</span>
     </div>
 
-    <div data-post-to-comment-id="{{post.id}}" class="comment-form hidden">
+    <div class="comment-form" data-post-to-comment-id="{{post.id}}">
         <div class="action">Deixe seu comentário</div>
-        <textarea class="txt"></textarea>
+        <textarea ng-model="formCommentContent" class="txt"></textarea>
         <div class="pull-right">
-            <button class="btn btn-info btn-sm glyphicon glyphicon-ok btn-commentar"> Enviar</button>
+            <button ng-click="makeComment(postId)" class="btn btn-info btn-sm glyphicon glyphicon-ok btn-commentar"> Enviar</button>
             <button class="btn btn-info btn-sm glyphicon glyphicon-remove lnk-cancel-comment" data-post-id="{{post.id}}"> Cancelar</button>
         </div>
     </div>

@@ -50,23 +50,45 @@ postsRouter.prototype = {
         var loadedPosts = [];
         for (var i = 0; i < results.length; i++) {
           var post = results[i];
+          var loadedPostComments = that.listPostComments(post);
           var loadedPost = {
             id: post._id,
             authorId: post.by,
             author: post.by,
             timestamp: post.creationDate,
-            text: post.content
+            text: post.content,
+            comments: loadedPostComments,
+            commentsCount: loadedPostComments.length,
+            hasComments: (loadedPostComments.length > 0)
           };
           loadedPosts.push(loadedPost);
         }
 
         var responseData = {
-          posts: loadedPosts
+          posts: loadedPosts,
+          postsCount: loadedPosts.length
         };
         console.log('Carregados ' + ((loadedPosts) ? loadedPosts.length : 0) + ' posts.');
         res.json(responseData);
       }
     });
+  },
+  listPostComments: function(post) {
+    var loadedComments = [];
+    if (post.comments) {
+      for (var i = 0; i < post.comments.length; i++) {
+        var comment = post.comments[i];
+        var loadedComment = {
+          id: comment._id,
+          authorId: comment.by,
+          author: comment.by,
+          timestamp: comment.creationDate,
+          text: comment.content
+        };
+        loadedComments.push(loadedComment);
+      }
+    }
+    return loadedComments;
   },
   add: function(req, res) {
     var that = this;

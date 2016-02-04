@@ -34,16 +34,33 @@ require(['angular'], function(angular) {
       };
       return doGetRequest('listPosts', data);
     };
-    function makePost(post) {
+    function makePost(postText) {
       var data = {
-        text: post
+        text: postText
       };
       return doPostRequest('makePost', data);
     };
-    function likePost(likeData) {};
+    function likePost(postId) {
+      var data = {
+        postId: postId
+      };
+      return doPostRequest('likePost', data);
+    };
 
-    function makeComment(comment) {};
-    function likeComment(likeData) {};
+    function makeComment(commentText, postId) {
+      var data = {
+        postId: postId,
+        text: commentText
+      };
+      return doPostRequest('makeComment', data);
+    };
+    function likeComment(commentId, postId) {
+      var data = {
+        postId: postId,
+        commentId: commentId
+      };
+      return doPostRequest('likeComment', data);
+    };
 
     /***** Metodo uteis para efetuar requisições HTTP *****/
     function doGetRequest(methodName, data, callbackSuccess, callbackError) {
@@ -83,15 +100,17 @@ require(['angular'], function(angular) {
 
       listPosts: listPosts,
       makePost: makePost,
-
       likePost: likePost,
+      
       makeComment: makeComment,
       likeComment: likeComment
     };
   });
 
   /*********MODULO DO CONTROLADOR**********/
-  mainApp.controller("meanBookController", function($scope, meanBookApi) {
+  mainApp.controller("meanBookController", function($scope, $timeout, meanBookApi) {
+    var loadUsersTimer;
+    
     $scope.onlineUsers = new Array();
     $scope.user = {
       username: null,
@@ -110,24 +129,45 @@ require(['angular'], function(angular) {
         $scope.formUserUsername = null;
       });
     };
-
     $scope.logout = function() {
       meanBookApi.logout().then(function(response) {
         $scope.onlineUsers = new Array();
         $scope.user.username = null;
         $scope.user.posts = [];
+        stopPollingOnlineUsers();
       });
     };
 
     $scope.makePost = function() {
-      meanBookApi.makePost($scope.formPostContent).then(function(response) {});
-      loadPostsForCurrentUser();
-      $scope.formPostContent = null;
+      meanBookApi.makePost($scope.formPostContent).then(function(response) {
+        loadPostsForCurrentUser();
+        $scope.formPostContent = null;
+      });
+    };
+    $scope.likePost = function(postId) {
+      meanBookApi.likePost(postId).then(function(response) {
+        loadPostsForCurrentUser();
+      });
     };
 
+    $scope.makeComment = function(postId) {
+      meanBookApi.makeComment($scope.formCommentContent, postId).then(function(response) {
+        loadPostsForCurrentUser();
+        $scope.formCommentContent = null;
+      });
+    };
+    $scope.likeComment = function(commentId, postId) {
+      meanBookApi.likeComment(commentId, postId).then(function(response) {
+        loadPostsForCurrentUser();
+      });
+    };
+
+
+    /*********FUNÇÕES PRIVADAS**********/
     function loadOnlineUsers() {
       meanBookApi.listUsers().then(function(response) {
         $scope.onlineUsers = response.data.users;
+        startPollingOnlineUsers();
       });
     };
 
@@ -136,6 +176,17 @@ require(['angular'], function(angular) {
         $scope.user.posts = response.data.posts;
       });
     };
+
+    function startPollingOnlineUsers() {
+      this.loadUsersTimer = $timeout(loadOnlineUsers, 4000);
+    };
+
+    function stopPollingOnlineUsers() {
+      if (this.loadUsersTimer) {
+        $timeout.cancel(this.loadUsersTimer);
+      }
+    };
+
 
     /*********FUNÇÕES UTEIS**********/
     $scope.formatTimestamp = function(timestamp) {

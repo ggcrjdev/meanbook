@@ -18,13 +18,13 @@
                 </div>
  
                 <form name="formUser" novalidate>
-                    <div ng-hide="user.loggedIn()" id="frm-join" class="navbar-form navbar-right">
+                    <div ng-show="!user.loggedIn()" id="frm-join" class="navbar-form navbar-right">
                       <div class="form-group">
                         <input ng-model="formUserUsername" id="username" type="text" maxlength="10" class="form-control input-sm" placeholder="Digite seu nome"></input>
                       </div>
                       <button ng-click="login()" id="btn-entrar" type="button" class="btn btn-info input-sm">Entrar</button>
                     </div>
-                    <div ng-hide="!user.loggedIn()" id="frm-join" class="navbar-form navbar-right">
+                    <div ng-show="user.loggedIn()" id="frm-join" class="navbar-form navbar-right">
                       <button ng-click="logout()" id="btn-sair" type="button" class="btn btn-warning input-sm">Sair</button>
                     </div>
                 </form>
@@ -36,12 +36,12 @@
                     <div ng-include="'includes/userlist.html'"></div>
                 </div>
                 <div class="col-md-9">
-                    <div ng-hide="user.loggedIn()" id="not-logged">
+                    <div ng-show="!user.loggedIn()" id="not-logged">
                         <h2>Você precisa se conectar</h2>
                         <h3>Digite seu nome e clique em "Entrar"</h3>
                     </div>
  
-                    <div ng-hide="!user.loggedIn()" id="logged">
+                    <div ng-show="user.loggedIn()" id="logged">
                         <form name="formPosts" novalidate>
                             <div class="post-form">
                                 <div class="action">O que você tem em mente?</div>
@@ -50,6 +50,7 @@
                                     <button ng-click="makePost()" id="btn-postar" class="btn btn-info glyphicon glyphicon-ok"> Enviar</button>
                                 </div>
                             </div>
+                            <div class="post">Você escreveu {{user.posts.length}} posts.</div>
                             <div ng-include="'includes/posts.html'" class="posts"></div>
                         </form>
                     </div>

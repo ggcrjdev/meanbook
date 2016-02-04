@@ -1,11 +1,11 @@
 <div ng-repeat="comment in post.comments" class="comment" data-comment-id="{{comment.id}}">
     <div class="poster-info">
         <span class="poster">{{comment.author}}</span>
-        <span class="action">comentou, as</span>
-        <span class="time">{{comment.hora}} hs</span>
+        <span class="action">comentou em </span>
+        <span class="time">{{formatTimestamp(comment.timestamp)}}</span>
     </div>
     <div class="post-body">{{comment.text}}</div>
     <div class="post-actions">
-        <a class="glyphicon glyphicon-thumbs-up lnk-like-comment" data-comment-id="{{comment.id}}" data-like="true">(0)</a>  
+        <a ng-click="likeComent(comment.id, post.id)" class="glyphicon glyphicon-thumbs-up lnk-like-comment" data-comment-id="{{comment.id}}">({{comment.likes}})</a>  
     </div>
 </div>
