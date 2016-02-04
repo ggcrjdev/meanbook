@@ -2,11 +2,11 @@ require(['angular'], function(angular) {
   /*********MODULO DA APLICAÇÃO**********/
   var mainApp = angular.module("mainApp", []);
   mainApp.service('meanBookApi', function($http) {
-
     var apiUrl = "http://localhost:3000/api/1.0";
     var urlsByMethod = {
-      userLogin: apiUrl + '/users/login',
-      userLogout: apiUrl + '/users/logout',
+      login: apiUrl + '/users/login',
+      logout: apiUrl + '/users/logout',
+      listUsers: apiUrl + '/users/list',
       listPosts: apiUrl + '/posts/list',
       makePost: apiUrl + '/posts/add',
       likePost: apiUrl + '/posts/like',
@@ -14,16 +14,18 @@ require(['angular'], function(angular) {
       likeComment: apiUrl + '/comments/like'
     };
 
-    function userLogin(username, password) {
+    function login(username, password) {
       var data = {
         username: username,
         password: password
       };
-      return doPostRequest('userLogin', data);
+      return doPostRequest('login', data);
     };
-
-    function userLogout() {
-      return doPostRequest('userLogout');
+    function logout() {
+      return doPostRequest('logout');
+    };
+    function listUsers() {
+      return doGetRequest('listUsers');
     };
 
     function listPosts(username) {
@@ -32,20 +34,18 @@ require(['angular'], function(angular) {
       };
       return doGetRequest('listPosts', data);
     };
-
     function makePost(post) {
       var data = {
         text: post
       };
       return doPostRequest('makePost', data);
     };
-
     function likePost(likeData) {};
 
     function makeComment(comment) {};
-
     function likeComment(likeData) {};
 
+    /***** Metodo uteis para efetuar requisições HTTP *****/
     function doGetRequest(methodName, data, callbackSuccess, callbackError) {
       return doRequest(methodName, 'GET', data, callbackSuccess, callbackError);
     };
@@ -77,10 +77,13 @@ require(['angular'], function(angular) {
     };
 
     return {
-      login: userLogin,
-      logout: userLogout,
+      login: login,
+      logout: logout,
+      listUsers: listUsers,
+
       listPosts: listPosts,
       makePost: makePost,
+
       likePost: likePost,
       makeComment: makeComment,
       likeComment: likeComment
@@ -102,10 +105,7 @@ require(['angular'], function(angular) {
     $scope.login = function() {
       meanBookApi.login($scope.formUserUsername).then(function(response) {
         $scope.user.username = response.data.username;
-        $scope.onlineUsers.push({
-          id: response.data.id,
-          username: response.data.username
-        });
+        loadOnlineUsers();
         loadPostsForCurrentUser();
         $scope.formUserUsername = null;
       });
@@ -113,7 +113,7 @@ require(['angular'], function(angular) {
 
     $scope.logout = function() {
       meanBookApi.logout().then(function(response) {
-        $scope.onlineUsers.pop($scope.user.username);
+        $scope.onlineUsers = new Array();
         $scope.user.username = null;
         $scope.user.posts = [];
       });
@@ -125,6 +125,12 @@ require(['angular'], function(angular) {
       $scope.formPostContent = null;
     };
 
+    function loadOnlineUsers() {
+      meanBookApi.listUsers().then(function(response) {
+        $scope.onlineUsers = response.data.users;
+      });
+    };
+
     function loadPostsForCurrentUser() {
       meanBookApi.listPosts($scope.user.username).then(function(response) {
         $scope.user.posts = response.data.posts;
@@ -133,14 +139,9 @@ require(['angular'], function(angular) {
 
     /*********FUNÇÕES UTEIS**********/
     $scope.formatTimestamp = function(timestamp) {
-      var today = new Date(timestamp);
-      var formattedDate = today.getDate() + "/";
-      formattedDate += (today.getMonth() + 1) + " as ";
-      formattedDate += (today.getHours() < 10) ? '0' : '';
-      formattedDate += today.getHours() + ':';
-      formattedDate += (today.getMinutes() < 10) ? '0' : '';
-      formattedDate += today.getMinutes() + '';
-      return formattedDate;
+      var dateToFormat = new Date(timestamp);
+      var formattedDate = dateToFormat.toISOString();
+      return formattedDate.replace('T', ' ').split('.')[0];
     };
   });
 });

@@ -4,15 +4,15 @@ var usersRouter = function(express, apiBaseUri) {
 
 usersRouter.prototype = {
   init: function(express, apiBaseUri) {
-    this.loggedUsers = {};
+    this.loggedUsers = new Array();
 
     this.apiBaseUri = apiBaseUri;
     this.routerBaseUri = '/users';
     this.router = express.Router();
-    initRounterMiddleware();
-    initRoutes();
+    this.initRouterMiddleware();
+    this.initRoutes();
   },
-  initRounterMiddleware: function() {
+  initRouterMiddleware: function() {
     // middleware that is specific to this router
     var that = this;
     that.router.use(function(req, res, next) {
@@ -46,16 +46,9 @@ usersRouter.prototype = {
   },
 
   list: function(req, res) {
-    var that = this;
-    var keys = Object.keys(this.loggedUsers);
-    var responseData = new Array(keys.length);
-    var i = 0;
-    keys.forEach(function(key) {
-      responseData[i++] = {
-        id: key,
-        username: that.loggedUsers[key].username
-      };
-    });
+    var responseData = {
+      users: this.loggedUsers
+    };
     res.json(responseData);
   },
   login: function(req, res) {
@@ -68,7 +61,7 @@ usersRouter.prototype = {
         loginDate: new Date()
       };
       req.session.user = user;
-      this.loggedUsers[user.username] = user;
+      this.loggedUsers.push(user);
       console.log('O usuário ' + user.username + ' logou na app e foi incluído na sessão.');
       res.json(user);
     } else {
@@ -78,17 +71,26 @@ usersRouter.prototype = {
     }
   },
   logout: function(req, res) {
+    var loggedOut = false;
     if (this.isLoggedIn(req, res)) {
-      delete this.loggedUsers[this.getCurrentUserName(req, res)];
+      var currentUserName = this.getCurrentUserName(req, res);
+      var indexToDelete = -1;
+      for (var i = 0; i < this.loggedUsers.length; i++) {
+        var user = this.loggedUsers[i];
+        if (user && user.id == currentUserName) {
+          indexToDelete = i;
+          break;
+        }
+      }
+      if (indexToDelete != -1) {
+        this.loggedUsers.splice(indexToDelete, 1);
+      }
       req.session.destroy(function(err) {});
-      res.json({
-        logggedOut: true
-      });
-    } else {
-      res.json({
-        logggedOut: false
-      });
+      loggedOut = true;
     }
+    res.json({
+      logggedOut: loggedOut
+    });
   },
   sendMessage: function(req, res, msg) {
     var responseData = {
@@ -99,4 +101,6 @@ usersRouter.prototype = {
   }
 };
 
-module.exports = usersRouter;
+module.exports = {
+  UsersRouter: usersRouter
+};

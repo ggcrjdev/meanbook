@@ -1,15 +1,15 @@
-var usersRouter = require('./route/users');
-var postsRouter = require('./route/posts');
-var commentsRouter = require('./route/comments');
+var UsersRouter = require('./route/users').UsersRouter;
+var PostsRouter = require('./route/posts').PostsRouter;
+var CommentsRouter = require('./route/comments').CommentsRouter;
 var restfulApi = function(express, apiBaseUri) {
   this.init(express, apiBaseUri);
 };
 
 restfulApi.prototype = {
   init: function(express, apiBaseUri) {
-    this.usersRouter = usersRouter(express, apiBaseUri);
-    this.postsRouter = postsRouter(express, apiBaseUri, usersRouter);
-    this.commentsRouter = commentsRouter(express, apiBaseUri, usersRouter);
+    this.usersRouter = new UsersRouter(express, apiBaseUri);
+    this.postsRouter = new PostsRouter(express, apiBaseUri, this.usersRouter);
+    this.commentsRouter = new CommentsRouter(express, apiBaseUri, this.usersRouter);
   },
   useRouters: function(app) {
     this.usersRouter.useRouter(app);
@@ -18,4 +18,6 @@ restfulApi.prototype = {
   }
 };
 
-module.exports = restfulApi;
+module.exports = {
+  RestfulApi: restfulApi
+};

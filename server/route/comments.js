@@ -5,7 +5,7 @@ var commentsRouter = function(express, apiBaseUri, usersRounter) {
 };
 
 commentsRouter.prototype = {
-  init: function(express, apiBaseUri) {
+  init: function(express, apiBaseUri, usersRounter) {
     this.postService = new PostService();
     this.commentService = new CommentService();
 
@@ -13,10 +13,10 @@ commentsRouter.prototype = {
     this.usersRounter = usersRounter;
     this.routerBaseUri = '/comments';
     this.router = express.Router();
-    initRounterMiddleware();
-    initRoutes();
+    this.initRouterMiddleware();
+    this.initRoutes();
   },
-  initRounterMiddleware: function() {
+  initRouterMiddleware: function() {
     // middleware that is specific to this router
     var that = this;
     that.router.use(function(req, res, next) {
@@ -80,4 +80,6 @@ commentsRouter.prototype = {
   }
 };
 
-module.exports = commentsRouter;
+module.exports = {
+  CommentsRouter: commentsRouter
+};

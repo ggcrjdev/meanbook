@@ -4,17 +4,17 @@ var postsRouter = function(express, apiBaseUri, usersRounter) {
 };
 
 postsRouter.prototype = {
-  init: function(express, apiBaseUri) {
+  init: function(express, apiBaseUri, usersRounter) {
     this.postService = new PostService();
 
     this.apiBaseUri = apiBaseUri;
     this.usersRounter = usersRounter;
     this.routerBaseUri = '/posts';
     this.router = express.Router();
-    initRounterMiddleware();
-    initRoutes();
+    this.initRouterMiddleware();
+    this.initRoutes();
   },
-  initRounterMiddleware: function() {
+  initRouterMiddleware: function() {
     // middleware that is specific to this router
     var that = this;
     that.router.use(function(req, res, next) {
@@ -101,4 +101,6 @@ postsRouter.prototype = {
   }
 };
 
-module.exports = postsRouter;
+module.exports = {
+  PostsRouter: postsRouter
+};
