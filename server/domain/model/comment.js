@@ -18,8 +18,7 @@ var commentSchema = new Schema({
     likes: {
         type: Number, 
         min: 0, 
-        max: 99999999,
-        default: 0
+        max: 99999999
     }
 });
 
