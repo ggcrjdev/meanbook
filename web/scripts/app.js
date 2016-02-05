@@ -48,18 +48,16 @@ require(['angular'], function(angular) {
     };
 
     function makeComment(commentText, postId) {
-      var data = {
+      return doPostRequest('makeComment', {
         postId: postId,
         text: commentText
-      };
-      return doPostRequest('makeComment', data);
+      });
     };
     function likeComment(commentId, postId) {
-      var data = {
+      return doPostRequest('likeComment', {
         postId: postId,
         commentId: commentId
-      };
-      return doPostRequest('likeComment', data);
+      });
     };
 
     /***** Metodo uteis para efetuar requisições HTTP *****/
@@ -83,7 +81,7 @@ require(['angular'], function(angular) {
         data = {};
       }
       if (!callbackSuccess) {
-        callbackSuccess = function(data) {};
+        callbackSuccess = function(dataSuccess) {};
       }
 
       return $http({
@@ -151,7 +149,7 @@ require(['angular'], function(angular) {
     };
 
     $scope.makeComment = function(postId) {
-      meanBookApi.makeComment($scope.formCommentContent, postId).then(function(response) {
+      meanBookApi.makeComment(this.formCommentContent, postId).then(function(response) {
         loadPostsForCurrentUser();
         $scope.formCommentContent = null;
       });
@@ -178,12 +176,12 @@ require(['angular'], function(angular) {
     };
 
     function startPollingOnlineUsers() {
-      this.loadUsersTimer = $timeout(loadOnlineUsers, 4000);
+      //this.loadUsersTimer = $timeout(loadOnlineUsers, 15000);
     };
 
     function stopPollingOnlineUsers() {
       if (this.loadUsersTimer) {
-        $timeout.cancel(this.loadUsersTimer);
+        //$timeout.cancel(this.loadUsersTimer);
       }
     };
 

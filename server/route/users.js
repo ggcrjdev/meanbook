@@ -1,3 +1,4 @@
+var RouterUtils = require('./routerutils').RouterUtils;
 var usersRouter = function(express, apiBaseUri) {
   this.init(express, apiBaseUri);
 };
@@ -67,7 +68,7 @@ usersRouter.prototype = {
     } else {
       var msg = 'Defina um usuário para usar a app.';
       console.log(msg);
-      that.sendMessage(req, res, msg);
+      RouterUtils.sendInfoResponse(res, msg);
     }
   },
   logout: function(req, res) {

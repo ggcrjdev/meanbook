@@ -2,6 +2,7 @@
 process.title = 'app-server-meanbook';
 var config = require('./config');
 var express = require('express');
+var errorhandler = require('errorhandler');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
@@ -33,6 +34,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(errorhandler())
+}
 
 // Diz ao Express que o diretório web contém conteúdos estáticos
 app.use(express.static(__dirname + config.express.webBaseDir));

@@ -14,7 +14,7 @@
         <div class="action">Deixe seu comentário</div>
         <textarea ng-model="formCommentContent" class="txt"></textarea>
         <div class="pull-right">
-            <button ng-click="makeComment(postId)" class="btn btn-info btn-sm glyphicon glyphicon-ok btn-commentar"> Enviar</button>
+            <button ng-click="makeComment(post.id)" class="btn btn-info btn-sm glyphicon glyphicon-ok btn-commentar"> Enviar</button>
             <button class="btn btn-info btn-sm glyphicon glyphicon-remove lnk-cancel-comment" data-post-id="{{post.id}}"> Cancelar</button>
         </div>
     </div>

@@ -1,4 +1,5 @@
 var PostService = require('../service/postservice').PostService;
+var RouterUtils = require('./routerutils').RouterUtils;
 var postsRouter = function(express, apiBaseUri, usersRounter) {
   this.init(express, apiBaseUri, usersRounter);
 };
@@ -45,7 +46,7 @@ postsRouter.prototype = {
     console.log('Carregando posts do usuário ' + currentUserName);
     that.postService.listByAuthor(currentUserName, function(err, results) {
       if (err) {
-        console.error(err);
+        RouterUtils.sendErrorResponse(err, res, 111);
       } else {
         var loadedPosts = [];
         for (var i = 0; i < results.length; i++) {
@@ -57,6 +58,7 @@ postsRouter.prototype = {
             author: post.by,
             timestamp: post.creationDate,
             text: post.content,
+            likes: post.likes,
             comments: loadedPostComments,
             commentsCount: loadedPostComments.length,
             hasComments: (loadedPostComments.length > 0)
@@ -83,7 +85,8 @@ postsRouter.prototype = {
           authorId: comment.by,
           author: comment.by,
           timestamp: comment.creationDate,
-          text: comment.content
+          text: comment.content,
+          likes: comment.likes
         };
         loadedComments.push(loadedComment);
       }
@@ -110,7 +113,7 @@ postsRouter.prototype = {
     var data = req.body;
     that.postService.doLike(data.postId, function(err, result) {
       if (err) {
-        console.error(err);
+        RouterUtils.sendErrorResponse(err, res, 112);
       } else {
         var responseData = {
           postId: result._id,

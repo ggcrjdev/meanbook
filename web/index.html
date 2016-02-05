@@ -31,7 +31,7 @@
             </nav>
  
             <div class="row">
-                <div class="col-md-3">
+                <div ng-show="user.loggedIn()" class="col-md-3">
                     <h3>Quem está online</h3>
                     <div ng-include="'includes/userlist.html'"></div>
                 </div>
@@ -50,7 +50,7 @@
                                     <button ng-click="makePost()" id="btn-postar" class="btn btn-info glyphicon glyphicon-ok"> Enviar</button>
                                 </div>
                             </div>
-                            <div class="post">Você escreveu {{user.posts.length}} posts.</div>
+                            <div class="post">Você escreveu {{user.posts.length}} mentalizações.</div>
                             <div ng-include="'includes/posts.html'" class="posts"></div>
                         </form>
                     </div>

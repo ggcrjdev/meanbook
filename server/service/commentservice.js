@@ -25,8 +25,8 @@ commentService.prototype = {
       }
     });
   },
-  findById: function(id, callback) {
-    Comment.findOne({_id: id}, callback);
+  findById: function(commentId, callback) {
+    Comment.findOne({_id: commentId}, callback);
   }
 };
 

@@ -1,5 +1,6 @@
 var PostService = require('../service/postservice').PostService;
 var CommentService = require('../service/commentservice').CommentService;
+var RouterUtils = require('./routerutils').RouterUtils;
 var commentsRouter = function(express, apiBaseUri, usersRounter) {
   this.init(express, apiBaseUri, usersRounter);
 };
@@ -44,7 +45,7 @@ commentsRouter.prototype = {
     var comment = that.commentService.create(currentUserName, data.text);
     that.postService.addComment(data.postId, comment, function(err, result) {
       if (err) {
-        console.error(err);
+        RouterUtils.sendErrorResponse(err, res, 101);
       } else {
         var responseData = {
           postId: result._id,
@@ -65,14 +66,13 @@ commentsRouter.prototype = {
     if (data.commentId) {
       that.commentService.doLike(data.commentId, function(err, resultComment) {
         if (err) {
-          console.error(err);
+          RouterUtils.sendErrorResponse(err, res, 102);
         } else {
-          that.postService.findById(data.postId, function(err, resultPost) {});
           var responseData = {
             commentId: resultComment._id,
             numLikes: resultComment.likes
           };
-          console.log('Efetuado like para o comentário com id ' + resultComment._id);
+          console.log('Efetuado like para o comentário com id ' + resultComment._id + ' likes=' + resultComment.likes);
           res.json(responseData);
         }
       });
