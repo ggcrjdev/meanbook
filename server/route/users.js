@@ -26,8 +26,8 @@ usersRouter.prototype = {
     that.router.get('/list', function(req, res) {
       that.list(req, res);
     });
-    that.router.post('/authentication', function(req, res) {
-      that.authentication(req, res);
+    that.router.post('/current', function(req, res) {
+      that.currentUser(req, res);
     });
     that.router.post('/login', function(req, res) {
       that.login(req, res);
@@ -49,7 +49,7 @@ usersRouter.prototype = {
     return this.getCurrentUserName(req, res) != null;
   },
 
-  authentication: function(req, res) {
+  currentUser: function(req, res) {
     var username = this.getCurrentUserName(req, res);
     var responseData = {
       authenticated: (username != null),

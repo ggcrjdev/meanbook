@@ -1,5 +1,5 @@
 define([], function() {
-  function meanBookController($scope, $timeout, meanBookApi) {
+  function meanBookController($scope, $timeout, meanBookApi, defaultLoadUsersTimeout) {
     var loadUsersTimer;
     
     $scope.onlineUsers = new Array();
@@ -53,7 +53,7 @@ define([], function() {
 
     /*********FUNÇÕES PRIVADAS**********/
     function loadCurrentUser() {
-      meanBookApi.authentication().then(function(response) {
+      meanBookApi.currentUser().then(function(response) {
         if (response.data.authenticated) {
           authenticateUser(response.data.username);
         }
@@ -77,7 +77,7 @@ define([], function() {
     };
 
     function startPollingOnlineUsers() {
-      this.loadUsersTimer = $timeout(loadOnlineUsers, 15000);
+      this.loadUsersTimer = $timeout(loadOnlineUsers, defaultLoadUsersTimeout);
     };
     function stopPollingOnlineUsers() {
       if (this.loadUsersTimer) {
