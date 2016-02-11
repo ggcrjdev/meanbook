@@ -68,11 +68,23 @@ commentsRouter.prototype = {
         if (err) {
           RouterUtils.sendErrorResponse(err, res, 102);
         } else {
+          that.likeCommentInPost(res, data.postId, resultComment);
+        }
+      });
+    }
+  },
+  likeCommentInPost: function(res, postId, comment) {
+    var that = this;
+    if (postId) {
+      that.postService.likeComment(postId, comment, function(errPost, resultPost) {
+        if (errPost) {
+          RouterUtils.sendErrorResponse(errPost, res, 103);
+        } else {
           var responseData = {
-            commentId: resultComment._id,
-            numLikes: resultComment.likes
+            commentId: comment._id,
+            likes: comment.likes
           };
-          console.log('Efetuado like para o comentário com id ' + resultComment._id + ' likes=' + resultComment.likes);
+          console.log('Efetuado like para o post com id ' + postId + ' e comentário com id ' + comment._id + ' likes=' + comment.likes);
           res.json(responseData);
         }
       });

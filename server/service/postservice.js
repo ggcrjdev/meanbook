@@ -26,6 +26,21 @@ postService.prototype = {
       }
     });
   },
+  likeComment: function(postId, commentToLike, callback) {
+    this.findById(postId, function(err, post) {
+      if (post.comments) {
+        for (var i = 0; i < post.comments.length; i++) {
+          if (commentToLike._id.equals(post.comments[i]._id)) {
+            console.log('Encontrado comentário no post com id ' + postId + ' para incluir os ' + commentToLike.likes +' likes.');
+            post.comments[i].likes = commentToLike.likes;
+            break;
+          }
+        }
+      }
+      post.save(ServiceUtils.mongooseCallback);
+      callback(err, post);
+    });
+  },
   addComment: function(postId, comment, callback) {
     this.findById(postId, function(err, post) {
       if (post) {
