@@ -2,9 +2,10 @@ define([], function() {
   function meanBookApi($http, meanBookApiUrl) {
     var apiUrl = meanBookApiUrl;
     var urlsByMethod = {
+      listUsers: apiUrl + '/users/list',
+      authentication: apiUrl + '/users/authentication',
       login: apiUrl + '/users/login',
       logout: apiUrl + '/users/logout',
-      listUsers: apiUrl + '/users/list',
       listPosts: apiUrl + '/posts/list',
       makePost: apiUrl + '/posts/add',
       likePost: apiUrl + '/posts/like',
@@ -12,6 +13,12 @@ define([], function() {
       likeComment: apiUrl + '/comments/like'
     };
 
+    function listUsers() {
+      return doGetRequest('listUsers');
+    };
+    function authentication() {
+      return doPostRequest('authentication');
+    };
     function login(username, password) {
       var data = {
         username: username,
@@ -21,9 +28,6 @@ define([], function() {
     };
     function logout() {
       return doPostRequest('logout');
-    };
-    function listUsers() {
-      return doGetRequest('listUsers');
     };
 
     function listPosts(username) {
@@ -90,9 +94,10 @@ define([], function() {
     };
 
     return {
+      listUsers: listUsers,
+      authentication: authentication,
       login: login,
       logout: logout,
-      listUsers: listUsers,
 
       listPosts: listPosts,
       makePost: makePost,

@@ -26,6 +26,9 @@ usersRouter.prototype = {
     that.router.get('/list', function(req, res) {
       that.list(req, res);
     });
+    that.router.post('/authentication', function(req, res) {
+      that.authentication(req, res);
+    });
     that.router.post('/login', function(req, res) {
       that.login(req, res);
     });
@@ -46,6 +49,14 @@ usersRouter.prototype = {
     return this.getCurrentUserName(req, res) != null;
   },
 
+  authentication: function(req, res) {
+    var username = this.getCurrentUserName(req, res);
+    var responseData = {
+      authenticated: (username != null),
+      username: username
+    };
+    res.json(responseData);
+  },
   list: function(req, res) {
     var responseData = {
       users: this.loggedUsers
@@ -92,13 +103,6 @@ usersRouter.prototype = {
     res.json({
       logggedOut: loggedOut
     });
-  },
-  sendMessage: function(req, res, msg) {
-    var responseData = {
-      type: 'info',
-      text: msg
-    };
-    res.json(responseData);
   }
 };
 

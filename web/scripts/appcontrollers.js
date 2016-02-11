@@ -11,12 +11,9 @@ define([], function() {
         return this.username != null;
       }
     };
-
     $scope.login = function() {
       meanBookApi.login($scope.formUserUsername).then(function(response) {
-        $scope.user.username = response.data.username;
-        loadOnlineUsers();
-        loadPostsForCurrentUser();
+        authenticateUser(response.data.username);
         $scope.formUserUsername = null;
       });
     };
@@ -55,13 +52,24 @@ define([], function() {
 
 
     /*********FUNÇÕES PRIVADAS**********/
+    function loadCurrentUser() {
+      meanBookApi.authentication().then(function(response) {
+        if (response.data.authenticated) {
+          authenticateUser(response.data.username);
+        }
+      });
+    };
+    function authenticateUser(currentUsername) {
+      $scope.user.username = currentUsername;
+      loadOnlineUsers();
+      loadPostsForCurrentUser();
+    };
     function loadOnlineUsers() {
       meanBookApi.listUsers().then(function(response) {
         $scope.onlineUsers = response.data.users;
         startPollingOnlineUsers();
       });
     };
-
     function loadPostsForCurrentUser() {
       meanBookApi.listPosts($scope.user.username).then(function(response) {
         $scope.user.posts = response.data.posts;
@@ -71,7 +79,6 @@ define([], function() {
     function startPollingOnlineUsers() {
       this.loadUsersTimer = $timeout(loadOnlineUsers, 15000);
     };
-
     function stopPollingOnlineUsers() {
       if (this.loadUsersTimer) {
         $timeout.cancel(this.loadUsersTimer);
@@ -85,6 +92,9 @@ define([], function() {
       var formattedDate = dateToFormat.toISOString();
       return formattedDate.replace('T', ' ').split('.')[0];
     };
+
+    /* Inicialização */
+    loadCurrentUser();
   }
 
   /*** Exportação dos controladores disponíveis. ***/
