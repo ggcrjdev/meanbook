@@ -42,7 +42,7 @@ commentsRouter.prototype = {
     var that = this;
     var data = req.body;
     var currentUserName = that.usersRounter.getCurrentUserName(req, res);
-    var comment = that.commentService.create(currentUserName, data.text);
+    var comment = that.commentService.create(data.postId, currentUserName, data.text);
     that.postService.addComment(data.postId, comment, function(err, result) {
       if (err) {
         RouterUtils.sendErrorResponse(err, res, 101);

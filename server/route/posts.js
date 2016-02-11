@@ -54,7 +54,6 @@ postsRouter.prototype = {
           var loadedPostComments = that.listPostComments(post);
           var loadedPost = {
             id: post._id,
-            authorId: post.by,
             author: post.by,
             timestamp: post.creationDate,
             text: post.content,
@@ -82,7 +81,6 @@ postsRouter.prototype = {
         var comment = post.comments[i];
         var loadedComment = {
           id: comment._id,
-          authorId: comment.by,
           author: comment.by,
           timestamp: comment.creationDate,
           text: comment.content,

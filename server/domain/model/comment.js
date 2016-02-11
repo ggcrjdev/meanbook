@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var commentSchema = new Schema({
+    postId: Schema.Types.ObjectId,
     content: {
         type: String,
         required: true,

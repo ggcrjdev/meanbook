@@ -1,3 +1,4 @@
+var mongoose = require('mongoose');
 var ServiceUtils = require('./serviceutils').ServiceUtils;
 var Comment = require('../domain/model/comment').Comment;
 
@@ -6,8 +7,13 @@ var commentService = function() {
 commentService.prototype = {
   init: function() {
   },
-  create: function(username, commentText) {
+  create: function(postId, username, commentText) {
     var comment = new Comment();
+    if (typeof postId == 'string') {
+      comment.postId = new mongoose.Types.ObjectId(postId);
+    } else {
+      comment.postId = postId;
+    }
     comment.content = commentText;
     comment.by = username;
     comment.likes = 0;
