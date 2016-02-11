@@ -69,12 +69,12 @@ define([], function() {
     };
 
     function startPollingOnlineUsers() {
-      //this.loadUsersTimer = $timeout(loadOnlineUsers, 15000);
+      this.loadUsersTimer = $timeout(loadOnlineUsers, 15000);
     };
 
     function stopPollingOnlineUsers() {
       if (this.loadUsersTimer) {
-        //$timeout.cancel(this.loadUsersTimer);
+        $timeout.cancel(this.loadUsersTimer);
       }
     };
 
