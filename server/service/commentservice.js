@@ -16,7 +16,6 @@ commentService.prototype = {
     }
     comment.content = commentText;
     comment.by = username;
-    comment.likes = 0;
     comment.save(ServiceUtils.mongooseCallback);
     return comment;
   },
