@@ -63,15 +63,15 @@ define([], function() {
     };
 
     /***** Metodo uteis para efetuar requisições HTTP *****/
-    function doGetRequest(methodName, data, callbackSuccess, callbackError) {
-      return doRequest(methodName, 'GET', data, callbackSuccess, callbackError);
+    function doGetRequest(methodName, data, successCallback, errorCallback) {
+      return doRequest(methodName, 'GET', data, successCallback, errorCallback);
     };
 
-    function doPostRequest(methodName, data, callbackSuccess, callbackError) {
-      return doRequest(methodName, 'POST', data, callbackSuccess, callbackError);
+    function doPostRequest(methodName, data, successCallback, errorCallback) {
+      return doRequest(methodName, 'POST', data, successCallback, errorCallback);
     };
 
-    function doRequest(methodName, httpMethod, data, callbackSuccess, callbackError) {
+    function doRequest(methodName, httpMethod, data, successCallback, errorCallback) {
       var requestUrl = urlsByMethod[methodName];
       if (!requestUrl) {
         throw Error("O nome do método" + methodName + " não possui uma URL mapeada.");
@@ -82,16 +82,22 @@ define([], function() {
       if (!data) {
         data = {};
       }
-      if (!callbackSuccess) {
-        callbackSuccess = function(dataSuccess) {};
+      if (!successCallback) {
+        successCallback = requestSuccessCallback;
+      }
+      if (!errorCallback) {
+        errorCallback = requestErrorCallback;
       }
 
       return $http({
         method: httpMethod,
         url: requestUrl,
         data: data
-      }).success(callbackSuccess);
+      }).success(successCallback).error(errorCallback);
     };
+
+    function requestSuccessCallback(data) {};
+    function requestErrorCallback(err, status) {};
 
     return {
       listUsers: listUsers,

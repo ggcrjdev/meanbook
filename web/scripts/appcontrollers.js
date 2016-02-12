@@ -1,8 +1,9 @@
 define([], function() {
-  function meanBookController($scope, $timeout, meanBookApi, defaultLoadUsersTimeout) {
+  function meanBookController($scope, $timeout, $interval, meanBookApi, defaultLoadUsersTimeout) {
     var loadUsersTimer;
     
-    $scope.onlineUsers = new Array();
+    $scope.messages = [];
+    $scope.onlineUsers = [];
     $scope.user = {
       username: null,
       posts: [],
@@ -15,39 +16,39 @@ define([], function() {
       meanBookApi.login($scope.formUserUsername).then(function(response) {
         authenticateUser(response.data.username);
         $scope.formUserUsername = null;
-      });
+      }, errorHandling);
     };
     $scope.logout = function() {
       meanBookApi.logout().then(function(response) {
         $scope.onlineUsers = new Array();
         $scope.user.username = null;
         $scope.user.posts = [];
-        stopPollingOnlineUsers();
-      });
+        stopPullingOnlineUsers();
+      }, errorHandling);
     };
 
     $scope.makePost = function() {
       meanBookApi.makePost($scope.formPostContent).then(function(response) {
         loadPostsForCurrentUser();
         $scope.formPostContent = null;
-      });
+      }, errorHandling);
     };
     $scope.likePost = function(postId) {
       meanBookApi.likePost(postId).then(function(response) {
         loadPostsForCurrentUser();
-      });
+      }, errorHandling);
     };
 
     $scope.makeComment = function(postId) {
       meanBookApi.makeComment(this.formCommentContent, postId).then(function(response) {
         loadPostsForCurrentUser();
         $scope.formCommentContent = null;
-      });
+      }, errorHandling);
     };
     $scope.likeComment = function(commentId, postId) {
       meanBookApi.likeComment(commentId, postId).then(function(response) {
         loadPostsForCurrentUser();
-      });
+      }, errorHandling);
     };
 
 
@@ -57,31 +58,41 @@ define([], function() {
         if (response.data.authenticated) {
           authenticateUser(response.data.username);
         }
-      });
+      }, errorHandling);
     };
     function authenticateUser(currentUsername) {
       $scope.user.username = currentUsername;
       loadOnlineUsers();
       loadPostsForCurrentUser();
+      startPullingOnlineUsers();
     };
     function loadOnlineUsers() {
       meanBookApi.listUsers().then(function(response) {
         $scope.onlineUsers = response.data.users;
-        startPollingOnlineUsers();
-      });
+      }, errorHandling);
     };
     function loadPostsForCurrentUser() {
       meanBookApi.listPosts($scope.user.username).then(function(response) {
         $scope.user.posts = response.data.posts;
-      });
+      }, errorHandling);
     };
 
-    function startPollingOnlineUsers() {
-      this.loadUsersTimer = $timeout(loadOnlineUsers, defaultLoadUsersTimeout);
+    function errorHandling(response) {
+      if (response.data && response.data.type === 'error') {
+        $scope.messages.push(response.data);
+        $timeout(clearMessages, defaultLoadUsersTimeout);
+      }
     };
-    function stopPollingOnlineUsers() {
+    function clearMessages() {
+      $scope.messages = [];
+    };
+
+    function startPullingOnlineUsers() {
+      this.loadUsersTimer = $interval(loadOnlineUsers, defaultLoadUsersTimeout);
+    };
+    function stopPullingOnlineUsers() {
       if (this.loadUsersTimer) {
-        $timeout.cancel(this.loadUsersTimer);
+        $interval.cancel(this.loadUsersTimer);
       }
     };
 
