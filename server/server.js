@@ -21,7 +21,24 @@ morganLogger.format('serverDateFormat', function() {
 app.use(morganLogger('[:serverDateFormat] :method :url :status :res[content-length] - :remote-addr - :response-time ms'));
 
 // Configuração do Mongoose - driver de MongoDB
-mongoose.connect(config.mongodb.url);
+var mongooseOptions = {
+  server: {
+    socketOptions: {
+      keepAlive: 1,
+      connectTimeoutMS: config.mongodb.socketTimeout
+    }
+  },
+  replset: {
+    socketOptions: {
+      keepAlive: 1,
+      connectTimeoutMS: config.mongodb.socketTimeout
+    }
+  }
+};
+mongoose.connect(config.mongodb.url, mongooseOptions);
+mongoose.connection.on('error', function() {
+  console.log('mongoose: MongoDB connection failed.');
+});
 
 // Configuração do express.
 //CORS
@@ -45,8 +62,10 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
+console.log('Server configurado com process.env.NODE_ENV=' + process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
-  app.use(errorhandler())
+  app.use(errorhandler());
+  console.log('Habilitado o middleware errorhandler.');
 }
 
 // Diz ao Express que o diretório web contém conteúdos estáticos
