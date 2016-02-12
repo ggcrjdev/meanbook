@@ -1,6 +1,8 @@
 // Importação dos modulos necessários.
 process.title = 'app-server-meanbook';
 var config = require('./config');
+var consoleStamp = require('console-stamp');
+var morganLogger = require('morgan');
 var express = require('express');
 var errorhandler = require('errorhandler');
 var cookieParser = require('cookie-parser');
@@ -9,6 +11,14 @@ var session = require('express-session');
 var mongoose = require('mongoose');
 var app = express();
 var http = require('http').Server(app);
+
+// Definição do timestamp no logger e console.
+consoleStamp(console, config.express.timestampFormat);
+morganLogger.format('serverDateFormat', function() {
+  var dateFormat = require('console-stamp/node_modules/dateformat');
+  return dateFormat(Date.now(), config.express.timestampFormat);
+});
+app.use(morganLogger('[:serverDateFormat] :method :url :status :res[content-length] - :remote-addr - :response-time ms'));
 
 // Configuração do Mongoose - driver de MongoDB
 mongoose.connect(config.mongodb.url);

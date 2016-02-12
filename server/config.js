@@ -2,6 +2,7 @@ module.exports = {
     express: {
     	port: 3000,
     	origins: '*',
+    	timestampFormat: 'HH:MM:ss.l',
         webBaseDir: '/../web',
         apiBaseUri: '/api/1.0'
     },
