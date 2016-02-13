@@ -44,9 +44,7 @@ var mongooseOptions = {
   }
 };
 mongoose.connect(config.mongodb.url, mongooseOptions);
-mongoose.connection.on('error', function() {
-  console.log('mongoose: MongoDB connection failed.');
-});
+mongoose.connection.on('error', function() {});
 
 // Configuração do express.
 //CORS
