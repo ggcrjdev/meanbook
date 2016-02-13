@@ -15,6 +15,9 @@ Acessar a pasta raiz da aplicação no repositório e executar o seguinte comand
 - npm install nodemon -g && npm install
 
 ## Execução da app
+### Execução ambiente de desenvolvimento
 - Executar o arquivo bin/mongodb-start.bat (inicializa o servidor MongoDB);
 - Executar o arquivo bin/node-start.bat (inicializa o servidor NodeJS e deixa disponível a app para acesso); e
 - Acessar a app no navegador pela URL http://localhost:3000
+### Execução ambiente de produção
+- Acessar a app no navegador pela URL https://meanbook.herokuapp.com
