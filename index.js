@@ -9,7 +9,7 @@ var RestfulApi = require(serverBaseDir + '/restfulapi').RestfulApi;
 var restfulApi = new RestfulApi(server.express, config.express.apiBaseUri);
 restfulApi.useRouters(server.app);
 
-var port = app.get('port');
+var port = server.app.get('port');
 if (!port) {
 	port = config.express.port;
 }
