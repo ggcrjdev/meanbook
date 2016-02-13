@@ -14,10 +14,16 @@ var http = require('http').Server(app);
 
 // Definição do timestamp no logger e console.
 consoleStamp(console, config.express.timestampFormat);
-morganLogger.format('serverDateFormat', function() {
-  var dateFormat = require('console-stamp/node_modules/dateformat');
-  return dateFormat(Date.now(), config.express.timestampFormat);
-});
+var dateFormatModule = 'console-stamp/node_modules/dateformat';
+try {
+  console.log('Carregando o módulo ' + require.resolve(dateFormatModule));
+  morganLogger.format('serverDateFormat', function() {
+    var dateFormat = require(dateFormatModule);
+    return dateFormat(Date.now(), config.express.timestampFormat);
+  });
+} catch(e) {
+  console.error('O módulo ' + dateFormatModule + ' não foi encontrado.');
+}
 app.use(morganLogger('[:serverDateFormat] :method :url :status :res[content-length] - :remote-addr - :response-time ms'));
 
 // Configuração do Mongoose - driver de MongoDB
