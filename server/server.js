@@ -43,6 +43,7 @@ var mongooseOptions = {
     }
   }
 };
+console.log('Conectando ao mongodb na url ' + config.mongodb.url);
 mongoose.connect(config.mongodb.url, mongooseOptions);
 mongoose.connection.on('error', function() {});
 
