@@ -45,7 +45,7 @@ commentsRouter.prototype = {
     var comment = that.commentService.create(data.postId, currentUserName, data.text);
     that.postService.addComment(data.postId, comment, function(err, result) {
       if (err) {
-        RouterUtils.sendErrorResponse(err, res, 101);
+        RouterUtils.sendErrorResponse('MONGODB_ERRO_EXECUCAO_QUERY', res, err);
       } else {
         var responseData = {
           postId: result._id,
@@ -66,7 +66,7 @@ commentsRouter.prototype = {
     if (data.commentId) {
       that.commentService.doLike(data.commentId, function(err, resultComment) {
         if (err) {
-          RouterUtils.sendErrorResponse(err, res, 102);
+          RouterUtils.sendErrorResponse('MONGODB_ERRO_EXECUCAO_QUERY', res, err);
         } else {
           that.likeCommentInPost(res, data.postId, resultComment);
         }
@@ -78,7 +78,7 @@ commentsRouter.prototype = {
     if (postId) {
       that.postService.likeComment(postId, comment, function(errPost, resultPost) {
         if (errPost) {
-          RouterUtils.sendErrorResponse(errPost, res, 103);
+          RouterUtils.sendErrorResponse('MONGODB_ERRO_EXECUCAO_QUERY', res, err);
         } else {
           var responseData = {
             commentId: comment._id,

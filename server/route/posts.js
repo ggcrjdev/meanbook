@@ -46,7 +46,7 @@ postsRouter.prototype = {
     console.log('Carregando posts do usuário ' + currentUserName);
     that.postService.listByAuthor(currentUserName, function(err, results) {
       if (err) {
-        RouterUtils.sendErrorResponse(err, res, 111);
+        RouterUtils.sendErrorResponse('MONGODB_ERRO_EXECUCAO_QUERY', res, err);
       } else {
         var loadedPosts = [];
         for (var i = 0; i < results.length; i++) {
@@ -111,7 +111,7 @@ postsRouter.prototype = {
     var data = req.body;
     that.postService.doLike(data.postId, function(err, result) {
       if (err) {
-        RouterUtils.sendErrorResponse(err, res, 112);
+        RouterUtils.sendErrorResponse('MONGODB_ERRO_EXECUCAO_QUERY', res, err);
       } else {
         var responseData = {
           postId: result._id,

@@ -77,9 +77,7 @@ usersRouter.prototype = {
       console.log('O usuário ' + user.username + ' logou na app e foi incluído na sessão.');
       res.json(user);
     } else {
-      var msg = 'Defina um usuário para usar a app.';
-      console.log(msg);
-      RouterUtils.sendInfoResponse(res, msg);
+      RouterUtils.sendErrorResponse('APP_USUARIO_NAO_INFORMADO', res);
     }
   },
   logout: function(req, res) {
