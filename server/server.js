@@ -21,10 +21,10 @@ try {
     var dateFormat = require(dateFormatModule);
     return dateFormat(Date.now(), config.express.timestampFormat);
   });
+  app.use(morganLogger('[:serverDateFormat] :method :url :status :res[content-length] - :remote-addr - :response-time ms'));
 } catch(e) {
   console.error('O módulo ' + dateFormatModule + ' não foi encontrado.');
 }
-app.use(morganLogger('[:serverDateFormat] :method :url :status :res[content-length] - :remote-addr - :response-time ms'));
 
 // Configuração do Mongoose - driver de MongoDB
 var mongooseOptions = {
