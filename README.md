@@ -1,20 +1,18 @@
-# MEAN Book - exemplo de app usando a stack MEAN (MongoDB, Express, AngularJS e NodeJS)
+# MEAN Book
+Exemplo de aplicação baseado no conceito de rede social usando a stack MEAN (MongoDB, Express, AngularJS e NodeJS).
+A aplicação contempla uso de recursos do node.js tais como:
+- Implementação de API Restful;
+- Uso dos contextos de aplicação/sessão/requisição;
+- Integração do frontend em AngularJS a API Restful por meio de um service.
+
 ## Instalação
 ### Prerequisitos da aplicação
 - Instalação do server nodejs;
 - Instalação do MongoDB na pasta [C:\dev-js\server\mongodb-3.0]; e
 - Recomendado rodar no Sistema Operacional Windows 7.
-
-### Instalação da aplicação
-#### Instalação do back-end
-Acessar a pasta raiz da aplicação no repositório e executar os seguintes comandos:
-- npm install nodemon -g (caso não esteja instalado)
-- npm install
-
-#### Instalação do front-end
-Acessar a pasta [web/] da aplicação no repositório e executar os seguintes comandos:
-- npm install bower -g (caso não esteja instalado)
-- bower install
+### Instalação da app
+Acessar a pasta raiz da aplicação no repositório e executar o seguinte comando:
+- npm install nodemon -g && npm install
 
 ## Execução da app
 - Executar o arquivo bin/mongodb-start.bat (inicializa o servidor MongoDB);
