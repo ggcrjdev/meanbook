@@ -1,6 +1,6 @@
 var mongodbUrl = 'mongodb://localhost:27017/meanbook';
 if (process.env.NODE_ENV === 'production') {
-  mongodbUrl = 'mongodb://localhost:27017/meanbook';
+  mongodbUrl = 'mongodb://heroku_8b3ctgjk:heroku_8b3ctgjk@ds061385.mongolab.com:61385/heroku_8b3ctgjk';
 }
 
 var config = {
