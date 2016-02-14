@@ -18,30 +18,30 @@
                 </div>
  
                 <form name="formUser" novalidate>
-                    <div ng-show="!user.loggedIn()" id="frm-join" class="navbar-form navbar-right">
+                    <div ng-show="!user.loggedIn()" id="frm-join" class="navbar-form navbar-right" ng-cloak>
                       <div class="form-group">
                         <input ng-model="formUserUsername" id="username" type="text" maxlength="10" class="form-control input-sm" placeholder="Digite seu nome"></input>
                       </div>
                       <button ng-click="login()" id="btn-entrar" type="button" class="btn btn-info input-sm">Entrar</button>
                     </div>
-                    <div ng-show="user.loggedIn()" id="frm-join" class="navbar-form navbar-right">
+                    <div ng-show="user.loggedIn()" id="frm-join" class="navbar-form navbar-right" ng-cloak>
                       <button ng-click="logout()" id="btn-sair" type="button" class="btn btn-warning input-sm">Sair</button>
                     </div>
                 </form>
             </nav>
             <div ng-include="'includes/messages.html'" class="row col-md-9"></div>
             <div class="row">
-                <div ng-show="user.loggedIn()" class="col-md-3">
+                <div ng-show="user.loggedIn()" class="col-md-3" ng-cloak>
                     <h3>Quem está online</h3>
                     <div ng-include="'includes/userlist.html'"></div>
                 </div>
                 <div class="col-md-9">
-                    <div ng-show="!user.loggedIn()" id="not-logged">
+                    <div ng-show="!user.loggedIn()" id="not-logged" ng-cloak>
                         <h2>Você precisa se conectar</h2>
                         <h3>Digite seu nome e clique em "Entrar"</h3>
                     </div>
  
-                    <div ng-show="user.loggedIn()" id="logged">
+                    <div ng-show="user.loggedIn()" id="logged" ng-cloak>
                         <form name="formPosts" novalidate>
                             <div class="post-form">
                                 <div class="action">O que você tem em mente?</div>

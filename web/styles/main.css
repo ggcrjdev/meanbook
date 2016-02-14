@@ -80,3 +80,6 @@ body {
       cursor: pointer;
   }
   
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
