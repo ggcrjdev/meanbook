@@ -7,9 +7,16 @@ require(['angular', 'appservices', 'appcontrollers'], function(angular, appservi
   mainApp.controller('meanBookController', appcontrollers.meanBookController);
 
   function getCurrentHostName() {
-	var http = location.protocol;
-	var slashes = http.concat("//");
-	var host = slashes.concat(window.location.host);
-	return host;
+  	var host;
+    if (window.location.host) {
+      host = window.location.protocol + '//'+ window.location.host;
+    } else if (document.URL) {
+      var parser = document.createElement('a');
+      parser.href = document.URL;
+      host = parser.protocol + '//'+ parser.host;
+    } else {
+      throw Error('currentHostName não foi encontrado.');
+    }
+    return host;
   };
 });
