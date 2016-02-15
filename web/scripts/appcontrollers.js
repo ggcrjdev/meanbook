@@ -39,6 +39,9 @@ define([], function() {
       }, errorHandling);
     };
 
+    $scope.cancelComment = function() {
+      this.formCommentContent = null;
+    };
     $scope.makeComment = function(postId) {
       meanBookApi.makeComment(this.formCommentContent, postId).then(function(response) {
         loadPostsForCurrentUser();

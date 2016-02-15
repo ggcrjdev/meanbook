@@ -30,14 +30,14 @@ try {
 var mongooseOptions = {
   server: {
     socketOptions: {
-      keepAlive: 1,
+      keepAlive: 50,
       socketTimeoutMS: config.mongodb.socketTimeout,
       connectTimeoutMS: config.mongodb.socketTimeout
     }
   },
   replset: {
     socketOptions: {
-      keepAlive: 1,
+      keepAlive: 50,
       socketTimeoutMS: config.mongodb.socketTimeout,
       connectTimeoutMS: config.mongodb.socketTimeout
     }

@@ -15,7 +15,7 @@
         <textarea ng-model="formCommentContent" class="txt" placeholder="Write you think..."></textarea>
         <div class="pull-right">
             <button ng-click="makeComment(post.id)" class="btn btn-info btn-sm glyphicon glyphicon-ok btn-commentar"> Send</button>
-            <button class="btn btn-info btn-sm glyphicon glyphicon-remove lnk-cancel-comment" data-post-id="{{post.id}}"> Cancel</button>
+            <button ng-click="cancelComment()" class="btn btn-info btn-sm glyphicon glyphicon-remove lnk-cancel-comment" data-post-id="{{post.id}}"> Cancel</button>
         </div>
     </div>
 

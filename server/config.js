@@ -13,7 +13,7 @@ var config = {
   },
   mongodb: {
     url: mongodbUrl,
-    socketTimeout: 10000
+    socketTimeout: 30000
   }
 }
 
