@@ -10,6 +10,7 @@ To implement the application features, were used the following features provided
 - Installation of the NodeJS server.
 - Installation of the MongoDB in the path [C:\dev-js\server\mongodb-3.0].
 - Recommended to run on Windows 7.
+
 ### App Installation
 Open command line terminal (cmd) and access the application root folder in the repository cloned from the GitHub and run the following command:
 - npm install -g nodemon && npm install
@@ -20,5 +21,6 @@ Done!
 - Run the [bin/mongodb-start.bat] script (initializes the MongoDB server).
 - Run the [bin/node-start.bat] script (initializes the NodeJS server and makes the app available to be accessed).
 - Access the app in the browser with the following URL: [http://localhost: 3000].
+
 ### Execution in production environment
 - Access the app in the browser with the following URL: [https://meanbook.herokuapp.com].
