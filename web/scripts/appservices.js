@@ -62,7 +62,7 @@ define([], function() {
       });
     };
 
-    /***** Metodo uteis para efetuar requisições HTTP *****/
+    /*****Utilities functions for HTTP request/response*****/
     function doGetRequest(methodName, data, successCallback, errorCallback) {
       return doRequest(methodName, 'GET', data, successCallback, errorCallback);
     };
@@ -114,7 +114,7 @@ define([], function() {
     };
   }
 
-  /*** Exportação dos serviços disponíveis. ***/
+  /*** Exports controllers available. ***/
   return {
     meanBookApi: meanBookApi
   };

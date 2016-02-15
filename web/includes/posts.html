@@ -1,7 +1,7 @@
 <div ng-repeat="post in user.posts" class="post" data-post-id="{{post.id}}">
     <div class="poster-info">
         <span class="poster">{{post.author}}</span>
-        <span class="action">escreveu em </span>
+        <span class="action">wrote on </span>
         <span class="time">{{formatTimestamp(post.timestamp)}}</span>
     </div>
     <div class="post-body">{{post.text}}</div>
@@ -11,11 +11,11 @@
     </div>
 
     <div class="comment-form" data-post-to-comment-id="{{post.id}}">
-        <div class="action">Deixe seu comentário</div>
-        <textarea ng-model="formCommentContent" class="txt"></textarea>
+        <div class="action">Leave your comment</div>
+        <textarea ng-model="formCommentContent" class="txt" placeholder="Write you think..."></textarea>
         <div class="pull-right">
-            <button ng-click="makeComment(post.id)" class="btn btn-info btn-sm glyphicon glyphicon-ok btn-commentar"> Enviar</button>
-            <button class="btn btn-info btn-sm glyphicon glyphicon-remove lnk-cancel-comment" data-post-id="{{post.id}}"> Cancelar</button>
+            <button ng-click="makeComment(post.id)" class="btn btn-info btn-sm glyphicon glyphicon-ok btn-commentar"> Send</button>
+            <button class="btn btn-info btn-sm glyphicon glyphicon-remove lnk-cancel-comment" data-post-id="{{post.id}}"> Cancel</button>
         </div>
     </div>
 

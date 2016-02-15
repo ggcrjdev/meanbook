@@ -1,5 +1,5 @@
 require(['angular', 'appservices', 'appcontrollers'], function(angular, appservices, appcontrollers) {
-  var mainApp = angular.module("mainApp", []);
+  var mainApp = angular.module('mainApp', []);
   mainApp.value('meanBookApiUrl', getCurrentHostName() + '/api/1.0');
   mainApp.value('defaultLoadUsersTimeout', 10 * 1000);
   
@@ -15,7 +15,7 @@ require(['angular', 'appservices', 'appcontrollers'], function(angular, appservi
       parser.href = document.URL;
       host = parser.protocol + '//'+ parser.host;
     } else {
-      throw Error('currentHostName não foi encontrado.');
+      throw Error('currentHostName not found.');
     }
     return host;
   };

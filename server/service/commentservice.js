@@ -27,7 +27,7 @@ commentService.prototype = {
           callback(err, comment);
         });
       } else {
-        console.log('Não foi encontrado o comentario com id ' + commentId);
+        console.log('Not found the comment with id ' + commentId);
       }
     });
   },

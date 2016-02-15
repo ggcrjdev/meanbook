@@ -12,21 +12,21 @@ var mongoose = require('mongoose');
 var app = express();
 var http = require('http').Server(app);
 
-// Definição do timestamp no logger e console.
+// Definition of the timestamp on logger and console.
 consoleStamp(console, config.express.timestampFormat);
 var dateFormatModule = 'console-stamp/node_modules/dateformat';
 try {
-  console.log('Carregando o módulo ' + require.resolve(dateFormatModule));
+  console.log('Loading the module ' + require.resolve(dateFormatModule));
   morganLogger.format('serverDateFormat', function() {
     var dateFormat = require(dateFormatModule);
     return dateFormat(Date.now(), config.express.timestampFormat);
   });
   app.use(morganLogger('[:serverDateFormat] :method :url :status :res[content-length] - :remote-addr - :response-time ms'));
 } catch(e) {
-  console.error('O módulo ' + dateFormatModule + ' não foi encontrado.');
+  console.error('The module ' + dateFormatModule + ' not found.');
 }
 
-// Configuração do Mongoose - driver de MongoDB
+// Configuration of the Mongoose - MongoDB library.
 var mongooseOptions = {
   server: {
     socketOptions: {
@@ -43,12 +43,12 @@ var mongooseOptions = {
     }
   }
 };
-console.log('Conectando ao mongodb na url ' + config.mongodb.url);
+console.log('Connecting to the mongodb on url ' + config.mongodb.url);
 mongoose.connect(config.mongodb.url, mongooseOptions);
 mongoose.connection.on('error', function() {});
 
-// Configuração do express.
-//CORS
+// Configuration of the express.
+// CORS
 var allowCors = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', config.express.origins);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
@@ -69,16 +69,15 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
-console.log('Server configurado com process.env.NODE_ENV=' + process.env.NODE_ENV);
+console.log('App configured using NODE_ENV ' + process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
   app.use(errorhandler());
-  console.log('Habilitado o middleware errorhandler.');
+  console.log('Enabled the middleware errorhandler.');
 }
 
-// Diz ao Express que o diretório web contém conteúdos estáticos
+// Say to express that the web directory contains the static contents.
 app.use(express.static(__dirname + config.express.webBaseDir));
 
-// Exporta os módulos
 module.exports = {
   express: express,
   app: app,

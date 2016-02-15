@@ -1,9 +1,9 @@
 {
-  "name": "devmedia-meanbook-web",
+  "name": "meanbook-web",
   "authors": [
     "gustavo.gomes <gustavo.gomesc@gmail.com>"
   ],
-  "description": "Modulo web do MEANBook",
+  "description": "MEANBook Web Module",
   "main": "",
   "moduleType": [
     "node"

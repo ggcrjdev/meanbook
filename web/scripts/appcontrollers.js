@@ -52,7 +52,7 @@ define([], function() {
     };
 
 
-    /*********FUNÇÕES PRIVADAS**********/
+    /*********Private functions**********/
     function loadCurrentUser() {
       meanBookApi.currentUser().then(function(response) {
         if (response.data.authenticated) {
@@ -97,18 +97,18 @@ define([], function() {
     };
 
 
-    /*********FUNÇÕES UTEIS**********/
+    /*********Utilities functions**********/
     $scope.formatTimestamp = function(timestamp) {
       var dateToFormat = new Date(timestamp);
       var formattedDate = dateToFormat.toISOString();
       return formattedDate.replace('T', ' ').split('.')[0];
     };
 
-    /* Inicialização */
+    /* Startup */
     loadCurrentUser();
   }
 
-  /*** Exportação dos controladores disponíveis. ***/
+  /*** Exports the services available ***/
   return {
     meanBookController: meanBookController
   };

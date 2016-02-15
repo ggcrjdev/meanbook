@@ -20,37 +20,37 @@
                 <form name="formUser" novalidate>
                     <div ng-show="!user.loggedIn()" id="frm-join" class="navbar-form navbar-right" ng-cloak>
                       <div class="form-group">
-                        <input ng-model="formUserUsername" id="username" type="text" maxlength="10" class="form-control input-sm" placeholder="Digite seu nome"></input>
+                        <input ng-model="formUserUsername" id="username" type="text" maxlength="10" class="form-control input-sm" placeholder="Your username..."></input>
                       </div>
-                      <button ng-click="login()" id="btn-entrar" type="button" class="btn btn-info input-sm">Entrar</button>
+                      <button ng-click="login()" id="btn-entrar" type="button" class="btn btn-info input-sm">Go</button>
                     </div>
                     <div ng-show="user.loggedIn()" id="frm-join" class="navbar-form navbar-right" ng-cloak>
-                      <button ng-click="logout()" id="btn-sair" type="button" class="btn btn-warning input-sm">Sair</button>
+                      <button ng-click="logout()" id="btn-sair" type="button" class="btn btn-warning input-sm">Logout</button>
                     </div>
                 </form>
             </nav>
             <div ng-include="'includes/messages.html'" class="row col-md-9"></div>
             <div class="row">
                 <div ng-show="user.loggedIn()" class="col-md-3" ng-cloak>
-                    <h3>Quem está online</h3>
+                    <h3>Who is online?</h3>
                     <div ng-include="'includes/userlist.html'"></div>
                 </div>
                 <div class="col-md-9">
                     <div ng-show="!user.loggedIn()" id="not-logged" ng-cloak>
-                        <h2>Você precisa se conectar</h2>
-                        <h3>Digite seu nome e clique em "Entrar"</h3>
+                        <h2>You need to connect.</h2>
+                        <h3>Enter your username and click on "Go"</h3>
                     </div>
  
                     <div ng-show="user.loggedIn()" id="logged" ng-cloak>
                         <form name="formPosts" novalidate>
                             <div class="post-form">
-                                <div class="action">O que você tem em mente?</div>
-                                <textarea ng-model="formPostContent" id="post-content" class="txt"></textarea>
+                                <div class="action">What you thinking now to publish?</div>
+                                <textarea ng-model="formPostContent" id="post-content" class="txt" placeholder="Write you think..."></textarea>
                                 <div class="pull-right">
-                                    <button ng-click="makePost()" id="btn-postar" class="btn btn-info glyphicon glyphicon-ok"> Enviar</button>
+                                    <button ng-click="makePost()" id="btn-postar" class="btn btn-info glyphicon glyphicon-ok"> Publish</button>
                                 </div>
                             </div>
-                            <div class="post">Você escreveu {{user.posts.length}} mentalizações.</div>
+                            <div class="post">You wrote {{user.posts.length}} posts.</div>
                             <div ng-include="'includes/posts.html'" class="posts"></div>
                         </form>
                     </div>

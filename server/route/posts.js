@@ -43,10 +43,10 @@ postsRouter.prototype = {
   list: function(req, res) {
     var that = this;
     var currentUserName = that.usersRounter.getCurrentUserName(req, res);
-    console.log('Carregando posts do usuário ' + currentUserName);
+    console.log('Loading posts of the user ' + currentUserName);
     that.postService.listByAuthor(currentUserName, function(err, results) {
       if (err) {
-        RouterUtils.sendErrorResponse('MONGODB_ERRO_EXECUCAO_QUERY', res, err);
+        RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
       } else {
         var loadedPosts = [];
         for (var i = 0; i < results.length; i++) {
@@ -69,7 +69,7 @@ postsRouter.prototype = {
           posts: loadedPosts,
           postsCount: loadedPosts.length
         };
-        console.log('Carregados ' + ((loadedPosts) ? loadedPosts.length : 0) + ' posts.');
+        console.log('Loaded ' + ((loadedPosts) ? loadedPosts.length : 0) + ' posts.');
         res.json(responseData);
       }
     });
@@ -103,7 +103,7 @@ postsRouter.prototype = {
       timestamp: post.creationDate,
       text: post.content
     };
-    console.log('Criado post com id ' + post._id);
+    console.log('Created post with id ' + post._id);
     res.json(responseData);
   },
   like: function(req, res) {
@@ -111,13 +111,13 @@ postsRouter.prototype = {
     var data = req.body;
     that.postService.doLike(data.postId, function(err, result) {
       if (err) {
-        RouterUtils.sendErrorResponse('MONGODB_ERRO_EXECUCAO_QUERY', res, err);
+        RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
       } else {
         var responseData = {
           postId: result._id,
           numLikes: result.likes
         };
-        console.log('Efetuado like para o post com id ' + result._id);
+        console.log('Make like to the post with id ' + result._id);
         res.json(responseData);
       }
     });

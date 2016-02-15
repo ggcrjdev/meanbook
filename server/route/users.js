@@ -74,10 +74,10 @@ usersRouter.prototype = {
       };
       req.session.user = user;
       this.loggedUsers.push(user);
-      console.log('O usuário ' + user.username + ' logou na app e foi incluído na sessão.');
+      console.log('The user ' + user.username + ' logged in.');
       res.json(user);
     } else {
-      RouterUtils.sendErrorResponse('APP_USUARIO_NAO_INFORMADO', res);
+      RouterUtils.sendErrorResponse('APP_USER_NOT_FOUND', res);
     }
   },
   logout: function(req, res) {

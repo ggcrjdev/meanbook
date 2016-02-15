@@ -22,7 +22,7 @@ postService.prototype = {
           callback(err, post);
         });
       } else {
-        console.log('Não foi encontrado o post com id ' + postId);
+        console.log('Not found the post with id ' + postId);
       }
     });
   },
@@ -31,7 +31,6 @@ postService.prototype = {
       if (post.comments) {
         for (var i = 0; i < post.comments.length; i++) {
           if (commentToLike._id.equals(post.comments[i]._id)) {
-            console.log('Encontrado comentário no post com id ' + postId + ' para incluir os ' + commentToLike.likes +' likes.');
             post.comments[i].likes = commentToLike.likes;
             break;
           }
