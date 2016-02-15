@@ -1,6 +1,6 @@
 var mongodbUrl = 'mongodb://localhost:27017/meanbook';
 if (process.env.NODE_ENV === 'production') {
-  var mongodbCredentials = process.env.MONGODB_USERNAME + ':' process.env.MONGODB_PASSWORD;
+  var mongodbCredentials = process.env.MONGODB_USERNAME + ':' + process.env.MONGODB_PASSWORD;
   mongodbUrl = 'mongodb://' + mongodbCredentials + '@ds061385.mongolab.com:61385/heroku_8b3ctgjk';
 }
 
