@@ -22,7 +22,7 @@
                       <div class="form-group">
                         <input ng-model="formUserUsername" id="username" type="text" maxlength="10" class="form-control input-sm" placeholder="Your username..."></input>
                       </div>
-                      <button ng-click="login()" id="btn-entrar" type="button" class="btn btn-info input-sm">Go</button>
+                      <button ng-click="login()" id="btn-entrar" type="button" class="btn btn-info input-sm">Log in</button>
                     </div>
                     <div ng-show="user.loggedIn()" id="frm-join" class="navbar-form navbar-right" ng-cloak>
                       <button ng-click="logout()" id="btn-sair" type="button" class="btn btn-warning input-sm">Logout</button>
@@ -38,7 +38,7 @@
                 <div class="col-md-9">
                     <div ng-show="!user.loggedIn()" id="not-logged" ng-cloak>
                         <h2>You need to connect.</h2>
-                        <h3>Enter your username and click on "Go"</h3>
+                        <h3>Enter your username and click on "Log in"</h3>
                     </div>
  
                     <div ng-show="user.loggedIn()" id="logged" ng-cloak>
