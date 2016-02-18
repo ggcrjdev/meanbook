@@ -14,7 +14,11 @@ var config = {
   },
   mongodb: {
     url: mongodbUrl,
-    socketTimeout: 30000
+    socketOptions: {
+      keepAlive: 10,
+      socketTimeoutMS: 20000,
+      connectTimeoutMS: 20000
+    }
   }
 }
 

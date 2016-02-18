@@ -1,5 +1,6 @@
 // Importação dos modulos necessários.
 process.title = 'app-server-meanbook';
+
 var config = require('./config');
 var consoleStamp = require('console-stamp');
 var morganLogger = require('morgan');
@@ -8,7 +9,6 @@ var errorhandler = require('errorhandler');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var mongoose = require('mongoose');
 var app = express();
 var http = require('http').Server(app);
 
@@ -26,28 +26,10 @@ try {
   console.error('The module ' + dateFormatModule + ' not found.');
 }
 
-// Configuration of the Mongoose - MongoDB library.
-var mongooseOptions = {
-  server: {
-    socketOptions: {
-      keepAlive: 50,
-      socketTimeoutMS: config.mongodb.socketTimeout,
-      connectTimeoutMS: config.mongodb.socketTimeout
-    }
-  },
-  replset: {
-    socketOptions: {
-      keepAlive: 50,
-      socketTimeoutMS: config.mongodb.socketTimeout,
-      connectTimeoutMS: config.mongodb.socketTimeout
-    }
-  }
-};
-console.log('Connecting to the mongodb on url ' + config.mongodb.url);
-mongoose.connect(config.mongodb.url, mongooseOptions);
-mongoose.connection.on('error', function() {});
+// Mongoose configuration and initialization.
+require('./servermongoose');
 
-// Configuration of the express.
+// Express configuration.
 // CORS
 var allowCors = function(req, res, next) {
   res.header('Access-Control-Allow-Origin', config.express.origins);
