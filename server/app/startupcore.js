@@ -1,33 +1,12 @@
-// Importação dos modulos necessários.
-process.title = 'app-server-meanbook';
-
 var config = require('./config');
-var consoleStamp = require('console-stamp');
-var morganLogger = require('morgan');
 var express = require('express');
 var errorhandler = require('errorhandler');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+
 var app = express();
 var http = require('http').Server(app);
-
-// Definition of the timestamp on logger and console.
-consoleStamp(console, config.express.timestampFormat);
-var dateFormatModule = 'console-stamp/node_modules/dateformat';
-try {
-  console.log('Loading the module ' + require.resolve(dateFormatModule));
-  morganLogger.format('serverDateFormat', function() {
-    var dateFormat = require(dateFormatModule);
-    return dateFormat(Date.now(), config.express.timestampFormat);
-  });
-  app.use(morganLogger('[:serverDateFormat] :method :url :status :res[content-length] - :remote-addr - :response-time ms'));
-} catch(e) {
-  console.error('The module ' + dateFormatModule + ' not found.');
-}
-
-// Mongoose configuration and initialization.
-require('./servermongoose');
 
 // Express configuration.
 // CORS
@@ -58,7 +37,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Say to express that the web directory contains the static contents.
-app.use(express.static(__dirname + config.express.webBaseDir));
+app.use(express.static(__dirname + '/../../web'));
+
+// Listen to configured post.
+app.set('port', (process.env.PORT || config.express.port));
+http.listen(app.get('port'), function() {
+  console.log('App listening on *:' + config.express.port);
+});
 
 module.exports = {
   express: express,

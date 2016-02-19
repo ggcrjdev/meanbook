@@ -1,6 +1,6 @@
-var UsersRouter = require('./route/users').UsersRouter;
-var PostsRouter = require('./route/posts').PostsRouter;
-var CommentsRouter = require('./route/comments').CommentsRouter;
+var UsersRouter = require('../route/users').UsersRouter;
+var PostsRouter = require('../route/posts').PostsRouter;
+var CommentsRouter = require('../route/comments').CommentsRouter;
 var restfulApi = function(express, apiBaseUri) {
   this.init(express, apiBaseUri);
 };
