@@ -26,8 +26,11 @@ define([], function() {
       };
       return doPostRequest('login', data);
     };
-    function logout() {
-      return doPostRequest('logout');
+    function logout(username) {
+      var data = {
+        username: username
+      };
+      return doPostRequest('logout', data);
     };
 
     function listPosts(username) {
@@ -75,7 +78,10 @@ define([], function() {
       var requestUrl = urlsByMethod[methodName];
       if (!requestUrl) {
         throw Error("O nome do método" + methodName + " não possui uma URL mapeada.");
+      } else if (methodName == 'listPosts') {
+        requestUrl += '/' + data.username;
       }
+      
       if (!httpMethod) {
         httpMethod = 'POST';
       }

@@ -1,5 +1,7 @@
 require(['angular', 'appservices', 'appcontrollers'], function(angular, appservices, appcontrollers) {
   var mainApp = angular.module('mainApp', []);
+  // Configuration for Spring Restful API on Wildfly (Java Server).
+  // mainApp.value('meanBookApiUrl', 'http://localhost:8080/meanbook-spring');
   mainApp.value('meanBookApiUrl', getCurrentHostName() + '/api/1.0');
   mainApp.value('defaultLoadUsersTimeout', 15 * 1000);
   

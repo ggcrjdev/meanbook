@@ -25,7 +25,7 @@ postsRouter.prototype = {
   },
   initRoutes: function() {
     var that = this;
-    that.router.get('/list', function(req, res) {
+    that.router.get('/list/:username', function(req, res) {
       that.list(req, res);
     });
     that.router.post('/add', function(req, res) {

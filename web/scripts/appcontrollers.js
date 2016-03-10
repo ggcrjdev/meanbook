@@ -19,7 +19,7 @@ define([], function() {
       }, errorHandling);
     };
     $scope.logout = function() {
-      meanBookApi.logout().then(function(response) {
+      meanBookApi.logout($scope.user.username).then(function(response) {
         $scope.onlineUsers = new Array();
         $scope.user.username = null;
         $scope.user.posts = [];
