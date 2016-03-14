@@ -42,8 +42,12 @@ postsRouter.prototype = {
 
   list: function(req, res) {
     var that = this;
-    var currentUserName = that.usersRounter.getCurrentUserName(req, res);
+    var currentUserName = req.params.username;
+    if (!currentUserName) {
+      currentUserName = that.usersRounter.getCurrentUserName(req, res);
+    }
     console.log('Loading posts of the user ' + currentUserName);
+    
     that.postService.listByAuthor(currentUserName, function(err, results) {
       if (err) {
         RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
