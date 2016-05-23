@@ -1,3 +1,4 @@
+var UserService = require('../service/userservice').UserService;
 var RouterUtils = require('./routerutils').RouterUtils;
 var usersRouter = function(express, apiBaseUri) {
   this.init(express, apiBaseUri);
@@ -5,7 +6,7 @@ var usersRouter = function(express, apiBaseUri) {
 
 usersRouter.prototype = {
   init: function(express, apiBaseUri) {
-    this.loggedUsers = new Array();
+    this.userService = new UserService();
 
     this.apiBaseUri = apiBaseUri;
     this.routerBaseUri = '/users';
@@ -58,49 +59,62 @@ usersRouter.prototype = {
     res.json(responseData);
   },
   list: function(req, res) {
-    var responseData = {
-      users: this.loggedUsers
-    };
-    res.json(responseData);
+    var that = this;
+    that.userService.listActiveUsers(function(err, results) {
+      if (err) {
+        RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
+      } else {
+        var loggedUsers = new Array();
+        for (var i = 0; i < results.length; i++) {
+          loggedUsers.push(that.createUserResponseData(results[i]));
+        }
+
+        var responseData = {
+          users: loggedUsers
+        };
+        res.json(responseData);
+      }
+    });
   },
   login: function(req, res) {
     var that = this;
     var data = req.body;
     if (data.username) {
-      var user = {
-        id: data.username,
-        username: data.username,
-        loginDate: new Date()
-      };
-      req.session.user = user;
-      this.loggedUsers.push(user);
-      console.log('The user ' + user.username + ' logged in.');
-      res.json(user);
+      that.userService.registerLoggedUser(data.username, function(err, user) {
+        if (err) {
+          RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
+        } else {
+          var responseData = that.createUserResponseData(user);
+          req.session.user = responseData;
+          console.log('The user ' + responseData.username + ' logged in.');
+          res.json(responseData);
+        }
+      });
     } else {
       RouterUtils.sendErrorResponse('APP_USER_NOT_FOUND', res);
     }
   },
   logout: function(req, res) {
+    var that = this;
     var loggedOut = false;
     if (this.isLoggedIn(req, res)) {
       var currentUserName = this.getCurrentUserName(req, res);
-      var indexToDelete = -1;
-      for (var i = 0; i < this.loggedUsers.length; i++) {
-        var user = this.loggedUsers[i];
-        if (user && user.id == currentUserName) {
-          indexToDelete = i;
-          break;
-        }
-      }
-      if (indexToDelete != -1) {
-        this.loggedUsers.splice(indexToDelete, 1);
-      }
+      that.userService.markActive(currentUserName, false, function(err, user) {
+      });
       req.session.destroy(function(err) {});
       loggedOut = true;
     }
+
     res.json({
       logggedOut: loggedOut
     });
+  },
+  createUserResponseData: function(userEntity) {
+    return {
+      id: userEntity.login,
+      username: userEntity.login,
+      loginDate: userEntity.lastAccess
+    };
   }
 };
 
