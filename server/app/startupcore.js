@@ -17,17 +17,25 @@ var allowCors = function(req, res, next) {
   next();
 };
 app.use(allowCors);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+
+// Session configuration using Mongo store. 
+// Will provide application scalability, even if a session scope is used.
+var mongoose = require('mongoose');
+var MongodbSessionStore = require('connect-mongo')(session);
 app.use(session({
   secret: 'voandoalto-8825',
   resave: false,
   saveUninitialized: true,
+  store: new MongodbSessionStore({
+    mongooseConnection: mongoose.connection
+  }),
   cookie: {
     secure: false
   }
-}));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
 }));
 
 console.log('App configured using NODE_ENV ' + process.env.NODE_ENV);
