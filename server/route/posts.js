@@ -1,15 +1,15 @@
 var PostService = require('../service/postservice').PostService;
 var RouterUtils = require('./routerutils').RouterUtils;
-var postsRouter = function(express, apiBaseUri, usersRounter) {
-  this.init(express, apiBaseUri, usersRounter);
+var postsRouter = function(express, apiBaseUri, usersRouter) {
+  this.init(express, apiBaseUri, usersRouter);
 };
 
 postsRouter.prototype = {
-  init: function(express, apiBaseUri, usersRounter) {
+  init: function(express, apiBaseUri, usersRouter) {
     this.postService = new PostService();
 
     this.apiBaseUri = apiBaseUri;
-    this.usersRounter = usersRounter;
+    this.usersRouter = usersRouter;
     this.routerBaseUri = '/posts';
     this.router = express.Router();
     this.initRouterMiddleware();
@@ -44,7 +44,7 @@ postsRouter.prototype = {
     var that = this;
     var currentUserName = req.params.username;
     if (!currentUserName) {
-      currentUserName = that.usersRounter.getCurrentUserName(req, res);
+      currentUserName = that.usersRouter.getCurrentUserName(req, res);
     }
     console.log('Loading posts of the user ' + currentUserName);
     
@@ -98,7 +98,7 @@ postsRouter.prototype = {
   add: function(req, res) {
     var that = this;
     var data = req.body;
-    var currentUserName = that.usersRounter.getCurrentUserName(req, res);
+    var currentUserName = that.usersRouter.getCurrentUserName(req, res);
     var post = that.postService.create(currentUserName, data.text);
     var responseData = {
       id: post._id,

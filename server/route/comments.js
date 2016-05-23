@@ -1,17 +1,17 @@
 var PostService = require('../service/postservice').PostService;
 var CommentService = require('../service/commentservice').CommentService;
 var RouterUtils = require('./routerutils').RouterUtils;
-var commentsRouter = function(express, apiBaseUri, usersRounter) {
-  this.init(express, apiBaseUri, usersRounter);
+var commentsRouter = function(express, apiBaseUri, usersRouter) {
+  this.init(express, apiBaseUri, usersRouter);
 };
 
 commentsRouter.prototype = {
-  init: function(express, apiBaseUri, usersRounter) {
+  init: function(express, apiBaseUri, usersRouter) {
     this.postService = new PostService();
     this.commentService = new CommentService();
 
     this.apiBaseUri = apiBaseUri;
-    this.usersRounter = usersRounter;
+    this.usersRouter = usersRouter;
     this.routerBaseUri = '/comments';
     this.router = express.Router();
     this.initRouterMiddleware();
@@ -41,7 +41,7 @@ commentsRouter.prototype = {
   add: function(req, res) {
     var that = this;
     var data = req.body;
-    var currentUserName = that.usersRounter.getCurrentUserName(req, res);
+    var currentUserName = that.usersRouter.getCurrentUserName(req, res);
     var comment = that.commentService.create(data.postId, currentUserName, data.text);
     that.postService.addComment(data.postId, comment, function(err, result) {
       if (err) {
