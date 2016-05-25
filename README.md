@@ -1,4 +1,7 @@
 # MEAN Book
+
+[![Build Status](https://travis-ci.org/ggcrjdev/meanbook.svg?branch=master)](https://travis-ci.org/ggcrjdev/meanbook)
+
 Sample application based on the concept of social network using the stack MEAN (MongoDB, Express, AngularJS and NodeJS).
 To implement the application features, were used the following features provided by this stack:
 - Restful API implementation in NodeJS using Node Routing.
