@@ -6,12 +6,25 @@ define([], function() {
     $scope.onlineUsers = [];
     $scope.user = {
       username: null,
-      posts: [],
-
       loggedIn: function() {
         return this.username != null;
+      },
+      clear: function() {
+        this.username = null;
       }
     };
+    $scope.timeline = {
+      posts: [],
+      username: null,
+      isCurrentUser: function() {
+        return $scope.user.username === this.username;
+      },
+      clear: function() {
+        this.posts = [];
+        this.username = null;
+      }
+    };
+
     $scope.login = function() {
       meanBookApi.login($scope.formUserUsername).then(function(response) {
         authenticateUser(response.data.username);
@@ -20,22 +33,25 @@ define([], function() {
     };
     $scope.logout = function() {
       meanBookApi.logout($scope.user.username).then(function(response) {
-        $scope.onlineUsers = new Array();
-        $scope.user.username = null;
-        $scope.user.posts = [];
+        $scope.onlineUsers = [];
+        $scope.user.clear();
+        $scope.timeline.clear();
         stopPullingOnlineUsers();
       }, errorHandling);
+    };
+    $scope.switchTimeline = function(username) {
+      loadPosts(username);
     };
 
     $scope.makePost = function() {
       meanBookApi.makePost($scope.formPostContent).then(function(response) {
-        loadPostsForCurrentUser();
+        loadPosts();
         $scope.formPostContent = null;
       }, errorHandling);
     };
     $scope.likePost = function(postId) {
       meanBookApi.likePost(postId).then(function(response) {
-        loadPostsForCurrentUser();
+        loadPosts();
       }, errorHandling);
     };
 
@@ -44,13 +60,13 @@ define([], function() {
     };
     $scope.makeComment = function(postId) {
       meanBookApi.makeComment(this.formCommentContent, postId).then(function(response) {
-        loadPostsForCurrentUser();
+        loadPosts();
         $scope.formCommentContent = null;
       }, errorHandling);
     };
     $scope.likeComment = function(commentId, postId) {
       meanBookApi.likeComment(commentId, postId).then(function(response) {
-        loadPostsForCurrentUser();
+        loadPosts();
       }, errorHandling);
     };
 
@@ -66,7 +82,7 @@ define([], function() {
     function authenticateUser(currentUsername) {
       $scope.user.username = currentUsername;
       loadOnlineUsers();
-      loadPostsForCurrentUser();
+      loadPosts(currentUsername);
       startPullingOnlineUsers();
     };
     function loadOnlineUsers() {
@@ -74,9 +90,13 @@ define([], function() {
         $scope.onlineUsers = response.data.users;
       }, errorHandling);
     };
-    function loadPostsForCurrentUser() {
-      meanBookApi.listPosts($scope.user.username).then(function(response) {
-        $scope.user.posts = response.data.posts;
+    function loadPosts(username) {
+      if (!username) {
+        username = $scope.timeline.username;
+      }
+      meanBookApi.listPosts(username).then(function(response) {
+        $scope.timeline.username = username;
+        $scope.timeline.posts = response.data.posts;
       }, errorHandling);
     };
 

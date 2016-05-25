@@ -18,39 +18,43 @@
                 </div>
  
                 <form name="formUser" novalidate>
-                    <div ng-show="!user.loggedIn()" id="frm-join" class="navbar-form navbar-right" ng-cloak>
+                    <div ng-show="!user.loggedIn()" ng-cloak id="frm-join" class="navbar-form navbar-right">
                       <div class="form-group">
                         <input ng-model="formUserUsername" id="username" type="text" maxlength="25" class="form-control input-sm" placeholder="Your username..."></input>
                       </div>
                       <button ng-click="login()" id="btn-entrar" type="button" class="btn btn-info input-sm">Sign in</button>
                     </div>
-                    <div ng-show="user.loggedIn()" id="frm-join" class="navbar-form navbar-right" ng-cloak>
-                      <button ng-click="logout()" id="btn-sair" type="button" class="btn btn-warning input-sm">Logout</button>
+                    <div ng-show="user.loggedIn()" ng-cloak id="frm-join" class="navbar-form navbar-right">
+                        <span>{{user.username}} </span>
+                        <button ng-click="logout()" id="btn-sair" type="button" class="btn btn-warning input-sm">Logout</button>
                     </div>
                 </form>
             </nav>
             <div ng-include="'includes/messages.html'" class="row col-md-12"></div>
             <div class="row">
-                <div ng-show="user.loggedIn()" class="col-md-3" ng-cloak>
+                <div ng-show="user.loggedIn()" ng-cloak class="col-md-3">
                     <h3>Who is online?</h3>
                     <div ng-include="'includes/userlist.html'"></div>
                 </div>
                 <div class="col-md-9">
-                    <div ng-show="!user.loggedIn()" id="not-logged" ng-cloak>
+                    <div ng-show="!user.loggedIn()" ng-cloak id="not-logged">
                         <h2>You need to connect.</h2>
                         <h3>Enter your username and click on "Sign in"</h3>
                     </div>
  
-                    <div ng-show="user.loggedIn()" id="logged" ng-cloak>
+                    <div ng-show="user.loggedIn()" ng-cloak id="logged">
                         <form name="formPosts" novalidate>
-                            <div class="post-form">
+                            <div ng-show="timeline.isCurrentUser()" ng-cloak class="post-form">
                                 <div class="action">What you thinking now to publish?</div>
                                 <textarea ng-model="formPostContent" id="post-content" class="txt" placeholder="Write you think..."></textarea>
                                 <div class="pull-right">
-                                    <button ng-click="makePost()" id="btn-postar" class="btn btn-info glyphicon glyphicon-ok"> Publish</button>
+                                    <button ng-click="makePost()" id="btn-publish" class="btn btn-info glyphicon glyphicon-ok"> Publish</button>
                                 </div>
                             </div>
-                            <div class="post">You wrote {{user.posts.length}} posts.</div>
+                            <div ng-show="!timeline.isCurrentUser()" ng-cloak>
+                                <button ng-click="switchTimeline(user.username)" id="btn-back-timeline" class="btn btn-info glyphicon glyphicon-back"> Back</button>
+                            </div>
+                            <div class="post">{{timeline.username}} wrote {{timeline.posts.length}} posts.</div>
                             <div ng-include="'includes/posts.html'" class="posts"></div>
                         </form>
                     </div>
