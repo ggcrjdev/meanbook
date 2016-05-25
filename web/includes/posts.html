@@ -6,16 +6,24 @@
     </div>
     <div class="post-body">{{post.text}}</div>
     <div class="post-actions">
-        <a ng-click="likePost(post.id)" class="glyphicon glyphicon-thumbs-up lnk-like-post" data-post-id="{{post.id}}">({{post.likes}})</a>
-        <span class="glyphicon glyphicon-comment lnk-comment" data-post-id="{{post.id}}">({{post.commentsCount}})</span>
+        <a ng-click="likePost(post.id)" data-post-id="{{post.id}}">
+            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> ({{post.likes}})
+        </a>
+        <a href="#">
+            <span class="glyphicon glyphicon-comment" aria-hidden="true"></span> ({{post.commentsCount}})
+        </a>
     </div>
 
     <div class="comment-form" data-post-to-comment-id="{{post.id}}">
         <div class="action">Leave your comment</div>
         <textarea ng-model="formCommentContent" class="txt" placeholder="Write you think..."></textarea>
         <div class="pull-right">
-            <button ng-click="makeComment(post.id)" class="btn btn-info btn-sm glyphicon glyphicon-ok btn-commentar"> Send</button>
-            <button ng-click="cancelComment()" class="btn btn-info btn-sm glyphicon glyphicon-remove lnk-cancel-comment" data-post-id="{{post.id}}"> Cancel</button>
+            <button ng-click="makeComment(post.id)" class="btn btn-info btn-sm">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Send
+            </button>
+            <button ng-click="cancelComment()" class="btn btn-info btn-sm" data-post-id="{{post.id}}">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
+            </button>
         </div>
     </div>
 

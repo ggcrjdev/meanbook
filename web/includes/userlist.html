@@ -1,5 +1,7 @@
 <ul class="online-users">
     <li ng-repeat="onlineUser in onlineUsers" data-user-id="{{onlineUser.id}}">
-        <a ng-click="switchTimeline(onlineUser.username)" class="glyphicon glyphicon-user" data-user-id="{{onlineUser.id}}">{{onlineUser.username}}</a>
+        <a ng-click="switchTimeline(onlineUser.username)" data-user-id="{{onlineUser.id}}">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{onlineUser.username}}
+        </a>
     </li>
 </ul>

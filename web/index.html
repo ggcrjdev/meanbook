@@ -14,19 +14,31 @@
         <div ng-app="mainApp" ng-controller="meanBookController" class="container">
             <nav class="navbar navbar-inverse" role="navigation">
                 <div class="navbar-header">
-                    <span class="navbar-brand">MEANBook</span>
+                    <span class="navbar-brand">MEAN Book</span>
                 </div>
  
                 <form name="formUser" novalidate>
-                    <div ng-show="!user.loggedIn()" ng-cloak id="frm-join" class="navbar-form navbar-right">
-                      <div class="form-group">
-                        <input ng-model="formUserUsername" id="username" type="text" maxlength="25" class="form-control input-sm" placeholder="Your username..."></input>
-                      </div>
-                      <button ng-click="login()" id="btn-entrar" type="button" class="btn btn-info input-sm">Sign in</button>
+                    <div ng-show="!user.loggedIn()" ng-cloak id="frm-signin">
+                        <span class="navbar-form navbar-right" style="margin-right: 1px;">
+                            <input ng-model="formUserUsername" id="username" type="text" maxlength="25" class="input-sm" placeholder="Your username..."></input>
+                            <button ng-click="login()" id="btn-signin" type="button" class="btn btn-info btn-sm">Sign in</button>
+                        </span>
                     </div>
-                    <div ng-show="user.loggedIn()" ng-cloak id="frm-join" class="navbar-form navbar-right">
-                        <span>{{user.username}} </span>
-                        <button ng-click="logout()" id="btn-sair" type="button" class="btn btn-warning input-sm">Logout</button>
+                    <div ng-show="user.loggedIn()" ng-cloak id="frm-home">
+                        <span class="navbar-right">
+                            <ul class="nav navbar-nav">
+                                <li class="active">
+                                    <a ng-click="switchTimeline(user.username)" id="btn-home">
+                                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{user.username}}
+                                    </a>
+                                </li>
+                                <li class="active">
+                                    <a ng-click="logout()" id="btn-logout">
+                                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </span>
                     </div>
                 </form>
             </nav>
@@ -48,17 +60,16 @@
                                 <div class="action">What you thinking now to publish?</div>
                                 <textarea ng-model="formPostContent" id="post-content" class="txt" placeholder="Write you think..."></textarea>
                                 <div class="pull-right">
-                                    <button ng-click="makePost()" id="btn-publish" class="btn btn-info glyphicon glyphicon-ok"> Publish</button>
+                                    <button ng-click="makePost()" id="btn-publish" class="btn btn-info">
+                                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Publish
+                                    </button>
                                 </div>
-                            </div>
-                            <div ng-show="!timeline.isCurrentUser()" ng-cloak>
-                                <button ng-click="switchTimeline(user.username)" id="btn-back-timeline" class="btn btn-info glyphicon glyphicon-back"> Back</button>
                             </div>
                             <div class="post">{{timeline.username}} wrote {{timeline.posts.length}} posts.</div>
                             <div ng-include="'includes/posts.html'" class="posts"></div>
                         </form>
                     </div>
-                </div>
+                </div>  
             </div>
         </div>
         <script src="bower_components/requirejs/require.js" data-main="scripts/main"></script>
