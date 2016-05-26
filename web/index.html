@@ -13,34 +13,31 @@
     <body>
         <div ng-app="mainApp" ng-controller="meanBookController" class="container">
             <nav class="navbar navbar-inverse" role="navigation">
-                <div class="navbar-header">
-                    <span class="navbar-brand">MEAN Book</span>
-                </div>
- 
-                <form name="formUser" novalidate>
-                    <div ng-show="!user.loggedIn()" ng-cloak id="frm-signin">
-                        <span class="navbar-form navbar-right" style="margin-right: 1px;">
-                            <input ng-model="formUserUsername" id="username" type="text" maxlength="25" class="input-sm" placeholder="Your username..."></input>
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <span class="navbar-brand">MEAN Book</span>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                      <form ng-show="!user.loggedIn()" ng-cloak name="formUser" novalidate class="navbar-form navbar-left" role="search">
+                            <div class="form-group">
+                                <input ng-model="formUserUsername" id="username" type="text" maxlength="25" class="input-sm" placeholder="Your username..."></input>
+                            </div>
                             <button ng-click="login()" id="btn-signin" type="button" class="btn btn-info btn-sm">Sign in</button>
-                        </span>
+                      </form>
+                      <ul ng-show="user.loggedIn()" ng-cloak id="frm-home" class="nav navbar-nav navbar-right">
+                        <li class="active">
+                            <a ng-click="switchTimeline(user.username)" id="btn-home">
+                                <span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{user.username}}
+                            </a>
+                        </li>
+                        <li class="active">
+                            <a ng-click="logout()" id="btn-logout">
+                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout
+                            </a>
+                        </li>
+                      </ul>
                     </div>
-                    <div ng-show="user.loggedIn()" ng-cloak id="frm-home">
-                        <span class="navbar-right">
-                            <ul class="nav navbar-nav">
-                                <li class="active">
-                                    <a ng-click="switchTimeline(user.username)" id="btn-home">
-                                        <span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{user.username}}
-                                    </a>
-                                </li>
-                                <li class="active">
-                                    <a ng-click="logout()" id="btn-logout">
-                                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout
-                                    </a>
-                                </li>
-                            </ul>
-                        </span>
-                    </div>
-                </form>
+                </div>
             </nav>
             <div ng-include="'includes/messages.html'" class="row col-md-12"></div>
             <div class="row">
