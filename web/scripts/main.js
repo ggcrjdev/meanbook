@@ -2,12 +2,13 @@ requirejs.config({
   basePath: './',
   paths: {
     'jquery': '../bower_components/jquery/dist/jquery.min',
-    'angular': '../bower_components/angular/angular.min'
-  },
+    'angular': '../bower_components/angular/angular.min',
+    'bootstrap': '../bower_components/bootstrap/dist/js/bootstrap.min'
+  }, 
   shim: {
-    'angular': {
-      exports: 'angular'
-    }
+    'jquery': {exports: '$'}, 
+    'angular': {exports: 'angular'},
+    'bootstrap': {deps: ['jquery']}
   },
   dev: {
     options: {
