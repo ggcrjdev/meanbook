@@ -9,13 +9,14 @@
         <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css"/>
         <link rel="stylesheet" href="styles/main.css" />
+        <script src="bower_components/requirejs/require.js" data-main="scripts/main"></script>
     </head>
     <body>
-        <div ng-app="mainApp" ng-controller="meanBookController" class="container">
+        <div ng-controller="meanBookController" class="container">
             <nav class="navbar navbar-inverse" role="navigation">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="mb-main-menu" aria-expanded="false">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mb-main-menu" aria-expanded="false">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -37,10 +38,11 @@
                             </li>
                         </ul>
                         <form ng-show="!user.loggedIn()" ng-cloak name="formUser" novalidate class="navbar-form navbar-right">
-                                <div class="form-group">
-                                    <input ng-model="formUserUsername" id="username" type="text" maxlength="25" class="input-sm" placeholder="Your username..."></input>
-                                </div>
-                            <button ng-click="login()" id="btn-signin" type="button" class="btn btn-info btn-sm">Sign in</button>
+                            <div class="form-group">
+                                <input ng-model="formUserUsername" id="username" type="text" maxlength="25" class="input-sm" placeholder="Your username..."></input>
+                                <span style="margin: 3px;" />
+                                <button ng-click="login()" id="btn-signin" type="button" class="btn btn-info btn-sm">Sign in</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -75,6 +77,5 @@
                 </div>  
             </div>
         </div>
-        <script src="bower_components/requirejs/require.js" data-main="scripts/main"></script>
     </body>
 </html>

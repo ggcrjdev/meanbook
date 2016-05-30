@@ -18,10 +18,10 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "2.2.4",
+    "jquery": "2.1.4",
     "bootstrap": "3.3.6",
     "mustache.js": "mustache#2.2.0",
-    "requirejs": "2.1.20",
-    "angular": "angularjs#1.4.9"
+    "requirejs": "2.1.22",
+    "angular": "angularjs#1.4.11"
   }
 }
