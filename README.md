@@ -17,7 +17,6 @@ To implement the application features, were used the following features provided
 ### App Installation
 Open command line terminal (cmd) and access the application root folder in the repository cloned from the GitHub and run the following command:
 - npm install -g nodemon && npm install
-Done!
 
 ## App execution
 ### Execution in development environment
