@@ -1,5 +1,4 @@
 define([], function() {
-  
   function getCurrentHostName() {
     var host;
     if (window.location.host) {
@@ -14,7 +13,7 @@ define([], function() {
     return host;
   }
 
-  /*** Exports utils functions. ***/
+  /*** Export ***/
   return {
     getCurrentHostName: getCurrentHostName
   };

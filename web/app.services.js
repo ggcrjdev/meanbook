@@ -82,18 +82,14 @@ define([], function() {
         requestUrl += '/' + data.username;
       }
       
-      if (!httpMethod) {
+      if (!httpMethod)
         httpMethod = 'POST';
-      }
-      if (!data) {
+      if (!data)
         data = {};
-      }
-      if (!successCallback) {
+      if (!successCallback)
         successCallback = requestSuccessCallback;
-      }
-      if (!errorCallback) {
+      if (!errorCallback)
         errorCallback = requestErrorCallback;
-      }
 
       return $http({
         method: httpMethod,
@@ -120,8 +116,83 @@ define([], function() {
     };
   }
 
-  /*** Exports controllers available. ***/
+  function messageService($timeout, defaultLoadUsersTimeout) {
+    var entity = {
+      messages: [],
+      clear: function() {
+        this.messages = [];
+      }
+    };
+
+    function addErrorMessage(messageData) {
+      if (messageData && messageData.type === 'error') {
+        entity.messages.push(messageData);
+        $timeout(clearMessages, defaultLoadUsersTimeout);
+      }
+    };
+    function errorHandling(response) {
+      addErrorMessage(response.data);
+    };
+    function clearMessages() {
+      entity.clear();
+    };
+
+    return {
+      entity: entity,
+      addErrorMessage: addErrorMessage,
+      errorHandling: errorHandling,
+      clearMessages: clearMessages
+    };
+  }
+
+  function userService(messageService, meanBookApi) {
+    var loadUsersTimer = null;
+    var entity = {
+      username: null,
+      loggedIn: function() {
+        return this.username != null;
+      },
+      clear: function() {
+        this.onlineUsers = [];
+        this.username = null;
+      }
+    };
+
+    function login(username, callback) {
+      meanBookApi.login(username).then(function(response) {
+        entity.username = response.data.username;
+        if (callback)
+          callback(response.data);
+      }, messageService.errorHandling);
+    };
+    function logout(callback) {
+      meanBookApi.logout(entity.username).then(function(response) {
+        entity.clear();
+        if (callback)
+          callback(response.data);
+      }, messageService.errorHandling);
+    };
+
+    function loadCurrentUser(callback) {
+      meanBookApi.currentUser().then(function(response) {
+        if (response.data && response.data.authenticated) {
+          login(response.data.username, callback);
+        }
+      }, messageService.errorHandling);
+    };
+
+    return {
+      entity: entity,
+      login: login,
+      logout: logout,
+      loadCurrentUser: loadCurrentUser
+    };
+  }
+
+  /*** Export ***/
   return {
-    meanBookApi: meanBookApi
+    meanBookApi: meanBookApi, 
+    messageService: messageService, 
+    userService: userService
   };
 });
