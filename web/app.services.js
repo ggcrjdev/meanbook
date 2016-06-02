@@ -181,7 +181,6 @@ define([], function() {
       firstName: null,
       lastName: null,
       email: null,
-
       birthday: null,
       birthdayDay: null,
       birthdayMonth: null,
@@ -193,9 +192,19 @@ define([], function() {
       fullName: function() {
         return (this.lastName) ? this.firstName + ' ' + this.lastName : this.firstName;
       },
+      displayName: function() {
+        return this.username;
+      },
       clear: function() {
-        this.onlineUsers = [];
         this.username = null;
+        this.username = null;
+        this.firstName = null;
+        this.lastName = null;
+        this.email = null;
+        this.birthday = null;
+        this.birthdayDay = null;
+        this.birthdayMonth = null;
+        this.birthdayYear = null;
       }
     };
 
