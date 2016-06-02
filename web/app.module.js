@@ -32,6 +32,8 @@ function($, angular, ngRoute, services, controller, utils) {
         templateUrl: 'timeline/timeline.template.html'
       }).when('/user-profile', {
         templateUrl: 'user-profile/user-profile.template.html'
+      }).when('/user-profile-edit', {
+        templateUrl: 'user-profile/user-profile-edit.template.html'
       }).otherwise('/timeline');
       console.log('[Angular]: Config block executed.');
     }

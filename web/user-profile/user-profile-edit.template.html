@@ -1,0 +1,70 @@
+<div ng-controller="timelineController" ng-show="user.loggedIn()" ng-cloak>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-9">
+        <form name="formProfileEdit" novalidate>
+            <div class="form-group">
+                <strong>Login: </strong><span>{{user.username}}</span>
+            </div>
+            <div class="form-group">
+                <strong>First name: </span>
+                <input ng-model="user.firstName" required name="firstName" type="text" maxlength="30" class="input-sm" placeholder="Your first name..."></input>
+                <span ng-show="formProfileEdit.$submitted || formProfileEdit.firstName.$touched">
+                    <span ng-show="formProfileEdit.firstName.$valid">
+                        <span class="glyphicon glyphicon-ok icon-validation-ok" aria-hidden="true"></span>
+                    </span>
+                    <span ng-show="formProfileEdit.firstName.$invalid">
+                        <span class="glyphicon glyphicon-remove icon-validation-error" aria-hidden="true"></span>
+                    </span>
+                </span>
+            </div>
+            <div class="form-group">
+                <strong>Last name: </span>
+                <input ng-model="user.lastName" required name="lastName" type="text" maxlength="30" class="input-sm" placeholder="Your last name..."></input>
+                <span ng-show="formProfileEdit.$submitted || formProfileEdit.lastName.$touched">
+                    <span ng-show="formProfileEdit.lastName.$valid">
+                        <span class="glyphicon glyphicon-ok icon-validation-ok" aria-hidden="true"></span>
+                    </span>
+                    <span ng-show="formProfileEdit.lastName.$invalid">
+                        <span class="glyphicon glyphicon-remove icon-validation-error" aria-hidden="true"></span>
+                    </span>
+                </span>
+            </div>
+            <div class="form-group">
+                <strong>E-mail: </span>
+                <input ng-model="user.email" required name="email" type="email" maxlength="200" class="input-sm" placeholder="Your e-mail address..."></input>
+                <span ng-show="formProfileEdit.$submitted || formProfileEdit.email.$touched">
+                    <span ng-show="formProfileEdit.email.$valid">
+                        <span class="glyphicon glyphicon-ok icon-validation-ok" aria-hidden="true"></span>
+                    </span>
+                    <span ng-show="formProfileEdit.email.$invalid">
+                        <span class="glyphicon glyphicon-remove icon-validation-error" aria-hidden="true"></span>
+                    </span>
+                </span>
+            </div>
+            <div class="form-group">
+                <strong>Birthday: </strong>
+                <select ng-model="user.birthdayDay" required name="birthdayDay" class="input-sm">
+                    <option ng-repeat="item in daysSet()" value="{{item}}">{{item}}</option>
+                </select>
+                <select ng-model="user.birthdayMonth" required name="birthdayMonth" class="input-sm">
+                    <option ng-repeat="item in monthsSet()" value="{{item}}">{{item}}</option>
+                </select>
+                <select ng-model="user.birthdayYear" required name="birthdayYear" class="input-sm">
+                    <option ng-repeat="item in yearsSet()" value="{{item}}">{{item}}</option>
+                </select>
+                <span ng-show="formProfileEdit.$submitted || formProfileEdit.birthdayDay.$touched || formProfileEdit.birthdayMonth.$touched || formProfileEdit.birthdayYear.$touched">
+                    <span ng-show="formProfileEdit.birthdayDay.$valid &amp;&amp; formProfileEdit.birthdayMonth.$valid &amp;&amp; formProfileEdit.birthdayYear.$valid">
+                        <span class="glyphicon glyphicon-ok icon-validation-ok" aria-hidden="true"></span>
+                    </span>
+                    <span ng-show="formProfileEdit.birthdayDay.$invalid || formProfileEdit.birthdayMonth.$invalid || formProfileEdit.birthdayYear.$invalid">
+                        <span class="glyphicon glyphicon-remove icon-validation-error" aria-hidden="true"></span>
+                    </span>
+                </span>
+            </div>
+            <div class="form-group">
+                <button ng-click="saveUserProfile(formProfileEdit)" id="btn-save" type="submit" class="btn btn-success btn-sm">Save</button>
+            </div>
+        </form>
+    </div>
+</div>

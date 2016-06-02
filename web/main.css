@@ -79,6 +79,14 @@ a {
     text-decoration: none !important;
     cursor: pointer;
 }
+
+.icon-validation-ok {
+    color: green;
+}
+
+.icon-validation-error {
+    color: red;
+}
   
 [ng\:cloak], [ng-cloak], .ng-cloak {
     display: none !important;

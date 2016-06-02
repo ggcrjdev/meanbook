@@ -13,10 +13,20 @@ define([], function() {
     return host;
   }
 
-  function formatTimestamp(timestamp) {
-    var dateToFormat = new Date(timestamp);
-    var formattedDate = dateToFormat.toISOString();
-    return formattedDate.replace('T', ' ').split('.')[0];
+  function formatTimestamp(timestamp, style) {
+    var timestampFormatted = null;
+    if (timestamp) {
+      var dateToFormat = new Date(timestamp);
+      var formattedDate = dateToFormat.toISOString();
+      if (style === 'date') {
+        timestampFormatted = formattedDate.split('T')[0];
+      } else if (style === 'datetime') {
+        timestampFormatted = formattedDate.replace('T', ' ').split('.')[0];
+      } else {
+        timestampFormatted = formattedDate.replace('T', ' ').split('.')[0];
+      }
+    }
+    return timestampFormatted;
   }
 
   /*** Export ***/

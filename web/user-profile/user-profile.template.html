@@ -2,6 +2,22 @@
     <div class="col-md-3">
     </div>
     <div class="col-md-9">
-        <span>Login: </span><span>{{user.username}}</span>
+    	<div class="form-group">
+	        <strong>Login: </strong><span>{{user.username}}</span>
+    	</div>
+    	<div class="form-group">
+	        <strong>Name: </strong><span>{{user.fullName()}}</span>
+    	</div>
+        <div class="form-group">
+            <strong>E-mail: </strong><span>{{user.email}}</span>
+        </div>
+    	<div class="form-group">
+	        <strong>Birthday: </strong><span>{{user.birthday | formatTimestamp:'date'}}</span>
+    	</div>
+    	<div class="form-group">
+            <a href="#!/user-profile-edit" id="btn-edit">Edit</a>
+            <span> | </span>
+            <a href="#!/timeline" id="btn-back-timeline">Back to your timeline</a>
+    	</div>
     </div>
 </div>

@@ -170,8 +170,20 @@ define([], function() {
     var loadUsersTimer = null;
     var entity = {
       username: null,
+      firstName: null,
+      lastName: null,
+      email: null,
+
+      birthday: null,
+      birthdayDay: null,
+      birthdayMonth: null,
+      birthdayYear: null,
+
       loggedIn: function() {
         return this.username != null;
+      },
+      fullName: function() {
+        return (this.lastName) ? this.firstName + ' ' + this.lastName : this.firstName;
       },
       clear: function() {
         this.onlineUsers = [];
@@ -194,6 +206,12 @@ define([], function() {
       }, messageService.errorHandling);
     };
 
+    function saveUser(callback) {
+      entity.birthday = new Date(entity.birthdayYear, entity.birthdayMonth - 1, entity.birthdayDay, 0, 0, 0, 0);
+      // TODO: Implement save user on server-side.
+      if (callback)
+        callback(null);
+    };
     function loadCurrentUser(callback) {
       meanBookApi.currentUser().then(function(response) {
         if (response.data && response.data.authenticated) {
@@ -206,6 +224,7 @@ define([], function() {
       entity: entity,
       login: login,
       logout: logout,
+      saveUser: saveUser,
       loadCurrentUser: loadCurrentUser
     };
   }
