@@ -12,7 +12,7 @@
         <div class="collapse navbar-collapse" id="mb-main-menu">
             <ul ng-show="user.loggedIn()" ng-cloak class="nav navbar-nav navbar-right">
                 <li class="active">
-                    <a ng-click="switchTimeline(user.username)" id="btn-home">
+                    <a ng-click="switchToHome()" href="#!/timeline" id="btn-home">
                         <span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{user.username}}
                     </a>
                 </li>
@@ -22,7 +22,7 @@
                     </a>
                 </li>
                 <li class="active">
-                    <a ng-click="logout()" id="btn-logout">
+                    <a ng-click="logout()" href="#!/timeline" id="btn-logout">
                         <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout
                     </a>
                 </li>

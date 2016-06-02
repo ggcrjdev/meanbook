@@ -3,6 +3,9 @@ define([], function() {
     $scope.user = userService.entity;
     $scope.messageManager = messageService.entity;
 
+    $scope.switchToHome = function() {
+      timelineService.switchTimeline(userService.entity.username);
+    };
     $scope.login = function() {
       var that = this;
       userService.login(that.formUserUsername, function(responseData) {
