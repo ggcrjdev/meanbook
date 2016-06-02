@@ -1,4 +1,4 @@
-define([], function() {
+define(['angular'], function(angular) {
   function meanBookApi($http, meanBookApiUrl) {
     var apiUrl = meanBookApiUrl;
     var urlsByMethod = {
@@ -177,6 +177,7 @@ define([], function() {
 
   function userService(messageService, meanBookApi) {
     var entity = {
+      id: null,
       username: null,
       firstName: null,
       lastName: null,
@@ -185,7 +186,6 @@ define([], function() {
       birthdayDay: null,
       birthdayMonth: null,
       birthdayYear: null,
-
       loggedIn: function() {
         return this.username != null;
       },
@@ -194,18 +194,12 @@ define([], function() {
       },
       displayName: function() {
         return this.username;
-      },
-      clear: function() {
-        this.username = null;
-        this.username = null;
-        this.firstName = null;
-        this.lastName = null;
-        this.email = null;
-        this.birthday = null;
-        this.birthdayDay = null;
-        this.birthdayMonth = null;
-        this.birthdayYear = null;
       }
+    };
+    var emptyEntity = angular.copy(entity);
+    
+    function clearEntity() {
+      angular.copy(emptyEntity, entity);
     };
 
     function login(username, callback) {
@@ -226,7 +220,7 @@ define([], function() {
     };
     function logout(callback) {
       meanBookApi.logout(entity.username).then(function(response) {
-        entity.clear();
+        clearEntity();
         if (callback)
           callback(response.data);
       }, messageService.errorHandling);
