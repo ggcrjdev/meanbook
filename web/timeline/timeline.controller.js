@@ -47,10 +47,6 @@ define([], function() {
       timelineService.likeComment(commentId, postId, function(responseData) {
       });
     };
-
-    $scope.formatTimestamp = function(timestamp) {
-      return timelineService.formatTimestamp(timestamp);
-    };
   }
 
   /*** Export ***/

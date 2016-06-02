@@ -18,7 +18,10 @@ function($, angular, ngRoute, services, controllers, utils) {
   module.service('messageService', services.messageService);
   module.service('userService', services.userService);
   module.controller('meanBookController', controllers.meanBookController);
-
+  module.filter('formatTimestamp', function() {
+    return utils.formatTimestamp;
+  });
+  
   module.config([
     '$locationProvider', 
     '$routeProvider',

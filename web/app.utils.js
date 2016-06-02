@@ -13,8 +13,15 @@ define([], function() {
     return host;
   }
 
+  function formatTimestamp(timestamp) {
+    var dateToFormat = new Date(timestamp);
+    var formattedDate = dateToFormat.toISOString();
+    return formattedDate.replace('T', ' ').split('.')[0];
+  }
+
   /*** Export ***/
   return {
-    getCurrentHostName: getCurrentHostName
+    getCurrentHostName: getCurrentHostName,
+    formatTimestamp: formatTimestamp
   };
 });

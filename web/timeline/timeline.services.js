@@ -81,12 +81,6 @@ define([], function() {
       }, messageService.errorHandling);
     };
 
-    function formatTimestamp(timestamp) {
-      var dateToFormat = new Date(timestamp);
-      var formattedDate = dateToFormat.toISOString();
-      return formattedDate.replace('T', ' ').split('.')[0];
-    };
-
     return {
       entity: entity,
       switchTimeline: switchTimeline,
@@ -94,8 +88,7 @@ define([], function() {
       likePost: likePost,
       makeComment: makeComment,
       likeComment: likeComment,
-      loadPosts: loadPosts,
-      formatTimestamp: formatTimestamp
+      loadPosts: loadPosts
     };
   }
 

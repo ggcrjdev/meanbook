@@ -2,7 +2,7 @@
     <div class="poster-info">
         <span class="poster">{{comment.author}}</span>
         <span class="action">commented on </span>
-        <span class="time">{{formatTimestamp(comment.timestamp)}}</span>
+        <span class="time">{{comment.timestamp | formatTimestamp}}</span>
     </div>
     <div class="post-body">{{comment.text}}</div>
     <div class="post-actions">
