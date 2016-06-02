@@ -11,6 +11,7 @@ define([], function() {
       userService.login(that.formUserUsername, function(responseData) {
         $scope.$broadcast('LoggedIn');
         that.formUserUsername = null;
+        messageService.clearMessages();
       });
     };
     $scope.logout = function() {
