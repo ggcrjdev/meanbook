@@ -7,7 +7,7 @@ var AppError = function(code, key, detail) {
 var routerUtils = {
   errorMessages: {
     MONGODB_QUERY_EXEC_ERROR: new AppError(100, 'MONGODB_QUERY_EXEC_ERROR', 'Error to access your data in database'),
-    APP_USER_NOT_FOUND: new AppError(200, 'APP_USER_NOT_FOUND', 'Define an user to access this app'),
+    APP_USER_NOT_FOUND: new AppError(200, 'APP_USER_NOT_FOUND', 'Your username is required to access the app'),
     UNKNOW_ERROR: new AppError(999, 'UNKNOW_ERROR', 'Unknow error')
   }
 };
