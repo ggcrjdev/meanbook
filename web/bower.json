@@ -1,15 +1,12 @@
 {
   "name": "meanbook-web",
-  "authors": [
-    "gustavo.gomes <gustavo.gomesc@gmail.com>"
-  ],
   "description": "MEANBook Web Module",
-  "main": "",
-  "moduleType": [
-    "node"
+  "version": "1.1.0",
+  "authors": [
+    "Gustavo Gomes <gustavo.gomesc@gmail.com>"
   ],
+  "main": "main.js",
   "license": "MIT",
-  "homepage": "",
   "ignore": [
     "**/.*",
     "node_modules",
