@@ -123,6 +123,7 @@ define([], function() {
   }
 
   function messageService($timeout, defaultLoadUsersTimeout) {
+    var clearMessagesTimer = null;
     var entity = {
       messages: [],
       clear: function() {
@@ -142,7 +143,9 @@ define([], function() {
         code: code
       };
       entity.messages.push(messageData);
-      $timeout(clearMessages, defaultLoadUsersTimeout);
+      if (clearMessagesTimer)
+        $timeout.cancel(clearMessagesTimer);
+      clearMessagesTimer = $timeout(clearMessages, defaultLoadUsersTimeout);
     };
     function addErrorMessage(message, code) {
       addMessage(message, 'error', code);
@@ -173,7 +176,6 @@ define([], function() {
   }
 
   function userService(messageService, meanBookApi) {
-    var loadUsersTimer = null;
     var entity = {
       username: null,
       firstName: null,
