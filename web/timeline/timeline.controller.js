@@ -1,7 +1,26 @@
 define([], function() {
-  function timelineController($scope, onlineUsersService, timelineService) {
+  function timelineController($scope, userService, onlineUsersService, timelineService) {
     $scope.timeline = timelineService.entity;
     $scope.onlineUsers = onlineUsersService.entity;
+
+    $scope.$on('LoggedIn', function() {
+      onlineUsersService.startPulling();
+      timelineService.loadPosts(userService.entity.username);
+      console.log('[timelineController]: onLoggedIn.');
+    });
+    $scope.$on('LoadedCurrentUser', function() {
+      onlineUsersService.startPulling();
+      timelineService.loadPosts(userService.entity.username);
+      console.log('[timelineController]: onLoadedCurrentUser.');
+    });
+    $scope.$on('ClickedHome', function() {
+      timelineService.switchTimeline(userService.entity.username);
+      console.log('[timelineController]: onClickedHome.');
+    });
+    $scope.$on('LoggedOut', function() {
+      onlineUsersService.stopPulling();
+      console.log('[timelineController]: onLoggedOut.');
+    });
 
     $scope.switchTimeline = function(username) {
       timelineService.loadPosts(username);

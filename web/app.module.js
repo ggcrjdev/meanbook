@@ -33,10 +33,9 @@ function($, angular, ngRoute, services, controllers, utils) {
       console.log('[Angular]: Config block executed.');
     }
   ]);
-  module.run(function(userService, onlineUsersService, timelineService) {
+  module.run(function($rootScope, userService) {
     userService.loadCurrentUser(function(responseData) {
-      onlineUsersService.startPulling();
-      timelineService.loadPosts(responseData.username);
+      $rootScope.$broadcast('LoadedCurrentUser');
       console.log('[Angular]: Run block executed. Loaded current user.');
     });
     console.log('[Angular]: Run block executed.');

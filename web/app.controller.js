@@ -1,22 +1,21 @@
 define([], function() {
-  function meanBookController($scope, messageService, userService, onlineUsersService, timelineService) {
+  function meanBookController($scope, messageService, userService) {
     $scope.user = userService.entity;
     $scope.messageManager = messageService.entity;
 
     $scope.switchToHome = function() {
-      timelineService.switchTimeline(userService.entity.username);
+      $scope.$broadcast('ClickedHome');
     };
     $scope.login = function() {
       var that = this;
       userService.login(that.formUserUsername, function(responseData) {
-        onlineUsersService.startPulling();
-        timelineService.loadPosts(that.formUserUsername);
+        $scope.$broadcast('LoggedIn');
         that.formUserUsername = null;
       });
     };
     $scope.logout = function() {
       userService.logout(function(responseData) {
-        onlineUsersService.stopPulling();
+        $scope.$broadcast('LoggedOut');
       });
     };
   }
