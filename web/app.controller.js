@@ -1,7 +1,7 @@
 define([], function() {
   return function($scope, messageService, userService) {
     $scope.user = userService.entity;
-    $scope.messageManager = messageService.entity;
+    $scope.messageWrapper = messageService.entity;
 
     $scope.switchToHome = function() {
       $scope.$broadcast('ClickedHome');
@@ -12,11 +12,14 @@ define([], function() {
         $scope.$broadcast('LoggedIn');
         that.formUserUsername = null;
         messageService.clearMessages();
+        messageService.addInfoMessage('Welcome ' + responseData.username + '!');
       });
     };
     $scope.logout = function() {
       userService.logout(function(responseData) {
         $scope.$broadcast('LoggedOut');
+        messageService.clearMessages();
+        messageService.addInfoMessage('Bye');
       });
     };
   };

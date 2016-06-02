@@ -1,5 +1,5 @@
-<div ng-repeat="message in messageManager.messages" id="messagesContainer" class="alert alert-danger messages">
-  <div ng-show="message.type == 'error'" style="color: red;">Error code {{message.code}}: {{message.detail}}</div>
-  <div ng-show="message.type == 'warn'">{{message.summary}}</div>
-  <div ng-show="message.type == 'info'">{{message.summary}}</div>
+<div ng-repeat="message in messageWrapper.messages" id="messagesContainer" class="messages">
+  <div ng-show="message.type == 'error'" class="alert alert-danger" role="alert">Error code {{message.code}}: {{message.text}}</div>
+  <div ng-show="message.type == 'warn'" class="alert alert-warning" role="alert">{{message.text}}</div>
+  <div ng-show="message.type == 'info'" class="alert alert-success" role="alert">{{message.text}}</div>
 </div>

@@ -124,24 +124,45 @@ define([], function() {
       }
     };
 
-    function addErrorMessage(messageData) {
-      if (messageData && messageData.type === 'error') {
-        entity.messages.push(messageData);
-        $timeout(clearMessages, defaultLoadUsersTimeout);
-      }
+    function addMessage(message, type, code) {
+      if (!type)
+        type = 'info';
+      if (type !== 'error')
+        code = null;
+
+      var messageData = {
+        type: type,
+        text: message,
+        code: code
+      };
+      entity.messages.push(messageData);
+      $timeout(clearMessages, defaultLoadUsersTimeout);
     };
-    function errorHandling(response) {
-      addErrorMessage(response.data);
+    function addErrorMessage(message, code) {
+      addMessage(message, 'error', code);
+    };
+    function addWarnMessage(message) {
+      addMessage(message, 'warn');
+    };
+    function addInfoMessage(message) {
+      addMessage(message, 'info');
     };
     function clearMessages() {
       entity.clear();
     };
 
+    function errorHandling(response) {
+      if (response.data && response.data.type === 'error')
+        addErrorMessage(response.data.detail, response.data.code);
+    };
+
     return {
       entity: entity,
+      clearMessages: clearMessages,
       addErrorMessage: addErrorMessage,
-      errorHandling: errorHandling,
-      clearMessages: clearMessages
+      addWarnMessage: addWarnMessage,
+      addInfoMessage: addInfoMessage,
+      errorHandling: errorHandling
     };
   }
 
