@@ -2,9 +2,9 @@ require([
   'angular', 
   'timeline/timeline.services', 
   'timeline/timeline.controller'], 
-function(angular, services, controllers) {
+function(angular, services, controller) {
   var module = angular.module('timeline', []);
   module.service('onlineUsersService', services.onlineUsersService);
   module.service('timelineService', services.timelineService);
-  module.controller('timelineController', controllers.timelineController);
+  module.controller('timelineController', controller);
 });

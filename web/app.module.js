@@ -7,7 +7,7 @@ require([
   'app.utils', 
   'timeline/timeline.module', 
   'bootstrap'], 
-function($, angular, ngRoute, services, controllers, utils) {
+function($, angular, ngRoute, services, controller, utils) {
   var moduleName = 'meanBookApp';
   var module = angular.module(moduleName, [ 'timeline', 'ngRoute' ]);
   // Configuration for Spring Restful API on Wildfly (Java Server).
@@ -17,7 +17,7 @@ function($, angular, ngRoute, services, controllers, utils) {
   module.service('meanBookApi', services.meanBookApi);
   module.service('messageService', services.messageService);
   module.service('userService', services.userService);
-  module.controller('meanBookController', controllers.meanBookController);
+  module.controller('meanBookController', controller);
   module.filter('formatTimestamp', function() {
     return utils.formatTimestamp;
   });

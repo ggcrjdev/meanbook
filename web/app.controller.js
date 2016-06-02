@@ -1,5 +1,5 @@
 define([], function() {
-  function meanBookController($scope, messageService, userService) {
+  return function($scope, messageService, userService) {
     $scope.user = userService.entity;
     $scope.messageManager = messageService.entity;
 
@@ -18,10 +18,5 @@ define([], function() {
         $scope.$broadcast('LoggedOut');
       });
     };
-  }
-
-  /*** Export ***/
-  return {
-    meanBookController: meanBookController
   };
 });

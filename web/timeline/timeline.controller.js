@@ -1,5 +1,5 @@
 define([], function() {
-  function timelineController($scope, userService, onlineUsersService, timelineService) {
+  return function($scope, userService, onlineUsersService, timelineService) {
     $scope.timeline = timelineService.entity;
     $scope.onlineUsers = onlineUsersService.entity;
 
@@ -47,10 +47,5 @@ define([], function() {
       timelineService.likeComment(commentId, postId, function(responseData) {
       });
     };
-  }
-
-  /*** Export ***/
-  return {
-    timelineController: timelineController
   };
 });
