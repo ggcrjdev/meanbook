@@ -43,6 +43,21 @@ userService.prototype = {
       }
     });
   },
+  saveUser: function(userData, callback) {
+    var that = this;
+    that.findByLogin(userData.username, function(err, user) {
+      if (err) {
+        callback(err, user);
+      } else if (user) {
+        user.firstName = userData.firstName;
+        user.lastName = userData.lastName;
+        user.email = userData.email;
+        user.birthday = new Date(userData.birthday);
+        user.save(ServiceUtils.mongooseCallback);
+        callback(err, user);
+      }
+    });
+  },
   findById: function(userId, callback) {
     User.findOne({_id: userId}, callback);
   },

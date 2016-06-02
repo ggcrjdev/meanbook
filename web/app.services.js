@@ -4,6 +4,7 @@ define([], function() {
     var urlsByMethod = {
       listUsers: apiUrl + '/users/list',
       currentUser: apiUrl + '/users/current',
+      saveUser: apiUrl + '/users/edit',
       login: apiUrl + '/users/login',
       logout: apiUrl + '/users/logout',
       listPosts: apiUrl + '/posts/list',
@@ -18,6 +19,9 @@ define([], function() {
     };
     function currentUser() {
       return doPostRequest('currentUser');
+    };
+    function saveUser(userData) {
+      return doPutRequest('saveUser', userData);
     };
     function login(username, password) {
       var data = {
@@ -65,15 +69,16 @@ define([], function() {
       });
     };
 
-    /*****Utilities functions for HTTP request/response*****/
+    /*** Utilities functions for HTTP request/response ***/
     function doGetRequest(methodName, data, successCallback, errorCallback) {
       return doRequest(methodName, 'GET', data, successCallback, errorCallback);
     };
-
     function doPostRequest(methodName, data, successCallback, errorCallback) {
       return doRequest(methodName, 'POST', data, successCallback, errorCallback);
     };
-
+    function doPutRequest(methodName, data, successCallback, errorCallback) {
+      return doRequest(methodName, 'PUT', data, successCallback, errorCallback);
+    };
     function doRequest(methodName, httpMethod, data, successCallback, errorCallback) {
       var requestUrl = urlsByMethod[methodName];
       if (!requestUrl) {
@@ -104,6 +109,7 @@ define([], function() {
     return {
       listUsers: listUsers,
       currentUser: currentUser,
+      saveUser: saveUser,
       login: login,
       logout: logout,
 
@@ -194,6 +200,15 @@ define([], function() {
     function login(username, callback) {
       meanBookApi.login(username).then(function(response) {
         entity.username = response.data.username;
+        entity.firstName = response.data.firstName;
+        entity.lastName = response.data.lastName;
+        entity.email = response.data.email;
+        if (response.data.birthday) {
+          entity.birthday = new Date(response.data.birthday);
+          entity.birthdayDay = response.data.birthdayDay;
+          entity.birthdayMonth = response.data.birthdayMonth;
+          entity.birthdayYear = response.data.birthdayYear;
+        }
         if (callback)
           callback(response.data);
       }, messageService.errorHandling);
@@ -208,9 +223,10 @@ define([], function() {
 
     function saveUser(callback) {
       entity.birthday = new Date(entity.birthdayYear, entity.birthdayMonth - 1, entity.birthdayDay, 0, 0, 0, 0);
-      // TODO: Implement save user on server-side.
-      if (callback)
-        callback(null);
+      meanBookApi.saveUser(entity).then(function(response) {
+        if (callback)
+          callback(response.data);
+      }, messageService.errorHandling);
     };
     function loadCurrentUser(callback) {
       meanBookApi.currentUser().then(function(response) {

@@ -30,6 +30,9 @@ usersRouter.prototype = {
     that.router.post('/current', function(req, res) {
       that.currentUser(req, res);
     });
+    that.router.put('/edit', function(req, res) {
+      that.saveUser(req, res);
+    });
     that.router.post('/login', function(req, res) {
       that.login(req, res);
     });
@@ -57,6 +60,21 @@ usersRouter.prototype = {
       username: username
     };
     res.json(responseData);
+  },
+  saveUser: function(req, res) {
+    var that = this;
+    var data = req.body;
+    if (data.username) {
+      that.userService.saveUser(data, function(err, user) {
+        if (err) {
+          RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
+        } else {
+          res.json(that.createUserResponseData(user));
+        }
+      });
+    } else {
+      RouterUtils.sendErrorResponse('APP_USER_NOT_FOUND', res);
+    }
   },
   list: function(req, res) {
     var that = this;
@@ -113,6 +131,13 @@ usersRouter.prototype = {
     return {
       id: userEntity.login,
       username: userEntity.login,
+      firstName: userEntity.firstName,
+      lastName: userEntity.lastName,
+      email: userEntity.email,
+      birthday: (userEntity.birthday) ? userEntity.birthday: null,
+      birthdayDay: (userEntity.birthday) ? userEntity.birthday.getDate() : null,
+      birthdayMonth: (userEntity.birthday) ? userEntity.birthday.getMonth() + 1 : null,
+      birthdayYear: (userEntity.birthday) ? userEntity.birthday.getFullYear() : null,
       loginDate: userEntity.lastAccess
     };
   }

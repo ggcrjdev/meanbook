@@ -6,6 +6,25 @@ var userSchema = new Schema({
         required: true,
         trim: true
     },
+    firstName: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    lastName: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    email: {
+        type: String,
+        required: false,
+        trim: true
+    },
+    birthday: {
+        type: Date,
+        required: false,
+    },
     creationDate: {
         type: Date,
         required: true,
