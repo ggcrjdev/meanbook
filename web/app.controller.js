@@ -1,3 +1,4 @@
+"use strict";
 define([], function() {
   return function($scope, $location, messageService, userService) {
     $scope.user = userService.entity;

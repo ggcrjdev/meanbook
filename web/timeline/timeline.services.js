@@ -1,3 +1,4 @@
+"use strict";
 define([], function() {
   function onlineUsersService($interval, defaultLoadUsersTimeout, messageService, meanBookApi) {
     var loadUsersTimer = null;

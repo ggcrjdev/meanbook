@@ -1,3 +1,4 @@
+"use strict";
 define(['angular'], function(angular) {
   function meanBookApi($http, meanBookApiUrl) {
     var apiUrl = meanBookApiUrl;
