@@ -1,3 +1,4 @@
+"use strict";
 var config = require('./config');
 var consoleStamp = require('console-stamp');
 var morganLogger = require('morgan');

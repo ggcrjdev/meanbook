@@ -1,3 +1,4 @@
+"use strict";
 var AppError = function(code, key, detail) {
   this.code = code;
   this.key = key;

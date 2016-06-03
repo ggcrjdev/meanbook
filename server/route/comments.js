@@ -1,3 +1,4 @@
+"use strict";
 var PostService = require('../service/postservice').PostService;
 var CommentService = require('../service/commentservice').CommentService;
 var RouterUtils = require('./routerutils').RouterUtils;

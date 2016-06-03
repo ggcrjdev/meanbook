@@ -1,3 +1,4 @@
+"use strict";
 var UserService = require('../service/userservice').UserService;
 var RouterUtils = require('./routerutils').RouterUtils;
 var usersRouter = function(express, apiBaseUri) {

@@ -1,3 +1,4 @@
+"use strict";
 var mongodbUrl = 'mongodb://localhost:27017/meanbook';
 if (process.env.NODE_ENV === 'production') {
   mongodbUrl = 'mongodb://ds061385.mongolab.com:61385/heroku_8b3ctgjk';

@@ -1,3 +1,4 @@
+"use strict";
 var mongoose = require('mongoose');
 var ServiceUtils = require('./serviceutils').ServiceUtils;
 var Comment = require('../domain/model/comment').Comment;

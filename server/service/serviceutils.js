@@ -1,3 +1,4 @@
+"use strict";
 var serviceUtils = {};
 serviceUtils.mongooseCallback = function(err, result) {
   if (err) {

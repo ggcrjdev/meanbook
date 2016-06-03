@@ -1,3 +1,4 @@
+"use strict";
 var modelComment = require('./comment');
 
 var mongoose = require('mongoose');
@@ -19,7 +20,7 @@ var postSchema = new Schema({
     },
     likes: {
         type: Number, 
-        min: 0, 
+        min: 1, 
         max: 99999999,
         default: 0
     },

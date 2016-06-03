@@ -1,3 +1,4 @@
+"use strict";
 var PostService = require('../service/postservice').PostService;
 var RouterUtils = require('./routerutils').RouterUtils;
 var postsRouter = function(express, apiBaseUri, usersRouter) {
