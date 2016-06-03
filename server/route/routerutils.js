@@ -30,10 +30,10 @@ var routerUtils = {
     });
   },
   sendInfoResponse: function(res, message) {
-    sendTypedResponse(res, 'info', message);
+    this.sendTypedResponse(res, 'info', message);
   },
   sendWarnResponse: function(res, message) {
-    sendTypedResponse(res, 'warn', message);
+    this.sendTypedResponse(res, 'warn', message);
   },
   sendTypedResponse: function(res, type, message) {
     res.json({
