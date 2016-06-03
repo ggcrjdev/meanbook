@@ -176,30 +176,34 @@ define(['angular'], function(angular) {
   }
 
   function userService(messageService, meanBookApi) {
-    var entity = {
-      id: null,
-      username: null,
-      firstName: null,
-      lastName: null,
-      email: null,
-      birthday: null,
-      birthdayDay: null,
-      birthdayMonth: null,
-      birthdayYear: null,
-      loggedIn: function() {
+    var User = function() {
+      this.id = null;
+      this.username = null;
+      this.firstName = null;
+      this.lastName = null;
+      this.email = null;
+      this.birthday = null;
+      this.birthdayDay = null;
+      this.birthdayMonth = null;
+      this.birthdayYear = null;
+
+      this.loggedIn = function() {
         return this.username != null;
-      },
-      fullName: function() {
+      };
+      this.fullName = function() {
         return (this.lastName) ? this.firstName + ' ' + this.lastName : this.firstName;
-      },
-      displayName: function() {
+      };
+      this.displayName = function() {
         return this.username;
-      }
+      };
     };
-    var emptyEntity = angular.copy(entity);
+    var entity = new User();
+    var editableEntity = new User();
+    var emptyEntity = new User();
     
     function clearEntity() {
       angular.copy(emptyEntity, entity);
+      angular.copy(emptyEntity, editableEntity);
     };
 
     function login(username, callback) {
@@ -226,9 +230,17 @@ define(['angular'], function(angular) {
       }, messageService.errorHandling);
     };
 
+    function prepareSaveUser() {
+      angular.copy(entity, editableEntity);
+    };
+    function cancelSaveUser() {
+      angular.copy(emptyEntity, editableEntity);
+    };
     function saveUser(callback) {
-      entity.birthday = new Date(entity.birthdayYear, entity.birthdayMonth - 1, entity.birthdayDay, 0, 0, 0, 0);
-      meanBookApi.saveUser(entity).then(function(response) {
+      editableEntity.birthday = new Date(editableEntity.birthdayYear, 
+        editableEntity.birthdayMonth - 1, editableEntity.birthdayDay, 0, 0, 0, 0);
+      meanBookApi.saveUser(editableEntity).then(function(response) {
+        angular.copy(editableEntity, entity);
         if (callback)
           callback(response.data);
       }, messageService.errorHandling);
@@ -243,8 +255,12 @@ define(['angular'], function(angular) {
 
     return {
       entity: entity,
+      editableEntity: editableEntity,
+
       login: login,
       logout: logout,
+      prepareSaveUser: prepareSaveUser,
+      cancelSaveUser: cancelSaveUser,
       saveUser: saveUser,
       loadCurrentUser: loadCurrentUser
     };

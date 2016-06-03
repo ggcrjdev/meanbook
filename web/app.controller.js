@@ -1,6 +1,7 @@
 define([], function() {
   return function($scope, $location, messageService, userService) {
     $scope.user = userService.entity;
+    $scope.editableUser = userService.editableEntity;
     $scope.messageWrapper = messageService.entity;
 
     $scope.switchToHome = function() {
@@ -23,7 +24,13 @@ define([], function() {
       });
     };
 
-    $scope.saveUserProfile = function(form) {
+    $scope.prepareSaveUser = function() {
+      userService.prepareSaveUser();
+    };
+    $scope.cancelSaveUser = function() {
+      userService.cancelSaveUser();
+    };
+    $scope.saveUser = function(form) {
       if (form.$invalid) {
         messageService.clearMessages();
         messageService.addWarnMessage('There are some fields with invalid values. Please correct them.');

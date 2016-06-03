@@ -15,9 +15,8 @@
 	        <strong>Birthday: </strong><span>{{user.birthday | formatTimestamp:'date'}}</span>
     	</div>
     	<div class="form-group">
-            <a href="#!/user-profile-edit" id="btn-edit">Edit</a>
-            <span> | </span>
-            <a href="#!/timeline" id="btn-back-timeline">Back to your timeline</a>
+            <a ng-click="prepareSaveUser()" href="#!/user-profile-edit" class="btn btn-sm" id="btn-edit">Edit</a>
+            <a href="#!/timeline" class="btn btn-sm" id="btn-back-timeline">Back to timeline</a>
     	</div>
     </div>
 </div>

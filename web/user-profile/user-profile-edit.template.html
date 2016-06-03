@@ -8,7 +8,7 @@
             </div>
             <div class="form-group">
                 <strong>First name: </span>
-                <input ng-model="user.firstName" required name="firstName" type="text" maxlength="30" class="input-sm" placeholder="Your first name..."></input>
+                <input ng-model="editableUser.firstName" required name="firstName" type="text" maxlength="30" class="input-sm" placeholder="Your first name..."></input>
                 <span ng-show="formProfileEdit.$submitted || formProfileEdit.firstName.$touched">
                     <span ng-show="formProfileEdit.firstName.$valid">
                         <span class="glyphicon glyphicon-ok icon-validation-ok" aria-hidden="true"></span>
@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <strong>Last name: </span>
-                <input ng-model="user.lastName" required name="lastName" type="text" maxlength="30" class="input-sm" placeholder="Your last name..."></input>
+                <input ng-model="editableUser.lastName" required name="lastName" type="text" maxlength="30" class="input-sm" placeholder="Your last name..."></input>
                 <span ng-show="formProfileEdit.$submitted || formProfileEdit.lastName.$touched">
                     <span ng-show="formProfileEdit.lastName.$valid">
                         <span class="glyphicon glyphicon-ok icon-validation-ok" aria-hidden="true"></span>
@@ -32,7 +32,7 @@
             </div>
             <div class="form-group">
                 <strong>E-mail: </span>
-                <input ng-model="user.email" required name="email" type="email" maxlength="200" class="input-sm" placeholder="Your e-mail address..."></input>
+                <input ng-model="editableUser.email" required name="email" type="email" maxlength="200" class="input-sm" placeholder="Your e-mail address..."></input>
                 <span ng-show="formProfileEdit.$submitted || formProfileEdit.email.$touched">
                     <span ng-show="formProfileEdit.email.$valid">
                         <span class="glyphicon glyphicon-ok icon-validation-ok" aria-hidden="true"></span>
@@ -44,11 +44,11 @@
             </div>
             <div class="form-group">
                 <strong>Birthday: </strong>
-                <select ng-model="user.birthdayDay" ng-options="item for item in daysSet() track by item" required name="birthdayDay" class="input-sm">
+                <select ng-model="editableUser.birthdayDay" ng-options="item for item in daysSet() track by item" required name="birthdayDay" class="input-sm">
                 </select>
-                <select ng-model="user.birthdayMonth" ng-options="item for item in monthsSet() track by item" required name="birthdayMonth" class="input-sm">
+                <select ng-model="editableUser.birthdayMonth" ng-options="item for item in monthsSet() track by item" required name="birthdayMonth" class="input-sm">
                 </select>
-                <select ng-model="user.birthdayYear" ng-options="item for item in yearsSet() track by item" required name="birthdayYear" class="input-sm">
+                <select ng-model="editableUser.birthdayYear" ng-options="item for item in yearsSet() track by item" required name="birthdayYear" class="input-sm">
                 </select>
                 <span ng-show="formProfileEdit.$submitted || formProfileEdit.birthdayDay.$touched || formProfileEdit.birthdayMonth.$touched || formProfileEdit.birthdayYear.$touched">
                     <span ng-show="formProfileEdit.birthdayDay.$valid &amp;&amp; formProfileEdit.birthdayMonth.$valid &amp;&amp; formProfileEdit.birthdayYear.$valid">
@@ -60,7 +60,8 @@
                 </span>
             </div>
             <div class="form-group">
-                <button ng-click="saveUserProfile(formProfileEdit)" id="btn-save" type="submit" class="btn btn-success btn-sm">Save</button>
+                <button ng-click="saveUser(formProfileEdit)" id="btn-save" type="submit" class="btn btn-success btn-sm">Save</button>
+                <a ng-click="cancelSaveUser()" href="#!/user-profile" class="btn btn-sm" id="btn-cancel-save">Cancel</a>
             </div>
         </form>
     </div>
