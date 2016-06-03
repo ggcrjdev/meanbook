@@ -3,8 +3,7 @@ var mongoose = require('mongoose');
 var ServiceUtils = require('./serviceutils').ServiceUtils;
 var User = require('../domain/model/user').User;
 
-var userService = function() {
-};
+var userService = function() {};
 userService.prototype = {
   init: function() {
   },

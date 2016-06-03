@@ -1,10 +1,10 @@
 "use strict";
 var UserService = require('../service/userservice').UserService;
 var RouterUtils = require('./routerutils').RouterUtils;
+
 var usersRouter = function(express, apiBaseUri) {
   this.init(express, apiBaseUri);
 };
-
 usersRouter.prototype = {
   init: function(express, apiBaseUri) {
     this.userService = new UserService();

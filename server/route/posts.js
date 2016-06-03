@@ -1,10 +1,10 @@
 "use strict";
 var PostService = require('../service/postservice').PostService;
 var RouterUtils = require('./routerutils').RouterUtils;
+
 var postsRouter = function(express, apiBaseUri, usersRouter) {
   this.init(express, apiBaseUri, usersRouter);
 };
-
 postsRouter.prototype = {
   init: function(express, apiBaseUri, usersRouter) {
     this.postService = new PostService();

@@ -2,11 +2,9 @@
 var ServiceUtils = require('./serviceutils').ServiceUtils;
 var Post = require('../domain/model/post').Post;
 
-var postService = function() {
-};
+var postService = function() {};
 postService.prototype = {
-  init: function() {
-  },
+  init: function() {},
   create: function(username, postText) {
     var post = new Post();
     post.content = postText;
@@ -54,10 +52,18 @@ postService.prototype = {
     });
   },
   findById: function(postId, callback) {
-    Post.findOne({_id: postId}, callback);
+    Post.findOne({
+      _id: postId
+    }, callback);
   },
   listByAuthor: function(username, callback) {
-    Post.find({by: username}, null, {sort: {creationDate: -1}}, callback);
+    Post.find({
+      by: username
+    }, null, {
+      sort: {
+        creationDate: -1
+      }
+    }, callback);
   },
   listAll: function(callback) {
     Post.find({}, callback);
@@ -65,5 +71,5 @@ postService.prototype = {
 };
 
 module.exports = {
-  PostService: postService 
+  PostService: postService
 };

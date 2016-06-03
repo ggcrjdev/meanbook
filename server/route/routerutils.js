@@ -10,41 +10,38 @@ var routerUtils = {
     MONGODB_QUERY_EXEC_ERROR: new AppError(100, 'MONGODB_QUERY_EXEC_ERROR', 'Error to access your data in database'),
     APP_USER_NOT_FOUND: new AppError(200, 'APP_USER_NOT_FOUND', 'Your username is required to access the app'),
     UNKNOW_ERROR: new AppError(999, 'UNKNOW_ERROR', 'Unknow error')
-  }
-};
+  },
+  sendErrorResponse: function(key, res, err, httpStatusCode) {
+    var errorMessage = this.errorMessages[key];
+    if (!errorMessage)
+      errorMessage = this.errorMessages['UNKNOW_ERROR'];
+    if (!httpStatusCode)
+      httpStatusCode = 500;
 
-routerUtils.sendErrorResponse = function(key, res, err, httpStatusCode) {
-  var errorMessage = routerUtils.errorMessages[key];
-  if (!errorMessage) {
-    errorMessage = routerUtils.errorMessages['UNKNOW_ERROR'];
-  }
-  if (!httpStatusCode) {
-    httpStatusCode = 500;
-  }
+    console.error('Execution error with code = [' + errorMessage.code + '] and summary [' + errorMessage.key);
+    console.error(err);
+    res.status(httpStatusCode).send({
+      type: 'error',
+      summary: errorMessage.key,
+      detail: errorMessage.detail,
 
-  console.error('Execution error with code = [' + errorMessage.code + '] and summary [' + errorMessage.key);
-  console.error(err);
-  res.status(httpStatusCode).send({
-    type: 'error',
-    summary: errorMessage.key,
-    detail: errorMessage.detail,
-
-    code: errorMessage.code,
-    cause: (err) ? err.message : null
-  });
-};
-routerUtils.sendInfoResponse = function(res, message) {
-  routerUtils.sendTypedResponse(res, 'info', message);
-};
-routerUtils.sendWarnResponse = function(res, message) {
-  routerUtils.sendTypedResponse(res, 'warn', message);
-};
-routerUtils.sendTypedResponse = function(res, type, message) {
-  res.json({
-    type: type,
-    summary: message,
-    detail: message
-  });
+      code: errorMessage.code,
+      cause: (err) ? err.message : null
+    });
+  },
+  sendInfoResponse: function(res, message) {
+    sendTypedResponse(res, 'info', message);
+  },
+  sendWarnResponse: function(res, message) {
+    sendTypedResponse(res, 'warn', message);
+  },
+  sendTypedResponse: function(res, type, message) {
+    res.json({
+      type: type,
+      summary: message,
+      detail: message
+    });
+  }
 };
 
 module.exports = {

@@ -2,10 +2,10 @@
 var PostService = require('../service/postservice').PostService;
 var CommentService = require('../service/commentservice').CommentService;
 var RouterUtils = require('./routerutils').RouterUtils;
+
 var commentsRouter = function(express, apiBaseUri, usersRouter) {
   this.init(express, apiBaseUri, usersRouter);
 };
-
 commentsRouter.prototype = {
   init: function(express, apiBaseUri, usersRouter) {
     this.postService = new PostService();
