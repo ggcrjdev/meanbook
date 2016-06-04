@@ -51,13 +51,13 @@ usersRouter.prototype = {
     return currentUsername;
   },
   isLoggedIn: function(req, res) {
-    return this.getCurrentUserName(req, res) != null;
+    return this.getCurrentUserName(req, res) !== null;
   },
 
   currentUser: function(req, res) {
     var username = this.getCurrentUserName(req, res);
     var responseData = {
-      authenticated: (username != null),
+      authenticated: (username !== null),
       username: username
     };
     res.json(responseData);
@@ -83,7 +83,7 @@ usersRouter.prototype = {
       if (err) {
         RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
       } else {
-        var loggedUsers = new Array();
+        var loggedUsers = [];
         for (var i = 0; i < results.length; i++) {
           loggedUsers.push(that.createUserResponseData(results[i]));
         }
@@ -118,7 +118,9 @@ usersRouter.prototype = {
     var loggedOut = false;
     if (this.isLoggedIn(req, res)) {
       var currentUserName = this.getCurrentUserName(req, res);
-      that.userService.markActive(currentUserName, false, function(err, user) {
+      that.userService.markActive(currentUserName, false, function(err, result) {
+        if (err)
+          console.log('The user ' + currentUserName + ' logged out, but cannot be passed to inactive state.');
       });
       req.session.destroy(function(err) {});
       loggedOut = true;

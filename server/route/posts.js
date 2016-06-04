@@ -44,10 +44,8 @@ postsRouter.prototype = {
   list: function(req, res) {
     var that = this;
     var currentUserName = req.params.username;
-    if (!currentUserName) {
+    if (!currentUserName)
       currentUserName = that.usersRouter.getCurrentUserName(req, res);
-    }
-    console.log('Loading posts of the user ' + currentUserName);
     
     that.postService.listByAuthor(currentUserName, function(err, results) {
       if (err) {
@@ -100,16 +98,22 @@ postsRouter.prototype = {
     var that = this;
     var data = req.body;
     var currentUserName = that.usersRouter.getCurrentUserName(req, res);
-    var post = that.postService.create(currentUserName, data.text);
-    var responseData = {
-      id: post._id,
-      authorId: post.by,
-      author: post.by,
-      timestamp: post.creationDate,
-      text: post.content
-    };
-    console.log('Created post with id ' + post._id);
-    res.json(responseData);
+    that.postService.create(currentUserName, data.text, function(err, result) {
+      if (err) {
+        RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
+      } else {
+        var post = result;
+        var responseData = {
+          id: post._id,
+          authorId: post.by,
+          author: post.by,
+          timestamp: post.creationDate,
+          text: post.content
+        };
+        console.log('Created post with id ' + post._id);
+        res.json(responseData);
+      }
+    });
   },
   like: function(req, res) {
     var that = this;

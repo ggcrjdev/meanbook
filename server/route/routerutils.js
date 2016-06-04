@@ -14,7 +14,7 @@ var routerUtils = {
   sendErrorResponse: function(key, res, err, httpStatusCode) {
     var errorMessage = this.errorMessages[key];
     if (!errorMessage)
-      errorMessage = this.errorMessages['UNKNOW_ERROR'];
+      errorMessage = this.errorMessages.UNKNOW_ERROR;
     if (!httpStatusCode)
       httpStatusCode = 500;
 

@@ -5,20 +5,21 @@ var Post = require('../domain/model/post').Post;
 var postService = function() {};
 postService.prototype = {
   init: function() {},
-  create: function(username, postText) {
+  create: function(username, postText, callback) {
     var post = new Post();
     post.content = postText;
     post.by = username;
     post.comments = [];
-    post.save(ServiceUtils.mongooseCallback);
-    return post;
+    post.save(function(err, result) {
+      callback(err, result);
+    });
   },
   doLike: function(postId, callback) {
     this.findById(postId, function(err, post) {
       if (post) {
         post.likes += 1;
-        post.save(function(err) {
-          callback(err, post);
+        post.save(function(err, result) {
+          callback(err, result);
         });
       } else {
         console.log('Not found the post with id ' + postId);
@@ -35,8 +36,9 @@ postService.prototype = {
           }
         }
       }
-      post.save(ServiceUtils.mongooseCallback);
-      callback(err, post);
+      post.save(function(err, result) {
+        callback(err, result);
+      });
     });
   },
   addComment: function(postId, comment, callback) {
@@ -46,8 +48,9 @@ postService.prototype = {
           post.comments = [];
         }
         post.comments.push(comment);
-        post.save(ServiceUtils.mongooseCallback);
-        callback(err, post);
+        post.save(function(err, result) {
+          callback(err, result);
+        });
       }
     });
   },

@@ -43,21 +43,27 @@ commentsRouter.prototype = {
     var that = this;
     var data = req.body;
     var currentUserName = that.usersRouter.getCurrentUserName(req, res);
-    var comment = that.commentService.create(data.postId, currentUserName, data.text);
-    that.postService.addComment(data.postId, comment, function(err, result) {
-      if (err) {
-        RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
+    that.commentService.create(data.postId, currentUserName, data.text, function(errCreateCommet, resultCreateCommet) {
+      if (errCreateCommet) {
+        RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, errCreateCommet);
       } else {
-        var responseData = {
-          postId: result._id,
-          id: comment._id,
-          authorId: comment.by,
-          author: comment.by,
-          timestamp: comment.creationDate,
-          text: comment.content
-        };
-        console.log('Created comment with id ' + comment._id);
-        res.json(responseData);
+        var comment = resultCreateCommet;
+        that.postService.addComment(data.postId, comment, function(err, result) {
+          if (err) {
+            RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
+          } else {
+            var responseData = {
+              postId: result._id,
+              id: comment._id,
+              authorId: comment.by,
+              author: comment.by,
+              timestamp: comment.creationDate,
+              text: comment.content
+            };
+            console.log('Created comment with id ' + comment._id);
+            res.json(responseData);
+          }
+        });
       }
     });
   },
@@ -65,11 +71,11 @@ commentsRouter.prototype = {
     var that = this;
     var data = req.body;
     if (data.commentId) {
-      that.commentService.doLike(data.commentId, function(err, resultComment) {
+      that.commentService.doLike(data.commentId, function(err, result) {
         if (err) {
           RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
         } else {
-          that.likeCommentInPost(res, data.postId, resultComment);
+          that.likeCommentInPost(res, data.postId, result);
         }
       });
     }
@@ -77,8 +83,8 @@ commentsRouter.prototype = {
   likeCommentInPost: function(res, postId, comment) {
     var that = this;
     if (postId) {
-      that.postService.likeComment(postId, comment, function(errPost, resultPost) {
-        if (errPost) {
+      that.postService.likeComment(postId, comment, function(err, result) {
+        if (err) {
           RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
         } else {
           var responseData = {

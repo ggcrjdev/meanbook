@@ -7,17 +7,18 @@ var commentService = function() {};
 commentService.prototype = {
   init: function() {
   },
-  create: function(postId, username, commentText) {
+  create: function(postId, username, commentText, callback) {
     var comment = new Comment();
-    if (typeof postId == 'string') {
+    if (typeof postId === 'string') {
       comment.postId = new mongoose.Types.ObjectId(postId);
     } else {
       comment.postId = postId;
     }
     comment.content = commentText;
     comment.by = username;
-    comment.save(ServiceUtils.mongooseCallback);
-    return comment;
+    comment.save(function(err, result) {
+      callback(err, result);
+    });
   },
   doLike: function(commentId, callback) {
     this.findById(commentId, function(err, comment) {
