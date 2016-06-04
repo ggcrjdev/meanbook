@@ -21,6 +21,6 @@ var config = {
       keepAlive: 120
     }
   }
-}
+};
 
 module.exports = config;

@@ -20,7 +20,7 @@ var postSchema = new Schema({
     },
     likes: {
         type: Number, 
-        min: 1, 
+        min: 0, 
         max: 99999999,
         default: 0
     },
