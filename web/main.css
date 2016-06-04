@@ -3,16 +3,6 @@ body {
     overflow-y: scroll;
 }
  
-#frm-join {
-    color: #fff;
-}
- 
-#log {
-    font-size: 25px;
-    text-align: center;
-    color: red;
-}
- 
 .post {
     border-bottom: 1px solid #aaa;
     margin-top: 25px;
