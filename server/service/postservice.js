@@ -47,7 +47,7 @@ postService.prototype = {
         if (!post.comments) {
           post.comments = [];
         }
-        post.comments.push(comment);
+        post.comments.splice(0, 0, comment);
         post.save(function(err, result) {
           callback(err, result);
         });
