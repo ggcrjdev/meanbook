@@ -17,69 +17,69 @@ define(['angular'], function(angular) {
 
     function listUsers() {
       return doGetRequest('listUsers');
-    };
+    }
     function currentUser() {
       return doPostRequest('currentUser');
-    };
+    }
     function saveUser(userData) {
       return doPutRequest('saveUser', userData);
-    };
+    }
     function login(username, password) {
       var data = {
         username: username,
         password: password
       };
       return doPostRequest('login', data);
-    };
+    }
     function logout(username) {
       var data = {
         username: username
       };
       return doPostRequest('logout', data);
-    };
+    }
 
     function listPosts(username) {
       var data = {
         username: username
       };
       return doGetRequest('listPosts', data);
-    };
+    }
     function makePost(postText) {
       var data = {
         text: postText
       };
       return doPostRequest('makePost', data);
-    };
+    }
     function likePost(postId) {
       var data = {
         postId: postId
       };
       return doPostRequest('likePost', data);
-    };
+    }
 
     function makeComment(commentText, postId) {
       return doPostRequest('makeComment', {
         postId: postId,
         text: commentText
       });
-    };
+    }
     function likeComment(commentId, postId) {
       return doPostRequest('likeComment', {
         postId: postId,
         commentId: commentId
       });
-    };
+    }
 
     /*** Utilities functions for HTTP request/response ***/
     function doGetRequest(methodName, data, successCallback, errorCallback) {
       return doRequest(methodName, 'GET', data, successCallback, errorCallback);
-    };
+    }
     function doPostRequest(methodName, data, successCallback, errorCallback) {
       return doRequest(methodName, 'POST', data, successCallback, errorCallback);
-    };
+    }
     function doPutRequest(methodName, data, successCallback, errorCallback) {
       return doRequest(methodName, 'PUT', data, successCallback, errorCallback);
-    };
+    }
     function doRequest(methodName, httpMethod, data, successCallback, errorCallback) {
       var requestUrl = urlsByMethod[methodName];
       if (!requestUrl) {
@@ -102,10 +102,10 @@ define(['angular'], function(angular) {
         url: requestUrl,
         data: data
       }).success(successCallback).error(errorCallback);
-    };
+    }
 
-    function requestSuccessCallback(data) {};
-    function requestErrorCallback(err, status) {};
+    function requestSuccessCallback(data) {}
+    function requestErrorCallback(err, status) {}
 
     return {
       listUsers: listUsers,
@@ -147,24 +147,24 @@ define(['angular'], function(angular) {
       if (clearMessagesTimer)
         $timeout.cancel(clearMessagesTimer);
       clearMessagesTimer = $timeout(clearMessages, defaultLoadUsersTimeout);
-    };
+    }
     function addErrorMessage(message, code) {
       addMessage(message, 'error', code);
-    };
+    }
     function addWarnMessage(message) {
       addMessage(message, 'warn');
-    };
+    }
     function addInfoMessage(message) {
       addMessage(message, 'info');
-    };
+    }
     function clearMessages() {
       entity.clear();
-    };
+    }
 
     function errorHandling(response) {
       if (response.data && response.data.type === 'error')
         addErrorMessage(response.data.detail, response.data.code);
-    };
+    }
 
     return {
       entity: entity,
@@ -189,7 +189,7 @@ define(['angular'], function(angular) {
       this.birthdayYear = null;
 
       this.loggedIn = function() {
-        return this.username != null;
+        return this.username !== null;
       };
       this.fullName = function() {
         return (this.lastName) ? this.firstName + ' ' + this.lastName : this.firstName;
@@ -205,7 +205,7 @@ define(['angular'], function(angular) {
     function clearEntity() {
       angular.copy(emptyEntity, entity);
       angular.copy(emptyEntity, editableEntity);
-    };
+    }
 
     function login(username, callback) {
       meanBookApi.login(username).then(function(response) {
@@ -222,21 +222,21 @@ define(['angular'], function(angular) {
         if (callback)
           callback(response.data);
       }, messageService.errorHandling);
-    };
+    }
     function logout(callback) {
       meanBookApi.logout(entity.username).then(function(response) {
         clearEntity();
         if (callback)
           callback(response.data);
       }, messageService.errorHandling);
-    };
+    }
 
     function prepareSaveUser() {
       angular.copy(entity, editableEntity);
-    };
+    }
     function cancelSaveUser() {
       angular.copy(emptyEntity, editableEntity);
-    };
+    }
     function saveUser(callback) {
       editableEntity.birthday = new Date(editableEntity.birthdayYear, 
         editableEntity.birthdayMonth - 1, editableEntity.birthdayDay, 0, 0, 0, 0);
@@ -245,14 +245,14 @@ define(['angular'], function(angular) {
         if (callback)
           callback(response.data);
       }, messageService.errorHandling);
-    };
+    }
     function loadCurrentUser(callback) {
       meanBookApi.currentUser().then(function(response) {
         if (response.data && response.data.authenticated) {
           login(response.data.username, callback);
         }
       }, messageService.errorHandling);
-    };
+    }
 
     return {
       entity: entity,
