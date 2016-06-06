@@ -1,5 +1,5 @@
 "use strict";
-requirejs.config({
+require.config({
   basePath: './',
   paths: {
     jquery: '../bower_components/jquery/dist/jquery.min',
@@ -11,7 +11,8 @@ requirejs.config({
     jquery: {exports: '$'}, 
     bootstrap: {deps: ['jquery']}, 
     angular: {exports: 'angular', deps: ['jquery']}, 
-    angularRoute: {exports: 'ngRoute', deps: ['angular']}
+    angularRoute: {exports: 'ngRoute', deps: ['angular']},
+    'app.utils': {exports: 'appUtils'}
   },
   deps: ['app.module']
 });
