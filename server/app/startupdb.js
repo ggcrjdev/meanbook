@@ -25,7 +25,7 @@ var mongooseConnect = function() {
 mongooseConnect();
 
 // Connection events.
-mongoose.connection.on('error', function() {
+mongoose.connection.on('error', function(err) {
   console.log('Mongoose default connection error: ' + err);
 });
 mongoose.connection.on('disconnected', function() {
