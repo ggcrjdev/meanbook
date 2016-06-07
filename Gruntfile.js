@@ -18,7 +18,7 @@ module.exports = function(grunt) {
       test: {
         options: {
           reporter: 'spec',
-          captureFile: 'results.txt', 
+          captureFile: 'reports/mocha.txt', 
           quiet: false, 
           clearRequireCache: false
         },
@@ -30,13 +30,16 @@ module.exports = function(grunt) {
         options: {
           frameworks: ['jasmine', 'requirejs'],
           browsers: ['PhantomJS'],
-          basePath: './',
+          basePath: 'web/',
           files: [
-            'web/test/test-main.js',
-            {pattern: 'web/bower_components/**/*.js', included: false},
-            {pattern: 'web/*.js', included: false},
-            {pattern: 'web/timeline/*.js', included: false},
-            {pattern: 'web/test/**/*.js', included: false}
+            'bower_components/jquery/dist/jquery.min.js',
+            'bower_components/angular/angular.min.js',
+            'bower_components/angular-route/angular-route.min.js',
+            {pattern: '*.js', included: false},
+            {pattern: 'timeline/*.js', included: false},
+
+            'test/test-main.js',
+            {pattern: 'test/**/*.js', included: false}
           ],
           exclude: [],
           port: 9876,
