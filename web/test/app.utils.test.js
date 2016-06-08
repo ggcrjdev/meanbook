@@ -11,7 +11,10 @@ define(['app.utils'], function(appUtils) {
       expect(appUtils.formatTimestamp(timestampToFormat, 'date')).toEqual('2000-01-01');
     });
     it('should throws Error when the style is not supported like "datetimeinverted"', function() {
-      expect(function() {appUtils.formatTimestamp(timestampToFormat, 'datetimeinverted')}).toThrow();
+      var fut = function() {
+        appUtils.formatTimestamp(timestampToFormat, 'datetimeinverted');
+      };
+      expect(fut).toThrow();
     });
   });
 });

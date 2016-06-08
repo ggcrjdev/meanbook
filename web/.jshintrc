@@ -2,6 +2,7 @@
   "browser": true,
   "devel": true,
   "jasmine": true,
+  "globalstrict": true,
   "globals": {
     "require": false,
     "define": false
