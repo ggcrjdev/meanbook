@@ -45,7 +45,7 @@
     "sinon": "^1.17.4"
   },
   "scripts": {
-    "test": "mocha --check-leaks test/",
+    "test": "grunt test",
     "postinstall": "cd web/ && bower install"
   },
   "main": "index.js"
