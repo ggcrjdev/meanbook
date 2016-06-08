@@ -25,28 +25,50 @@ module.exports = function(grunt) {
         src: ['test/**/*.js']
       }
     },
+    
+    // @see: http://monicalent.com/blog/2015/02/11/karma-tests-angular-js-require-j/
+    // @see: https://stackoverflow.com/questions/29636580/karma-test-runner-requirejs-404-error-not-serving-up-content
     karma: {  
       unit: {
         options: {
           frameworks: ['jasmine', 'requirejs'],
-          browsers: ['PhantomJS'],
-          basePath: 'web/',
-          files: [
-            'bower_components/jquery/dist/jquery.min.js',
-            'bower_components/angular/angular.min.js',
-            'bower_components/angular-route/angular-route.min.js',
-            {pattern: '*.js', included: false},
-            {pattern: 'timeline/*.js', included: false},
 
-            'test/test-main.js',
-            {pattern: 'test/**/*.js', included: false}
+          // Start these browsers, currently available:
+          // - Chrome
+          // - ChromeCanary
+          // - Firefox
+          // - Opera (has to be installed with `npm install karma-opera-launcher`)
+          // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
+          // - PhantomJS
+          // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
+          browsers: ['PhantomJS'],
+          basePath: '',
+          files: [
+            'web/test/test-main.js',
+            {pattern: 'web/*.js', included: false},
+            {pattern: 'web/timeline/*.js', included: false},
+            {pattern: 'web/test/**/*.test.js', included: false},
+
+            {pattern: 'web/bower_components/jquery/dist/jquery.js', included: false},
+            {pattern: 'web/bower_components/angular/angular.js', included: false},
+            {pattern: 'web/bower_components/angular-route/angular-route.js', included: false},
+            {pattern: 'web/bower_components/bootstrap/dist/js/bootstrap.js', included: false},
+            {pattern: 'web/bower_components/angular-mocks/angular-mocks.js', included: false}
           ],
-          exclude: [],
+          exclude: [
+            'web/main.js'
+          ],
+
+          // level of logging
+          // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+          //logLevel: 'LOG_DEBUG',
           port: 9876,
-          preprocessors: {},
           reporters: ['progress'],
           colors: true,
           autoWatch: true,
+
+          // Continuous Integration mode
+          // if true, it capture browsers, run tests and exit
           singleRun: true
         }
       }
