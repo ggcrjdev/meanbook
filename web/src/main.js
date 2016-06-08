@@ -2,10 +2,10 @@
 require.config({
   basePath: './',
   paths: {
-    jquery: 'bower_components/jquery/dist/jquery.min',
-    angular: 'bower_components/angular/angular.min',
-    angularRoute: 'bower_components/angular-route/angular-route.min',
-    bootstrap: 'bower_components/bootstrap/dist/js/bootstrap.min'
+    jquery: '../lib/jquery/dist/jquery.min',
+    angular: '../lib/angular/angular.min',
+    angularRoute: '../lib/angular-route/angular-route.min',
+    bootstrap: '../lib/bootstrap/dist/js/bootstrap.min'
   },
   shim: {
     jquery: {exports: '$'}, 

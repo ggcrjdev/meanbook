@@ -5,12 +5,13 @@
   "authors": [
     "Gustavo Gomes <gustavo.gomesc@gmail.com>"
   ],
-  "main": "main.js",
+  "main": "src/main.js",
   "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
     "bower_components",
+    "lib",
     "test",
     "tests"
   ],

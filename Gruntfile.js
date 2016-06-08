@@ -44,18 +44,17 @@ module.exports = function(grunt) {
           basePath: '',
           files: [
             'web/test/test-main.js',
-            {pattern: 'web/*.js', included: false},
-            {pattern: 'web/timeline/*.js', included: false},
+            {pattern: 'web/src/**/*.js', included: false},
             {pattern: 'web/test/**/*.test.js', included: false},
 
-            {pattern: 'web/bower_components/jquery/dist/jquery.js', included: false},
-            {pattern: 'web/bower_components/angular/angular.js', included: false},
-            {pattern: 'web/bower_components/angular-route/angular-route.js', included: false},
-            {pattern: 'web/bower_components/bootstrap/dist/js/bootstrap.js', included: false},
-            {pattern: 'web/bower_components/angular-mocks/angular-mocks.js', included: false}
+            {pattern: 'web/lib/jquery/dist/jquery.js', included: false},
+            {pattern: 'web/lib/angular/angular.js', included: false},
+            {pattern: 'web/lib/angular-route/angular-route.js', included: false},
+            {pattern: 'web/lib/bootstrap/dist/js/bootstrap.js', included: false},
+            {pattern: 'web/lib/angular-mocks/angular-mocks.js', included: false}
           ],
           exclude: [
-            'web/main.js'
+            'web/src/main.js'
           ],
 
           // level of logging

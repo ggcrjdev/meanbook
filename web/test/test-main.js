@@ -7,14 +7,14 @@ for (var file in window.__karma__.files) {
 }
 require.config({
   // Karma serves files from '/base'
-  baseUrl: '/base/web',
+  baseUrl: '/base/web/src/',
   paths: {
-    jquery: 'bower_components/jquery/dist/jquery',
-    angular: 'bower_components/angular/angular',
-    angularRoute: 'bower_components/angular-route/angular-route',
-    bootstrap: 'bower_components/bootstrap/dist/js/bootstrap',
+    jquery: '../lib/jquery/dist/jquery',
+    angular: '../lib/angular/angular',
+    angularRoute: '../lib/angular-route/angular-route',
+    bootstrap: '../lib/bootstrap/dist/js/bootstrap',
 
-    angularMocks: 'bower_components/angular-mocks/angular-mocks'
+    angularMocks: '../lib/angular-mocks/angular-mocks'
   },
   shim: {
     jquery: {exports: '$'}, 

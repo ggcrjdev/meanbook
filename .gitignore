@@ -26,6 +26,7 @@ node_modules
 
 # Bower dependency directory
 bower_components
+lib
 
 # Users Environment Variables
 .lock-wscript
@@ -76,6 +77,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-web/.bowerrc
-results.txt
+
+# Custom ignores
 reports/mocha.txt
