@@ -4,9 +4,8 @@ console.log('Starting app...');
 var serverBaseDir = './app';
 
 var config = require(serverBaseDir + '/config');
-require(serverBaseDir + '/startuplog');
-require(serverBaseDir + '/startupdb');
 var core = require(serverBaseDir + '/startupcore');
+require(serverBaseDir + '/startupdb');
 
 console.log('Initializing Restful API configured to use the following baseUrl: ' + config.express.apiBaseUri);
 var RestfulApi = require(serverBaseDir + '/restfulapi').RestfulApi;

@@ -9,6 +9,10 @@ var session = require('express-session');
 var app = express();
 var http = require('http').Server(app);
 
+// Logging configuration.
+var log = require('./startuplog');
+app.use(log.morganLogger('[:serverDateFormat] :method :url :status :res[content-length] - :remote-addr - :response-time ms'));
+
 // Express configuration.
 // CORS
 var allowCors = function(req, res, next) {
