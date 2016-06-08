@@ -19,12 +19,14 @@ define([], function() {
     if (timestamp) {
       var dateToFormat = new Date(timestamp);
       var formattedDate = dateToFormat.toISOString();
-      if (style === 'date') {
-        timestampFormatted = formattedDate.split('T')[0];
+      if (!style) {
+        timestampFormatted = formattedDate.replace('T', ' ').split('.')[0];
       } else if (style === 'datetime') {
         timestampFormatted = formattedDate.replace('T', ' ').split('.')[0];
+      } else if (style === 'date') {
+        timestampFormatted = formattedDate.split('T')[0];
       } else {
-        timestampFormatted = formattedDate.replace('T', ' ').split('.')[0];
+        throw Error('Style [' + style + '] is not supported.');
       }
     }
     return timestampFormatted;
