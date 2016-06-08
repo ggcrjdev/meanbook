@@ -50,7 +50,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Say to express that the web directory contains the static contents.
-app.use(express.static(__dirname + '/../../web'));
+app.use(express.static(__dirname + '/../../../web'));
 
 // Listen to configured post.
 app.set('port', (process.env.PORT || config.express.port));

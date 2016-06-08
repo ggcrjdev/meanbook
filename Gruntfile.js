@@ -4,8 +4,7 @@ module.exports = function(grunt) {
     jshint: {
       files: [
         'Gruntfile.js', 
-        'server/**/*.js', 
-        'test/**/*.js'],
+        'server/**/*.js'],
       options: {
         jshintrc: true
       },
@@ -22,7 +21,7 @@ module.exports = function(grunt) {
           quiet: false, 
           clearRequireCache: false
         },
-        src: ['test/**/*.js']
+        src: ['server/test/**/*.js']
       }
     },
     

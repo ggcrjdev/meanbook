@@ -1,6 +1,6 @@
 "use strict";
 var assert = require('assert');
-var RouterUtils = require('../server/route/routerutils').RouterUtils;
+var RouterUtils = require('../src/route/routerutils').RouterUtils;
 
 describe('RouterUtils#sendWarnResponse(res, message)', function() {
   // Arrange
