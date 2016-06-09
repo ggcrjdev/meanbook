@@ -1,6 +1,17 @@
 "use strict";
 module.exports = function(grunt) {
   grunt.initConfig({
+    env: {
+      options : {},
+      dev: {
+        NODE_ENV: 'development',
+        TZ: 'UTC'
+      },
+      build: {
+        NODE_ENV: 'production'
+      }
+    },
+
     jshint: {
       files: [
         'Gruntfile.js', 
@@ -75,10 +86,11 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-karma');
 
   grunt.registerTask('codequality', ['jshint']);
-  grunt.registerTask('test', ['mochaTest', 'karma', 'codequality']);
+  grunt.registerTask('test', ['env:dev', 'mochaTest', 'karma', 'codequality']);
 };

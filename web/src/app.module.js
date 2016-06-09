@@ -22,6 +22,9 @@ function($, angular, ngRoute, services, controller, utils) {
   module.filter('formatTimestamp', function() {
     return utils.formatTimestamp;
   });
+  module.filter('formatLocalDate', function() {
+    return utils.formatLocalDate;
+  });
   
   module.config([
     '$locationProvider', 

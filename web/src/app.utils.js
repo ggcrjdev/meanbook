@@ -3,11 +3,11 @@ define([], function() {
   function getCurrentHostName() {
     var host;
     if (window.location.host) {
-      host = window.location.protocol + '//'+ window.location.host;
+      host = window.location.protocol + '//' + window.location.host;
     } else if (document.URL) {
       var parser = document.createElement('a');
       parser.href = document.URL;
-      host = parser.protocol + '//'+ parser.host;
+      host = parser.protocol + '//' + parser.host;
     } else {
       throw Error('currentHostName not found.');
     }
@@ -32,9 +32,33 @@ define([], function() {
     return timestampFormatted;
   }
 
+  function formatLocalDate(timestamp, style) {
+    var formattedDate = null;
+    if (typeof timestamp === 'number' || typeof timestamp === 'string') {
+      var localDate = new Date(timestamp);
+      if (!style)
+        style = 'datetime';
+      if (style === 'datetime' || style === 'date') {
+        var tzo = - localDate.getTimezoneOffset();
+        var pad = function(num) {
+          var norm = Math.abs(Math.floor(num));
+          return (norm < 10 ? '0' : '') + norm;
+        };
+
+        formattedDate = localDate.getFullYear() + '-' + pad(localDate.getMonth() + 1) + '-' + pad(localDate.getDate());
+        if (style === 'datetime')
+          formattedDate += ' ' + pad(localDate.getHours()) + ':' + pad(localDate.getMinutes()) + ':' + pad(localDate.getSeconds());
+      } else {
+        throw Error('Style [' + style + '] is not supported.');
+      }
+    }
+    return formattedDate;
+  }
+
   /*** Export ***/
   return {
     getCurrentHostName: getCurrentHostName,
-    formatTimestamp: formatTimestamp
+    formatTimestamp: formatTimestamp,
+    formatLocalDate: formatLocalDate
   };
 });
