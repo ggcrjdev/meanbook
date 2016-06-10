@@ -12,11 +12,12 @@ To implement the application features, were used the following features provided
 ### App Prerequisites
 - Installation of the NodeJS server.
 - Installation of the MongoDB in the path [C:\dev-js\server\mongodb-3.0].
-- Recommended to run on Windows 7.
+- Is recommanded that your machine has installed the Git client and Python compiler.
+- Is recommended to run this app on Windows.
 
 ### App Installation
 Open command line terminal (cmd) and access the application root folder in the repository cloned from the GitHub and run the following command:
-- npm install -g nodemon && npm install
+- npm install nodemon grunt bower -g && npm install
 
 ## App execution
 ### Execution in development environment
