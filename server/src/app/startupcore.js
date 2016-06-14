@@ -5,6 +5,7 @@ var errorhandler = require('errorhandler');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var compression = require('compression');
 
 var app = express();
 var http = require('http').Server(app);
@@ -15,13 +16,13 @@ app.use(log.morganLogger('[:serverDateFormat] :method :url :status :res[content-
 
 // Express configuration.
 // CORS
-var allowCors = function(req, res, next) {
+app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', config.express.origins);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, x-access-token');
   next();
-};
-app.use(allowCors);
+});
+app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
