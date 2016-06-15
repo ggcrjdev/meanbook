@@ -32,7 +32,9 @@ function($, angular, ngRoute, services, controller, utils) {
     function config($locationProvider, $routeProvider) {
       $locationProvider.hashPrefix('!');
       
-      $routeProvider.when('/timeline', {
+      $routeProvider.when('/loading', {
+        templateUrl: 'layout/loading.html'
+      }).when('/timeline', {
         templateUrl: 'timeline/timeline.template.html'
       }).when('/user-profile', {
         templateUrl: 'user-profile/user-profile.template.html'
