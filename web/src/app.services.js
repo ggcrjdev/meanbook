@@ -248,9 +248,10 @@ define(['angular'], function(angular) {
     }
     function loadCurrentUser(callback) {
       meanBookApi.currentUser().then(function(response) {
-        if (response.data && response.data.authenticated) {
+        if (response.data && response.data.authenticated)
           login(response.data.username, callback);
-        }
+        else
+          callback(null);
       }, messageService.errorHandling);
     }
 

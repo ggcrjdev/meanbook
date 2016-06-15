@@ -42,13 +42,6 @@ function($, angular, ngRoute, services, controller, utils) {
       console.log('[Angular]: Config block executed.');
     }
   ]);
-  module.run(function($rootScope, userService) {
-    userService.loadCurrentUser(function(responseData) {
-      $rootScope.$broadcast('LoadedCurrentUser');
-      console.log('[Angular]: Run block executed. Loaded current user.');
-    });
-    console.log('[Angular]: Run block executed.');
-  });
 
   angular.element(document).ready(function() {
     angular.bootstrap(document, [moduleName]);

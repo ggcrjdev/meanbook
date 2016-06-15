@@ -9,11 +9,6 @@ define([], function() {
       timelineService.loadPosts(userService.entity.username);
       console.log('[timelineController]: onLoggedIn.');
     });
-    $scope.$on('LoadedCurrentUser', function() {
-      onlineUsersService.startPulling();
-      timelineService.loadPosts(userService.entity.username);
-      console.log('[timelineController]: onLoadedCurrentUser.');
-    });
     $scope.$on('ClickedHome', function() {
       timelineService.switchTimeline(userService.entity.username);
       console.log('[timelineController]: onClickedHome.');
