@@ -20,11 +20,18 @@ body {
 }
  
 .post-body {
-    min-height: 30px;
-    color: #555;
-    padding: 5px;
+    color: #333;
+    display: block;
+    font-size: 12px;
+    line-height: 1.42857;
+    margin: 0 0 10px;
+    padding: 9.5px;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: normal;
 }
- 
+
 .post-actions {
     text-align: left;
     padding: 10px;
