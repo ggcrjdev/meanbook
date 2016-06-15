@@ -55,7 +55,11 @@ var basePathWeb = __dirname + '/../../../web/';
 console.log('basePathWeb = ' + basePathWeb);
 app.use(express.static(basePathWeb + 'src/'));
 app.use('/lib', express.static(basePathWeb + 'lib/', {
-  maxage: '1d'
+  setHeaders: function(res, path) {
+    var oneMonth = 1000 * 60 * 60 * 24 * 30;
+    res.header('Cache-Control', 'public, max-age=' + oneMonth);
+    res.header('Expires', new Date(Date.now() + oneMonth).toUTCString());
+  }
 }));
 
 // Listen to configured post.
