@@ -54,7 +54,9 @@ if (process.env.NODE_ENV === 'development') {
 var basePathWeb = __dirname + '/../../../web/';
 console.log('basePathWeb = ' + basePathWeb);
 app.use(express.static(basePathWeb + 'src/'));
-app.use('/lib', express.static(basePathWeb + 'lib/'));
+app.use('/lib', express.static(basePathWeb + 'lib/', {
+  maxage: '1d'
+}));
 
 // Listen to configured post.
 app.set('port', (process.env.PORT || config.express.port));
