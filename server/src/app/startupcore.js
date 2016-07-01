@@ -9,13 +9,14 @@ var compression = require('compression');
 
 var app = express();
 var http = require('http').Server(app);
+console.log('App configured using NODE_ENV ' + process.env.NODE_ENV);
 
 // Logging configuration.
 var log = require('./startuplog');
 app.use(log.morganLogger('[:serverDateFormat] :method :url :status :res[content-length] - :remote-addr - :response-time ms'));
 
 // Express configuration.
-// CORS
+// CORS (Cross-origin resource sharing) configuration.
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', config.express.origins);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
@@ -44,13 +45,21 @@ app.use(session({
   }
 }));
 
-console.log('App configured using NODE_ENV ' + process.env.NODE_ENV);
+// CSRF/XSRF protection configuration.
+var csrf = require('csurf');
+app.use(csrf());
+app.use(function(req, res, next) {
+  res.cookie('XSRF-TOKEN', req.csrfToken());
+  next();
+});
+
+//  Error handling configuration.
 if (process.env.NODE_ENV === 'development') {
   app.use(errorhandler());
   console.log('Enabled the middleware errorhandler.');
 }
 
-// Say to express that the web directory contains the static contents.
+// Static content configuration (app sources and libraries).
 var basePathWeb = __dirname + '/../../../web/';
 console.log('basePathWeb = ' + basePathWeb);
 app.use(express.static(basePathWeb + 'src/'));
@@ -62,7 +71,7 @@ app.use('/lib', express.static(basePathWeb + 'lib/', {
   }
 }));
 
-// Listen to configured post.
+// Configuration of the server port.
 app.set('port', (process.env.PORT || config.express.port));
 http.listen(app.get('port'), function() {
   console.log('App listening on *:' + config.express.port);
