@@ -1,6 +1,6 @@
 <div ng-controller="timelineController">
     <div ng-show="user.loggedIn()" ng-cloak class="col-md-3">
-        <div ng-include="'timeline/timeline-online-users.include.html'" class="row col-md-12"></div>
+        <div ng-include="'modules/timeline/views/includes/OnlineUsers.html'" class="row col-md-12"></div>
     </div>
     <div class="col-md-9">
         <div ng-show="!user.loggedIn()" ng-cloak id="not-logged">
@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div class="post">{{timeline.username}} wrote {{timeline.posts.length}} posts.</div>
-                <div ng-include="'timeline/timeline-posts.include.html'" class="posts"></div>
+                <div ng-include="'modules/timeline/views/includes/Posts.html'" class="posts"></div>
             </form>
         </div>
     </div>

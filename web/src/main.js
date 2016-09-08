@@ -13,5 +13,5 @@ require.config({
     angular: {exports: 'angular', deps: ['jquery']}, 
     angularRoute: {exports: 'ngRoute', deps: ['angular']}
   },
-  deps: ['app.module']
+  deps: ['modules/meanbook/MeanBookModule']
 });

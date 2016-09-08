@@ -56,9 +56,9 @@ module.exports = function(grunt) {
           browsers: ['PhantomJS'],
           basePath: '',
           files: [
-            'web/test/test-main.js',
+            'web/test/mainTest.js',
             {pattern: 'web/src/**/*.js', included: false},
-            {pattern: 'web/test/**/*.test.js', included: false},
+            {pattern: 'web/test/**/*Test.js', included: false},
 
             {pattern: 'web/lib/jquery/dist/jquery.js', included: false},
             {pattern: 'web/lib/angular/angular.js', included: false},

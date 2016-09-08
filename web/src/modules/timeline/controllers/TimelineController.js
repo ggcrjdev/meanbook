@@ -1,6 +1,9 @@
 "use strict";
 define([], function() {
-  return function($scope, userService, onlineUsersService, timelineService) {
+  return function($scope, 
+      userService, 
+      onlineUsersService, 
+      timelineService) {
     $scope.timeline = timelineService.entity;
     $scope.onlineUsers = onlineUsersService.entity;
 
