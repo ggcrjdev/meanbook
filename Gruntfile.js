@@ -1,6 +1,49 @@
 "use strict";
+
+var sourcePath = 'web/src/';
+var distPath = 'web/dist/';
 module.exports = function(grunt) {
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    clean: {
+      dist: {
+        src: [distPath]
+      }
+    },
+    copy: {
+      dist: {
+        files: [{
+            expand: true,
+            cwd: sourcePath,
+            src: ['**'],
+            dest: distPath
+        }]
+      }
+    },
+    cssmin: {
+      dist: {
+        files: [{
+            expand: true,
+            cwd: distPath,
+            src: '**/*.css',
+            dest: distPath
+        }]
+      }
+    },
+    uglify: {
+      options: {
+        mangle: false
+      },
+      dist: {
+        files: [{
+            expand: true,
+            cwd: distPath,
+            src: '**/*.js',
+            dest: distPath
+        }]
+      }
+    },
+
     env: {
       options : {},
       dev: {
@@ -86,11 +129,16 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-env');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-karma');
 
   grunt.registerTask('codequality', ['jshint']);
   grunt.registerTask('test', ['env:dev', 'mochaTest', 'karma', 'codequality']);
+  grunt.registerTask('build', ['clean:dist', 'copy:dist', 'cssmin', 'uglify']);
 };

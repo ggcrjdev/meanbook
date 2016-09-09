@@ -26,13 +26,18 @@
     "csurf": "^1.9.0",
     "errorhandler": "^1.4.3",
     "express": "^4.13.3",
-    "express-session": "^1.13.0",
+    "express-session": "^1.14.1",
     "mongoose": "^4.2.5",
     "morgan": "^1.6.1"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^1.0.2",
     "grunt-contrib-jshint": "^1.0.0",
+    "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-env": "^0.4.4",
     "grunt-karma": "^2.0.0",
@@ -50,7 +55,7 @@
   },
   "scripts": {
     "test": "grunt test",
-    "postinstall": "cd web/ && bower install"
+    "postinstall": "cd web && bower install && cd .. && grunt build"
   },
   "main": "server/src/index.js"
 }

@@ -34,7 +34,7 @@ app.use(bodyParser.urlencoded({
 var mongoose = require('mongoose');
 var MongodbSessionStore = require('connect-mongo')(session);
 app.use(session({
-  secret: 'voandoalto-8825',
+  secret: 'CastleVania2030',
   resave: false,
   saveUninitialized: true,
   store: new MongodbSessionStore({
@@ -60,16 +60,29 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Static content configuration (app sources and libraries).
-var basePathWeb = __dirname + '/../../../web/';
-console.log('basePathWeb = ' + basePathWeb);
-app.use(express.static(basePathWeb + 'src/'));
-app.use('/lib', express.static(basePathWeb + 'lib/', {
+var webConfig = {
+  basePath: __dirname + '/../../../web/', 
+  src: 'src/',
+  lib: 'lib/',
+  srcPath: function() {
+    return this.basePath.concat(this.src);
+  },
+  libPath: function() {
+    return this.basePath.concat(this.lib);
+  }
+};
+if (process.env.NODE_ENV === 'production') {
+  webConfig.src = 'dist/';
+}
+app.use(express.static(webConfig.srcPath()));
+app.use('/lib', express.static(webConfig.libPath(), {
   setHeaders: function(res, path) {
     var oneMonth = 1000 * 60 * 60 * 24 * 30;
     res.header('Cache-Control', 'public, max-age=' + oneMonth);
     res.header('Expires', new Date(Date.now() + oneMonth).toUTCString());
   }
 }));
+console.log('webConfig.basePath: ' + webConfig.basePath);
 
 // Configuration of the server port.
 app.set('port', (process.env.PORT || config.express.port));

@@ -80,3 +80,4 @@ $RECYCLE.BIN/
 
 # Custom ignores
 reports/mocha.txt
+dist
