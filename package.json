@@ -1,7 +1,7 @@
 {
   "name": "meanbook",
   "description": "MEANBook - Simplified Social Network",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Gustavo Gomes <gustavo.gomesc@gmail.com>",
   "contributors": [],
   "license": "MIT",
@@ -27,6 +27,7 @@
     "errorhandler": "^1.4.3",
     "express": "^4.13.3",
     "express-session": "^1.14.1",
+    "grunt-cli": "^1.2.0",
     "mongoose": "^4.2.5",
     "morgan": "^1.6.1"
   },
