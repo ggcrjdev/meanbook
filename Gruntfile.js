@@ -41,7 +41,12 @@ module.exports = function(grunt) {
             src: '**/*.js',
             dest: distPath
         }]
-      }
+      },
+      lib: {
+        files: {
+          'web/lib/requirejs/require.js': ['web/lib/requirejs/require.js']
+        }
+      },
     },
 
     env: {
