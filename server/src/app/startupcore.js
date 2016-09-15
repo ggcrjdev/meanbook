@@ -41,14 +41,10 @@ app.use(session({
   secret: config.express.sessionSecret,
   store: sessionStore,
   cookie: {
-      path: '/',
-      httpOnly: true,
-      secure: false,
-      maxAge: 3600000
+      secure: false
   },
-  rolling: true, 
-  resave: false, 
-  saveUninitialized: true 
+  resave: false,
+  saveUninitialized: true
 }));
 
 // CSRF/XSRF protection configuration.
