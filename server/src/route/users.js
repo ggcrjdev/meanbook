@@ -122,7 +122,10 @@ usersRouter.prototype = {
         if (err)
           console.log('The user ' + currentUserName + ' logged out, but cannot be passed to inactive state.');
       });
-      req.session.destroy(function(err) {});
+
+      // // The session must be cleaned instead of destroyed because
+      // the csurf library includes data within them.
+      req.session.user = null;
       loggedOut = true;
     }
 

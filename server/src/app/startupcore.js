@@ -2,10 +2,10 @@
 var config = require('./config');
 var express = require('express');
 var errorhandler = require('errorhandler');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var compression = require('compression');
+var csrf = require('csurf');
 
 var app = express();
 var http = require('http').Server(app);
@@ -33,26 +33,33 @@ app.use(bodyParser.urlencoded({
 // Will provide application scalability, even if a session scope is used.
 var mongoose = require('mongoose');
 var MongodbSessionStore = require('connect-mongo')(session);
-app.use(session({
-  secret: 'CastleVania2030',
-  resave: false,
-  saveUninitialized: true,
-  store: new MongodbSessionStore({
+var sessionStore = new MongodbSessionStore({
     mongooseConnection: mongoose.connection
-  }),
+});
+app.use(session({
+  name: config.express.sessionName,
+  secret: config.express.sessionSecret,
+  store: sessionStore,
   cookie: {
-    secure: false
-  }
+      path: '/',
+      httpOnly: true,
+      secure: false,
+      maxAge: 3600000
+  },
+  rolling: true, 
+  resave: false, 
+  saveUninitialized: true 
 }));
 
 // CSRF/XSRF protection configuration.
-var csrf = require('csurf');
 app.use(csrf());
 app.use(function(req, res, next) {
-  res.cookie('XSRF-TOKEN', req.csrfToken());
+  var ignoreMethods = ['GET', 'HEAD', 'OPTIONS'];
+  if (ignoreMethods.indexOf(req.method) === -1) {
+    res.cookie('XSRF-TOKEN', req.csrfToken());
+  }
   next();
 });
-
 //  Error handling configuration.
 if (process.env.NODE_ENV === 'development') {
   app.use(errorhandler());
