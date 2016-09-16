@@ -50,10 +50,7 @@ app.use(session({
 // CSRF/XSRF protection configuration.
 app.use(csrf());
 app.use(function(req, res, next) {
-  var ignoreMethods = ['GET', 'HEAD', 'OPTIONS'];
-  if (ignoreMethods.indexOf(req.method) === -1) {
-    res.cookie('XSRF-TOKEN', req.csrfToken());
-  }
+  res.cookie('XSRF-TOKEN', req.csrfToken());
   next();
 });
 //  Error handling configuration.
