@@ -43,6 +43,12 @@
                 </span>
             </div>
             <div class="form-group">
+                <label>
+                    <input ng-model="editableUser.public" name="publicProfile" type="checkbox"></input>
+                    <strong> Your profile could be showed publicly?</strong>
+                </label>
+           </div>
+            <div class="form-group">
                 <strong>Birthday: </strong>
                 <select ng-model="editableUser.birthdayDay" ng-options="item for item in daysSet() track by item" required name="birthdayDay" class="input-sm">
                 </select>

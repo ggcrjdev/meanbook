@@ -11,6 +11,7 @@ define(['angular'], function(angular) {
       this.birthdayDay = null;
       this.birthdayMonth = null;
       this.birthdayYear = null;
+      this.public = true;
 
       this.loggedIn = function() {
         return this.username !== null;
@@ -37,6 +38,7 @@ define(['angular'], function(angular) {
         entity.firstName = response.data.firstName;
         entity.lastName = response.data.lastName;
         entity.email = response.data.email;
+        entity.public = response.data.public;
         if (response.data.birthday) {
           entity.birthday = new Date(response.data.birthday);
           entity.birthdayDay = response.data.birthdayDay;

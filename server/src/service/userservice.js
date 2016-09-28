@@ -53,6 +53,7 @@ userService.prototype = {
         user.lastName = userData.lastName;
         user.email = userData.email;
         user.birthday = new Date(userData.birthday);
+        user.public = userData.public;
         user.save(ServiceUtils.mongooseCallback);
         callback(err, user);
       }
@@ -66,6 +67,13 @@ userService.prototype = {
   },
   listActiveUsers: function(callback) {
     User.find({active: true}, null, {sort: {login: 1}}, callback);
+  },
+  listPublicUsers: function(callback) {
+    var sortBy = {
+      lastAccess: -1,
+      login: 1
+    };
+    User.find({public: true}, null, {sort: sortBy}, callback);
   }
 };
 

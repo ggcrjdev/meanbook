@@ -79,7 +79,7 @@ usersRouter.prototype = {
   },
   list: function(req, res) {
     var that = this;
-    that.userService.listActiveUsers(function(err, results) {
+    that.userService.listPublicUsers(function(err, results) {
       if (err) {
         RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
       } else {
@@ -144,6 +144,7 @@ usersRouter.prototype = {
       birthdayDay: (userEntity.birthday) ? userEntity.birthday.getDate() : null,
       birthdayMonth: (userEntity.birthday) ? userEntity.birthday.getMonth() + 1 : null,
       birthdayYear: (userEntity.birthday) ? userEntity.birthday.getFullYear() : null,
+      public: userEntity.public,
       loginDate: userEntity.lastAccess
     };
   }

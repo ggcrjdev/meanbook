@@ -11,6 +11,9 @@
         <div class="form-group">
             <strong>E-mail: </strong><span>{{user.email}}</span>
         </div>
+        <div class="form-group">
+            <strong>Your profile is: </strong><span>{{user.public ? 'public' : 'private'}}</span>.
+        </div>
     	<div class="form-group">
 	        <strong>Birthday: </strong><span>{{user.birthday | formatTimestamp:'date'}}</span>
     	</div>
