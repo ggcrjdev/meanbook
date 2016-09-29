@@ -61,18 +61,19 @@ module.exports = function(grunt) {
     },
 
     jshint: {
-      files: [
-        'Gruntfile.js', 
-        'server/**/*.js',
-        'web/src/**/*.js',
-        'web/test/**/*.js'],
       options: {
         jshintrc: true
       },
+      source: ['Gruntfile.js', 'server/src/**/*.js', 'web/src/**/*.js'],
+      test: ['server/test/**/*.js', 'web/test/**/*.js']
     },
-    watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint']
+    csslint: {
+      web: {
+        options: {
+          csslintrc: 'web/.csslintrc'
+        },
+        src: ['web/src/**/*.css']
+      }
     },
     mochaTest: {
       test: {
@@ -83,6 +84,26 @@ module.exports = function(grunt) {
           clearRequireCache: false
         },
         src: ['server/test/**/*.js']
+      }
+    },
+    watch: {
+      source: {
+        files: '<%= jshint.source %>',
+        tasks: ['jshint:source']
+      },
+      test: {
+        files: '<%= jshint.test %>',
+        tasks: ['jshint:test']
+      },
+      css: {
+        files: '<%= csslint.web.src %>',
+        tasks: ['csslint'],
+        options: {
+          livereload: {
+            host: 'localhost',
+            port: 3000
+          }
+        }
       }
     },
     
@@ -140,11 +161,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-csslint');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-karma');
 
-  grunt.registerTask('codequality', ['jshint']);
+  grunt.registerTask('codequality', ['jshint', 'csslint']);
   grunt.registerTask('test', ['env:dev', 'mochaTest', 'karma', 'codequality']);
   grunt.registerTask('build', ['clean:dist', 'copy:dist', 'cssmin', 'uglify']);
 };
