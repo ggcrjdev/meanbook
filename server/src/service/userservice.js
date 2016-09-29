@@ -66,14 +66,15 @@ userService.prototype = {
     User.findOne({login: username}, callback);
   },
   listActiveUsers: function(callback) {
-    User.find({active: true}, null, {sort: {login: 1}}, callback);
-  },
-  listPublicUsers: function(callback) {
+    var findConditions = {
+      active: true, 
+      public: true
+    };
     var sortBy = {
       lastAccess: -1,
       login: 1
     };
-    User.find({public: true}, null, {sort: sortBy}, callback);
+    User.find(findConditions, null, {sort: sortBy}, callback);
   }
 };
 

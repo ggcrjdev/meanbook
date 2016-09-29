@@ -79,7 +79,7 @@ usersRouter.prototype = {
   },
   list: function(req, res) {
     var that = this;
-    that.userService.listPublicUsers(function(err, results) {
+    that.userService.listActiveUsers(function(err, results) {
       if (err) {
         RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
       } else {
