@@ -39,7 +39,7 @@ define(['jquery'], function($) {
         $scope.nextPage++;
 
       timelineService.loadPosts(username, $scope.nextPage, function(result) {
-        if (result.posts.length === 0)
+        if (result.posts.length < 10)
           $scope.endOfPage = true;
       });
       $scope.nextPage++;
