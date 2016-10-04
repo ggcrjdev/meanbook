@@ -70,11 +70,14 @@ userService.prototype = {
       active: true, 
       public: true
     };
-    var sortBy = {
-      lastAccess: -1,
-      login: 1
+    var options = {
+      sort: {
+        lastAccess: -1,
+        login: 1
+      }
     };
-    User.find(conditions, null, {sort: sortBy}, callback);
+    options = ServiceUtils.mongooseIncludePageSizeOptions(options, 1);
+    User.find(conditions, null, options, callback);
   }
 };
 
