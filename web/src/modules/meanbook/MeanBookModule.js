@@ -1,5 +1,5 @@
 "use strict";
-require([
+define([
   'jquery', 
   'angular', 
   'angularRoute', 
@@ -20,10 +20,11 @@ function($,
     userService, 
     dateUtils, 
     httpUtils, 
-    meanBookController) {
+    meanBookController,
+    timelineModule,
+    userProfileModule) {
   var deps = ['timelineModule', 'userProfileModule', 'ngRoute'];
-  var moduleName = 'meanBookModule';
-  var module = angular.module(moduleName, deps);
+  var module = angular.module('meanBookModule', deps);
 
   // Configuration for Spring Restful API on Wildfly (Java Server).
   // module.value('meanBookApiUrl', 'http://localhost:8080/meanbook-spring');
@@ -54,12 +55,15 @@ function($,
     }
   ]);
 
-  angular.element(document).ready(function() {
-    try {
-      angular.bootstrap(document, [moduleName]);
-      console.log('[Angular]: Bootstrapped.');
-    } catch (e) {
-      console.error(e.stack || e.message || e);
-    }
-  });
+  module.init = function() {
+    angular.element(document).ready(function() {
+      try {
+        angular.bootstrap(document, [module.name]);
+        console.log('[Angular]: Bootstrapped.');
+      } catch (e) {
+        console.error(e.stack || e.message || e);
+      }
+    });
+  };
+  return module;
 });

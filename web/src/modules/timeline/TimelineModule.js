@@ -1,5 +1,5 @@
 "use strict";
-require([
+define([
   'angular', 
   'modules/timeline/services/OnlineUsersService', 
   'modules/timeline/services/TimelineService', 
@@ -8,9 +8,8 @@ function(angular,
     onlineUsersService, 
     timelineService, 
     timelineController) {
-  var moduleName = 'timelineModule';
   var deps = ['ngRoute'];
-  var module = angular.module(moduleName, deps);
+  var module = angular.module('timelineModule', deps);
   module.service('onlineUsersService', onlineUsersService);
   module.service('timelineService', timelineService);
   
@@ -39,4 +38,5 @@ function(angular,
       $location.path('/timeline');
     });
   });
+  return module;
 });

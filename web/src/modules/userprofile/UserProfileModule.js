@@ -1,10 +1,10 @@
 "use strict";
-require([
+define([
   'angular'], 
 function(angular) {
-  var moduleName = 'userProfileModule';
   var deps = ['ngRoute'];
-  var module = angular.module(moduleName, deps);
+  var module = angular.module('userProfileModule', deps);
+  
   module.config(['$locationProvider', '$routeProvider',
     function config($locationProvider, $routeProvider) {
       $routeProvider.when('/user-profile', {
@@ -14,4 +14,5 @@ function(angular) {
       });
     }
   ]);
+  return module;
 });
