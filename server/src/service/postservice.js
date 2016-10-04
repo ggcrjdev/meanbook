@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var ServiceUtils = require('./serviceutils').ServiceUtils;
 var Post = require('../domain/model/post').Post;
 

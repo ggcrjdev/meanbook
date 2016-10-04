@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 define(['angular'], function(angular) {
   return function($http, meanBookApiUrl) {
     var apiUrl = meanBookApiUrl;
@@ -84,7 +84,7 @@ define(['angular'], function(angular) {
     function doRequest(methodName, httpMethod, data, successCallback, errorCallback) {
       var requestUrl = urlsByMethod[methodName];
       if (!requestUrl)
-        throw Error("O nome do método" + methodName + " não possui uma URL mapeada.");
+        throw Error('O nome do método' + methodName + ' não possui uma URL mapeada.');
       
       if (!httpMethod)
         httpMethod = 'POST';

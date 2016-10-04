@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 define([], function() {
   function formatTimestamp(timestamp, style) {
     var timestampFormatted = null;
@@ -25,15 +25,18 @@ define([], function() {
       if (!style)
         style = 'datetime';
       if (style === 'datetime' || style === 'date') {
-        var tzo = - localDate.getTimezoneOffset();
+        var tzo = -localDate.getTimezoneOffset();
         var pad = function(num) {
           var norm = Math.abs(Math.floor(num));
           return (norm < 10 ? '0' : '') + norm;
         };
 
-        formattedDate = localDate.getFullYear() + '-' + pad(localDate.getMonth() + 1) + '-' + pad(localDate.getDate());
-        if (style === 'datetime')
-          formattedDate += ' ' + pad(localDate.getHours()) + ':' + pad(localDate.getMinutes()) + ':' + pad(localDate.getSeconds());
+        formattedDate = localDate.getFullYear() + '-' + pad(localDate.getMonth() + 1);
+        formattedDate += '-' + pad(localDate.getDate());
+        if (style === 'datetime') {
+          formattedDate += ' ' + pad(localDate.getHours()) + ':' + pad(localDate.getMinutes());
+          formattedDate += ':' + pad(localDate.getSeconds());
+        }
       } else {
         throw Error('Style [' + style + '] is not supported.');
       }

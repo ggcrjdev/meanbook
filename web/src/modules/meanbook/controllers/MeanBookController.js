@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 define([], function() {
   return function($scope, $location, messageService, userService) {
     $scope.user = userService.entity;
@@ -36,7 +36,7 @@ define([], function() {
         messageService.clearMessages();
         messageService.addWarnMessage('There are some fields with invalid values. Please correct them.');
       } else {
-        userService.saveUser(function (responseData) {
+        userService.saveUser(function(responseData) {
           messageService.clearMessages();
           messageService.addInfoMessage('Saved successfully!');
           $location.path('/user-profile');

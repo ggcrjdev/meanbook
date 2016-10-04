@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var assert = require('assert');
 var RouterUtils = require('../src/route/routerutils').RouterUtils;
 
@@ -9,7 +9,7 @@ describe('RouterUtils#sendWarnResponse(res, message)', function() {
       this.actual = data;
     }
   };
-  var message = "message1";
+  var message = 'message1';
 
   it('should produces an object with attribute type equal "warn"', function() {
     RouterUtils.sendWarnResponse(res, message);
@@ -23,7 +23,7 @@ describe('RouterUtils#sendWarnResponse(res, message)', function() {
 
 describe('RouterUtils#sendErrorResponse(key, res, err, httpStatusCode)', function() {
   // Arrange
-  var key = "UNKNOW_KEY";
+  var key = 'UNKNOW_KEY';
   var res = {
     status: function(httpStatus) {
       this.actualHttpStatus = httpStatus;
@@ -40,7 +40,8 @@ describe('RouterUtils#sendErrorResponse(key, res, err, httpStatusCode)', functio
     RouterUtils.sendErrorResponse(key, res, err, httpStatusCode);
     assert.equal('error', res.actual.type);
   });
-  it('should produces an object with attribute summary with value "UNKNOW_ERROR" representing the default error used when the key is unknow', function() {
+  it('should produces an object with attribute summary with value "UNKNOW_ERROR" representing ' +
+      'the default error used when the key is unknow', function() {
     RouterUtils.sendErrorResponse(key, res, err, httpStatusCode);
     assert.equal('UNKNOW_ERROR', res.actual.summary);
   });

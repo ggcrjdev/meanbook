@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 process.title = 'meanbook-app';
 console.log('Starting app...');
 var serverBaseDir = './app';

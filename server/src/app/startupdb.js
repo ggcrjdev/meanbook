@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var config = require('./config');
 var mongoose = require('mongoose');
 
@@ -7,7 +7,7 @@ var mongooseOptions = {
   user: config.mongodb.user,
   pass: config.mongodb.password,
   server: {
-    auto_reconnect: config.mongodb.autoReconnect,
+    'auto_reconnect': config.mongodb.autoReconnect,
     poolSize: config.mongodb.connectionPoolSize,
     socketOptions: config.mongodb.socketOptions
   },

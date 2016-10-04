@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var config = require('./config');
 var express = require('express');
 var errorhandler = require('errorhandler');
@@ -13,14 +13,16 @@ console.log('App configured using NODE_ENV ' + process.env.NODE_ENV);
 
 // Logging configuration.
 var log = require('./startuplog');
-app.use(log.morganLogger('[:serverDateFormat] :method :url :status :res[content-length] - :remote-addr - :response-time ms'));
+var pattern = '[:serverDateFormat] :method :url :status :res[content-length] - :remote-addr - :response-time ms';
+app.use(log.morganLogger(pattern));
 
 // Express configuration.
 // CORS (Cross-origin resource sharing) configuration.
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', config.express.origins);
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With, x-access-token');
+  var allowedHeaders = 'Content-Type, Authorization, Content-Length, X-Requested-With, x-access-token';
+  res.header('Access-Control-Allow-Headers', allowedHeaders);
   next();
 });
 app.use(compression());
@@ -35,14 +37,15 @@ var mongoose = require('mongoose');
 var MongodbSessionStore = require('connect-mongo')(session);
 var sessionStore = new MongodbSessionStore({
     mongooseConnection: mongoose.connection
-});
+  }
+);
 app.use(session({
   name: config.express.sessionName,
   secret: config.express.sessionSecret,
   store: sessionStore,
   cookie: {
       secure: false
-  },
+    },
   resave: false,
   saveUninitialized: true
 }));

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var sourcePath = 'web/src/';
 var distPath = 'web/dist/';
@@ -17,7 +17,8 @@ module.exports = function(grunt) {
             cwd: sourcePath,
             src: ['**'],
             dest: distPath
-        }]
+          }
+        ]
       }
     },
     cssmin: {
@@ -27,7 +28,8 @@ module.exports = function(grunt) {
             cwd: distPath,
             src: '**/*.css',
             dest: distPath
-        }]
+          }
+        ]
       }
     },
     uglify: {
@@ -40,7 +42,8 @@ module.exports = function(grunt) {
             cwd: distPath,
             src: '**/*.js',
             dest: distPath
-        }]
+          }
+        ]
       },
       lib: {
         files: {
@@ -50,7 +53,7 @@ module.exports = function(grunt) {
     },
 
     env: {
-      options : {},
+      options: {},
       dev: {
         NODE_ENV: 'development',
         TZ: 'UTC'
@@ -66,6 +69,12 @@ module.exports = function(grunt) {
       },
       source: ['Gruntfile.js', 'server/src/**/*.js', 'web/src/**/*.js'],
       test: ['server/test/**/*.js', 'web/test/**/*.js']
+    },
+    jscs: {
+      options: {
+        config: '.jscsrc'
+      },
+      src: ['<%= jshint.source %>', '<%= jshint.test %>']
     },
     csslint: {
       web: {
@@ -140,8 +149,8 @@ module.exports = function(grunt) {
           ],
 
           // level of logging
-          // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-          //logLevel: 'LOG_DEBUG',
+          // possible values: LOG_DISABLE, LOG_ERROR, LOG_WARN, LOG_INFO, LOG_DEBUG
+          // logLevel: 'LOG_DEBUG',
           port: 9876,
           reporters: ['progress'],
           colors: true,
@@ -161,13 +170,14 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-jscs');
   grunt.loadNpmTasks('grunt-contrib-csslint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-karma');
 
-  grunt.registerTask('codequality', ['jshint', 'csslint']);
+  grunt.registerTask('codequality', ['jshint', 'jscs', 'csslint']);
   grunt.registerTask('test', ['env:dev', 'mochaTest', 'karma', 'codequality']);
   grunt.registerTask('build', ['clean:dist', 'copy:dist', 'cssmin', 'uglify']);
 };

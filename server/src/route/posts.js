@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var PostService = require('../service/postservice').PostService;
 var RouterUtils = require('./routerutils').RouterUtils;
 
@@ -39,7 +39,6 @@ postsRouter.prototype = {
   useRouter: function(app) {
     app.use(this.apiBaseUri + this.routerBaseUri, this.router);
   },
-
 
   list: function(req, res) {
     var that = this;

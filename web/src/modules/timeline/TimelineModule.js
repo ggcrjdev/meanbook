@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 define([
   'angular', 
   'modules/timeline/services/OnlineUsersService', 

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var UserService = require('../service/userservice').UserService;
 var RouterUtils = require('./routerutils').RouterUtils;
 
@@ -140,7 +140,7 @@ usersRouter.prototype = {
       firstName: userEntity.firstName,
       lastName: userEntity.lastName,
       email: userEntity.email,
-      birthday: (userEntity.birthday) ? userEntity.birthday: null,
+      birthday: (userEntity.birthday) ? userEntity.birthday : null,
       birthdayDay: (userEntity.birthday) ? userEntity.birthday.getDate() : null,
       birthdayMonth: (userEntity.birthday) ? userEntity.birthday.getMonth() + 1 : null,
       birthdayYear: (userEntity.birthday) ? userEntity.birthday.getFullYear() : null,

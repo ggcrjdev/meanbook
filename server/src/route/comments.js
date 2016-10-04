@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var PostService = require('../service/postservice').PostService;
 var CommentService = require('../service/commentservice').CommentService;
 var RouterUtils = require('./routerutils').RouterUtils;
@@ -91,7 +91,8 @@ commentsRouter.prototype = {
             commentId: comment._id,
             likes: comment.likes
           };
-          console.log('Make like to the comment in post with id ' + postId + ' e comentário com id ' + comment._id + ' likes=' + comment.likes);
+          console.log('Make like to the comment in post with id ' + postId + ' e comentário com id ' +
+            comment._id + ' likes=' + comment.likes);
           res.json(responseData);
         }
       });

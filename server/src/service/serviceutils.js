@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var serviceUtils = {
 
   PAGE_SIZE: 20,

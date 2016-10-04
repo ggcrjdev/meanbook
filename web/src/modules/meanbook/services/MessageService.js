@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 define(['angular'], function(angular) {
   return function($timeout, defaultLoadUsersTimeout) {
     var clearMessagesTimer = null;
