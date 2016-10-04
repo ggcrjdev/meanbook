@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
       saveUser: apiUrl + '/users/edit',
       login: apiUrl + '/users/login',
       logout: apiUrl + '/users/logout',
-      listPosts: apiUrl + '/posts/list',
+      listPosts: apiUrl + '/posts/list/:username/:pageNumber',
       makePost: apiUrl + '/posts/add',
       likePost: apiUrl + '/posts/like',
       makeComment: apiUrl + '/comments/add',
@@ -38,9 +38,10 @@ define(['angular'], function(angular) {
       return doPostRequest('logout', data);
     }
 
-    function listPosts(username) {
+    function listPosts(username, pageNumber) {
       var data = {
-        username: username
+        username: username,
+        pageNumber: pageNumber
       };
       return doGetRequest('listPosts', data);
     }
@@ -82,11 +83,8 @@ define(['angular'], function(angular) {
     }
     function doRequest(methodName, httpMethod, data, successCallback, errorCallback) {
       var requestUrl = urlsByMethod[methodName];
-      if (!requestUrl) {
+      if (!requestUrl)
         throw Error("O nome do método" + methodName + " não possui uma URL mapeada.");
-      } else if (methodName == 'listPosts') {
-        requestUrl += '/' + data.username;
-      }
       
       if (!httpMethod)
         httpMethod = 'POST';
@@ -97,11 +95,21 @@ define(['angular'], function(angular) {
       if (!errorCallback)
         errorCallback = requestErrorCallback;
 
+      requestUrl = addUrlPathParams(requestUrl, data);
       return $http({
         method: httpMethod,
         url: requestUrl,
         data: data
       }).success(successCallback).error(errorCallback);
+    }
+    function addUrlPathParams(requestUrl, requestData) {
+      if (requestUrl.indexOf(':') !== -1) {
+        for (var propertyName in requestData) {
+          var pathParamName = ':'.concat(propertyName);
+          requestUrl = requestUrl.replace(pathParamName, requestData[propertyName]);
+        }
+      }
+      return requestUrl;
     }
 
     function requestSuccessCallback(data) {}

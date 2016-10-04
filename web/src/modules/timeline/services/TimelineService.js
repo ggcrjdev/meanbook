@@ -15,9 +15,6 @@ define([], function() {
       }
     };
 
-    function switchTimeline(username) {
-      loadPosts(username);
-    }
     function makePost(content, callback) {
       meanBookApi.makePost(content).then(function(response) {
         loadPosts();
@@ -42,19 +39,35 @@ define([], function() {
         callback(response.data);
       }, messageService.errorHandling);
     }
-    function loadPosts(username) {
+    function loadPosts(username, pageNumber, callback) {
       if (!username)
         username = entity.username;
+      if (!pageNumber)
+        pageNumber = 1;
 
-      meanBookApi.listPosts(username).then(function(response) {
+      meanBookApi.listPosts(username, pageNumber).then(function(response) {
         entity.username = username;
-        entity.posts = response.data.posts;
+        addPostsLoaded(response.data.posts, pageNumber);
+
+        if (callback)
+          callback(response.data);
       }, messageService.errorHandling);
+    }
+    function addPostsLoaded(posts, pageNumber) {
+      if (firstPage(pageNumber)) {
+        entity.posts = posts;
+      } else {
+        for (var i = 0; i < posts.length; i++) {
+          entity.posts.push(posts[i]);
+        }
+      }
+    }
+    function firstPage(pageNumber) {
+      return pageNumber === null || pageNumber === 1;
     }
 
     return {
       entity: entity,
-      switchTimeline: switchTimeline,
       makePost: makePost,
       likePost: likePost,
       makeComment: makeComment,

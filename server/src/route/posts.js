@@ -26,7 +26,7 @@ postsRouter.prototype = {
   },
   initRoutes: function() {
     var that = this;
-    that.router.get('/list/:username', function(req, res) {
+    that.router.get('/list/:username/:pageNumber', function(req, res) {
       that.list(req, res);
     });
     that.router.post('/add', function(req, res) {
@@ -43,11 +43,14 @@ postsRouter.prototype = {
 
   list: function(req, res) {
     var that = this;
+    var pageNumber = req.params.pageNumber;
+    if (pageNumber)
+      pageNumber = parseInt(pageNumber);
     var currentUserName = req.params.username;
     if (!currentUserName)
       currentUserName = that.usersRouter.getCurrentUserName(req, res);
     
-    that.postService.listByAuthor(currentUserName, function(err, results) {
+    that.postService.listByAuthor(currentUserName, pageNumber, function(err, results) {
       if (err) {
         RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
       } else {

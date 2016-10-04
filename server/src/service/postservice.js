@@ -59,14 +59,17 @@ postService.prototype = {
       _id: postId
     }, callback);
   },
-  listByAuthor: function(username, callback) {
-    Post.find({
+  listByAuthor: function(username, pageNumber, callback) {
+    var conditions = {
       by: username
-    }, null, {
+    };
+    var options = {
       sort: {
         creationDate: -1
       }
-    }, callback);
+    };
+    options = ServiceUtils.mongooseIncludePageSizeOptions(options, pageNumber);
+    Post.find(conditions, null, options, callback);
   },
   listAll: function(callback) {
     Post.find({}, callback);
