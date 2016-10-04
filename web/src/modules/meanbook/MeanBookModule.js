@@ -55,7 +55,11 @@ function($,
   ]);
 
   angular.element(document).ready(function() {
-    angular.bootstrap(document, [moduleName]);
-    console.log('[Angular]: Bootstrapped.');
+    try {
+      angular.bootstrap(document, [moduleName]);
+      console.log('[Angular]: Bootstrapped.');
+    } catch (e) {
+      console.error(e.stack || e.message || e);
+    }
   });
 });
