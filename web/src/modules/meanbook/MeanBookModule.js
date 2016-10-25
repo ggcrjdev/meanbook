@@ -26,8 +26,10 @@ function($,
   var deps = ['timelineModule', 'userProfileModule', 'ngRoute'];
   var module = angular.module('meanBookModule', deps);
 
-  // Configuration for Spring Restful API on Wildfly (Java Server).
+  // Configuration for the Spring Restful API on Wildfly (Java Server).
   // module.value('meanBookApiUrl', 'http://localhost:8080/meanbook-spring');
+  // Configuration for the DOT.NET Web API Restful API on IIS (DOT.NET Server).
+  // module.value('meanBookApiUrl', 'http://localhost:52654/api');
   module.value('meanBookApiUrl', httpUtils.getCurrentHostName() + '/api/1.0');
   module.value('defaultLoadUsersTimeout', 15 * 1000);
 
