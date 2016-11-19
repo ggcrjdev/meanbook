@@ -5,7 +5,6 @@ var errorhandler = require('errorhandler');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var compression = require('compression');
-var csrf = require('csurf');
 
 var app = express();
 var http = require('http').Server(app);
@@ -50,12 +49,6 @@ app.use(session({
   saveUninitialized: true
 }));
 
-// CSRF/XSRF protection configuration.
-app.use(csrf());
-app.use(function(req, res, next) {
-  res.cookie('XSRF-TOKEN', req.csrfToken());
-  next();
-});
 //  Error handling configuration.
 if (process.env.NODE_ENV === 'development') {
   app.use(errorhandler());
