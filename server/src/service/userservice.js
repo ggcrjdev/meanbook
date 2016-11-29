@@ -7,6 +7,10 @@ var userService = function() {};
 userService.prototype = {
   init: function() {
   },
+  validateUsername: function(username) {
+    return username !== null && username.length >= 3 && username.length <= 25 &&
+      username.search('^([a-zA-Z0-9]{1})[a-zA-Z0-9-.]+([a-zA-Z0-9]{1})$') !== -1;
+  },
   registerLoggedUser: function(username, callback) {
     var that = this;
     that.findByLogin(username, function(err, user) {

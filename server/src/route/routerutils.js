@@ -9,6 +9,7 @@ var routerUtils = {
   errorMessages: {
     MONGODB_QUERY_EXEC_ERROR: new AppError(100, 'MONGODB_QUERY_EXEC_ERROR', 'Error to access your data in database'),
     APP_USER_NOT_FOUND: new AppError(200, 'APP_USER_NOT_FOUND', 'Your username is required to access the app'),
+    APP_USERNAME_INVALID: new AppError(200, 'APP_USERNAME_INVALID', 'Your username is not valid'),
     UNKNOW_ERROR: new AppError(999, 'UNKNOW_ERROR', 'Unknow error')
   },
   sendErrorResponse: function(key, res, err, httpStatusCode) {

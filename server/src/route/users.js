@@ -98,7 +98,7 @@ usersRouter.prototype = {
   login: function(req, res) {
     var that = this;
     var data = req.body;
-    if (data.username) {
+    if (that.userService.validateUsername(data.username)) {
       that.userService.registerLoggedUser(data.username, function(err, user) {
         if (err) {
           RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
@@ -110,7 +110,7 @@ usersRouter.prototype = {
         }
       });
     } else {
-      RouterUtils.sendErrorResponse('APP_USER_NOT_FOUND', res);
+      RouterUtils.sendErrorResponse('APP_USERNAME_INVALID', res);
     }
   },
   logout: function(req, res) {
