@@ -32,7 +32,7 @@ function(angular,
     userService.loadCurrentUser(function(responseData) {
       if (responseData) {
         onlineUsersService.startPulling();
-        timelineService.loadPosts(userService.entity.username);
+        timelineService.loadFirstPosts(userService.entity.username);
         console.log('[timeline]: Loaded posts.');
       }
       $location.path('/timeline');

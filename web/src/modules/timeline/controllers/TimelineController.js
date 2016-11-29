@@ -7,13 +7,6 @@ define(['jquery'], function($) {
     $scope.timeline = timelineService.entity;
     $scope.onlineUsers = onlineUsersService.entity;
 
-    $scope.initialNextPageLoad = true;
-    $scope.initPagination = function() {
-      $scope.nextPage = 1;
-      $scope.endOfPage = false;
-    };
-    $scope.initPagination();
-
     $scope.$on('LoggedIn', function() {
       onlineUsersService.startPulling();
       $scope.loadFirstPosts(userService.entity.username);
@@ -28,26 +21,16 @@ define(['jquery'], function($) {
       console.log('[timelineController]: onLoggedOut.');
     });
 
-    $scope.loadFirstPosts = function(username) {
-      $scope.initPagination();
-      $scope.loadNextPageOfPosts(username);
-    };
-    $scope.loadNextPageOfPosts = function(username) {
-      // When the posts are loaded directly by a module, the first page already loaded.
-      // In this case, the nextPage must be incremented to the next posts.
-      if ($scope.initialNextPageLoad && timelineService.entity.posts.length !== 0)
-        $scope.nextPage++;
-
-      timelineService.loadPosts(username, $scope.nextPage, function(result) {
-        if (result.posts.length < 10)
-          $scope.endOfPage = true;
-      });
-      $scope.nextPage++;
-      $scope.initialNextPageLoad = false;
-    };
     $scope.switchTimeline = function(username) {
       $scope.loadFirstPosts(username);
     };
+    $scope.loadFirstPosts = function(username) {
+      timelineService.loadFirstPosts(username);
+    };
+    $scope.loadNextPageOfPosts = function(username) {
+      timelineService.loadNextPageOfPosts(username);
+    };
+
     $scope.makePost = function() {
       timelineService.makePost($scope.formPostContent, function(responseData) {
         $scope.formPostContent = null;
@@ -72,8 +55,10 @@ define(['jquery'], function($) {
     };
 
     $scope.loadPostsOnUserScrollsBottom = function() {
-      $(window).scroll(function() {
-        if (!$scope.endOfPage &&
+      $(window).unbind('scroll');
+      $(window).bind('scroll', function() {
+        if (!$scope.timeline.pagination.endOfPage &&
+            '#!/timeline' === $(location).attr('hash') &&
             $(window).scrollTop() + window.innerHeight == $(document).height()) {
           $scope.loadNextPageOfPosts();
         }

@@ -5,39 +5,61 @@ define([], function() {
       meanBookApi) {
     var entity = {
       posts: [],
+      pagination: {
+        nextPage: 1,
+        endOfPage: false,
+        reset: function() {
+          this.nextPage = 1;
+          this.endOfPage = false;
+        }
+      },
       username: null,
       isCurrentUser: function() {
         return userService.entity.username === this.username;
       },
       clear: function() {
         this.posts = [];
+        this.pagination.reset();
         this.username = null;
       }
     };
 
     function makePost(content, callback) {
       meanBookApi.makePost(content).then(function(response) {
-        loadPosts();
+        loadFirstPosts();
         callback(response.data);
       }, messageService.errorHandling);
     }
     function likePost(postId, callback) {
       meanBookApi.likePost(postId).then(function(response) {
-        loadPosts();
+        loadFirstPosts();
         callback(response.data);
       }, messageService.errorHandling);
     }
     function makeComment(postId, content, callback) {
       meanBookApi.makeComment(content, postId).then(function(response) {
-        loadPosts();
+        loadFirstPosts();
         callback(response.data);
       }, messageService.errorHandling);
     }
     function likeComment(commentId, postId, callback) {
       meanBookApi.likeComment(commentId, postId).then(function(response) {
-        loadPosts();
+        loadFirstPosts();
         callback(response.data);
       }, messageService.errorHandling);
+    }
+
+    function loadFirstPosts(username) {
+      entity.pagination.reset();
+      loadNextPageOfPosts(username);
+    }
+    function loadNextPageOfPosts(username) {
+      var postsPagination = entity.pagination;
+      loadPosts(username, postsPagination.nextPage, function(result) {
+        if (result.posts.length < 10)
+          postsPagination.endOfPage = true;
+      });
+      postsPagination.nextPage++;
     }
     function loadPosts(username, pageNumber, callback) {
       if (!username)
@@ -72,7 +94,8 @@ define([], function() {
       likePost: likePost,
       makeComment: makeComment,
       likeComment: likeComment,
-      loadPosts: loadPosts
+      loadFirstPosts: loadFirstPosts,
+      loadNextPageOfPosts: loadNextPageOfPosts
     };
   };
 });
