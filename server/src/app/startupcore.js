@@ -51,13 +51,12 @@ var sessionStore = new MongodbSessionStore({
     mongooseConnection: mongoose.connection
   }
 );
-var secureCookies = prodMode;
 app.use(session({
   name: config.express.sessionName,
   secret: config.express.sessionSecret,
   store: sessionStore,
   cookie: {
-      secure: secureCookies
+      secure: false
     },
   resave: false,
   saveUninitialized: true
