@@ -38,6 +38,7 @@
     "morgan": "^1.6.1"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "grunt-contrib-csslint": "^2.0.0",
     "grunt-contrib-jshint": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
