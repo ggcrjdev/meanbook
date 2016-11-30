@@ -1,4 +1,6 @@
 'use strict';
+var devMode = process.env.NODE_ENV === 'development';
+var prodMode = process.env.NODE_ENV === 'production';
 var config = require('./config');
 var express = require('express');
 var errorhandler = require('errorhandler');
@@ -30,6 +32,17 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
+// Security configuration.
+var helmet = require('helmet');
+app.use(helmet());
+if (devMode) {
+  var sixtyDaysInSeconds = 5184000;
+  app.use(helmet.hsts({
+    maxAge: sixtyDaysInSeconds,
+    includeSubDomains: false
+  }));
+}
+
 // Session configuration using Mongo store. 
 // Will provide application scalability, even if a session scope is used.
 var mongoose = require('mongoose');
@@ -38,19 +51,20 @@ var sessionStore = new MongodbSessionStore({
     mongooseConnection: mongoose.connection
   }
 );
+var secureCookies = prodMode;
 app.use(session({
   name: config.express.sessionName,
   secret: config.express.sessionSecret,
   store: sessionStore,
   cookie: {
-      secure: false
+      secure: secureCookies
     },
   resave: false,
   saveUninitialized: true
 }));
 
 //  Error handling configuration.
-if (process.env.NODE_ENV === 'development') {
+if (devMode) {
   app.use(errorhandler());
   console.log('Enabled the middleware errorhandler.');
 }
@@ -67,7 +81,7 @@ var webConfig = {
     return this.basePath.concat(this.lib);
   }
 };
-if (process.env.NODE_ENV === 'production') {
+if (prodMode) {
   webConfig.src = 'dist/';
 }
 app.use(express.static(webConfig.srcPath()));
