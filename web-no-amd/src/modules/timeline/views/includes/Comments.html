@@ -1,0 +1,13 @@
+<div ng-repeat="comment in post.comments" class="comment" data-comment-id="{{comment.id}}">
+    <div class="poster-info">
+        <span class="poster">{{comment.author}}</span>
+        <span class="action">commented on </span>
+        <span class="time">{{comment.timestamp | formatLocalDate}}</span>
+    </div>
+    <div class="post-body">{{comment.text}}</div>
+    <div class="post-actions">
+        <a ng-click="likeComment(comment.id, post.id)" data-comment-id="{{comment.id}}">
+	        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> ({{comment.likes}})
+        </a>
+    </div>
+</div>

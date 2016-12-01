@@ -1,0 +1,90 @@
+body {
+    background-color: rgb(245, 245, 245);
+    overflow-y: scroll;
+}
+ 
+.post {
+    border-bottom: 1px solid #aaa;
+    margin-top: 25px;
+}
+ 
+.poster-info {
+    font-size: 120%;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+ 
+.poster {
+    color: #2aabd2;
+    font-weight: bold;
+}
+ 
+.post-body {
+    color: #333;
+    display: block;
+    font-size: 12px;
+    line-height: 1.42857;
+    margin: 0 0 10px;
+    padding: 9.5px;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: normal;
+}
+
+.post-actions {
+    text-align: left;
+    padding: 10px;
+}
+ 
+.post-comments {
+    border-top: 1px dotted #bbb;
+}
+ 
+.comment {
+    font-size: 90%;
+    padding-left: 20px;
+}
+ 
+.post-form, .comment-form {
+    overflow: auto;
+    padding: 10px;
+    background-color: rgb(235, 235, 235);
+    border-radius: 5px;
+}
+ 
+.post-form {
+    font-size: 150%;
+    background-color: rgb(220, 220, 220);
+}
+ 
+.txt {
+    width: 100%;
+    height: 75px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+ 
+.online-users {
+    list-style-type: none;
+    font-size: 130%;
+    color: #555;
+}
+
+a {
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+.icon-validation-ok {
+    color: green;
+}
+
+.icon-validation-error {
+    color: red;
+}
+  
+[ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none !important;
+}

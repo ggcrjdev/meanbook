@@ -1,0 +1,8 @@
+<h3>Who is online?</h3>
+<ul class="online-users">
+    <li ng-repeat="onlineUser in onlineUsers.users" data-user-id="{{onlineUser.id}}">
+        <a ng-click="switchTimeline(onlineUser.username)" data-user-id="{{onlineUser.id}}">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{onlineUser.username}}
+        </a>
+    </li>
+</ul>

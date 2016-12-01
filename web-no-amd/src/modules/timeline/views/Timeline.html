@@ -1,0 +1,26 @@
+<div ng-controller="timelineController">
+    <div ng-show="user.loggedIn()" ng-cloak class="col-md-3">
+        <div ng-include="'modules/timeline/views/includes/OnlineUsers.html'" class="row col-md-12"></div>
+    </div>
+    <div class="col-md-9">
+        <div ng-show="!user.loggedIn()" ng-cloak id="not-logged">
+            <h2>You need to connect.</h2>
+            <h3>Enter your username and click on "Sign in"</h3>
+        </div>
+        <div ng-show="user.loggedIn()" ng-cloak id="logged">
+            <form name="formPosts" novalidate>
+                <div ng-show="timeline.isCurrentUser()" ng-cloak class="post-form">
+                    <div class="action">What you thinking now to publish?</div>
+                    <textarea ng-model="formPostContent" id="post-content" class="txt" placeholder="Write you think..."></textarea>
+                    <div class="pull-right">
+                        <button ng-click="makePost()" id="btn-publish" class="btn btn-info">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Publish
+                        </button>
+                    </div>
+                </div>
+                <div class="post">{{timeline.username}} wrote {{timeline.posts.length}} posts.</div>
+                <div ng-include="'modules/timeline/views/includes/Posts.html'" class="posts"></div>
+            </form>
+        </div>
+    </div>
+</div>

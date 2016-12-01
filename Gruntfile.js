@@ -68,20 +68,23 @@ module.exports = function(grunt) {
         jshintrc: true
       },
       source: ['Gruntfile.js', 'server/src/**/*.js', 'web/src/**/*.js'],
-      test: ['server/test/**/*.js', 'web/test/**/*.js']
+      test: ['server/test/**/*.js', 'web/test/**/*.js'],
+      sourceNoAMD: ['web-no-amd/src/**/*.js']
     },
     jscs: {
       options: {
         config: '.jscsrc'
       },
-      src: ['<%= jshint.source %>', '<%= jshint.test %>']
+      src: ['<%= jshint.source %>', '<%= jshint.test %>'],
+      srcNoAMD: ['<%= jshint.sourceNoAMD %>']
     },
     csslint: {
       web: {
         options: {
           csslintrc: 'web/.csslintrc'
         },
-        src: ['web/src/**/*.css']
+        src: ['web/src/**/*.css'],
+        srcNoAMD: ['web-no-amd/src/**/*.css']
       }
     },
     mochaTest: {

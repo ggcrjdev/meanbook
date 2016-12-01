@@ -1,0 +1,10 @@
+{
+  "browser": true,
+  "devel": true,
+  "jasmine": true,
+  "globalstrict": true,
+  "globals": {
+    "angular": false,
+    "$": false
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "meanbook-web-no-amd",
+  "description": "MEANBook Web Module Without the AMD Library",
+  "version": "1.3.0",
+  "authors": [
+    "Gustavo Gomes <gustavo.gomesc@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#1.5.6",
+    "angular-route": "1.5.6",
+    "bootstrap": "3.3.6",
+    "jquery": "2.1.4"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.5.6"
+  }
+}

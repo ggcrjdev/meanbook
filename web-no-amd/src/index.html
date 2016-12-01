@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>MEANBook</title>
+        <meta name="description" content="MEANBook NodeJS Example">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" type="text/css" href="../lib/bootstrap/dist/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../lib/bootstrap/dist/css/bootstrap-theme.min.css"/>
+        <link rel="stylesheet" href="main.css" />
+    </head>
+    <body ng-app="meanBookModule">
+        <div ng-controller="meanBookController" class="container">
+            <div ng-include="'modules/meanbook/views/includes/Header.html'"></div>
+            <div ng-include="'modules/meanbook/views/includes/Messages.html'" class="row col-md-12"></div>
+            <div ng-view class="row"></div>
+        </div>
+
+        <!-- External dependencies -->
+        <script src="../lib/jquery/dist/jquery.min.js"></script>
+        <script src="../lib/angular/angular.min.js"></script>
+        <script src="../lib/angular-route/angular-route.min.js"></script>
+        <script src="../lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+        <!-- core module -->
+        <script src="modules/meanbook/MeanBookModule.js"></script>
+        <script src="modules/meanbook/services/MeanBookApi.js"></script>
+        <script src="modules/meanbook/services/MessageService.js"></script>
+        <script src="modules/meanbook/services/UserService.js"></script>
+        <script src="modules/meanbook/services/DateUtils.js"></script>
+        <script src="modules/meanbook/controllers/MeanBookController.js"></script>
+        <script src="modules/meanbook/filters/FormatLocalDateFilter.js"></script>
+        <script src="modules/meanbook/filters/FormatTimestampFilter.js"></script>
+
+        <!-- timeline module -->
+        <script src="modules/timeline/TimelineModule.js"></script>
+        <script src="modules/timeline/services/OnlineUsersService.js"></script>
+        <script src="modules/timeline/services/TimelineService.js"></script>
+        <script src="modules/timeline/controllers/TimelineController.js"></script>
+
+        <!-- userprofile module -->
+        <script src="modules/userprofile/UserProfileModule.js"></script>
+    </body>
+</html>

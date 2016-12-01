@@ -1,0 +1,25 @@
+<div ng-controller="timelineController" ng-show="user.loggedIn()" ng-cloak>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-9">
+    	<div class="form-group">
+	        <strong>Login: </strong><span>{{user.username}}</span>
+    	</div>
+    	<div class="form-group">
+	        <strong>Name: </strong><span>{{user.fullName()}}</span>
+    	</div>
+        <div class="form-group">
+            <strong>E-mail: </strong><span>{{user.email}}</span>
+        </div>
+        <div class="form-group">
+            <strong>Your profile is: </strong><span>{{user.public ? 'public' : 'private'}}</span>.
+        </div>
+    	<div class="form-group">
+	        <strong>Birthday: </strong><span>{{user.birthday | formatTimestamp:'date'}}</span>
+    	</div>
+    	<div class="form-group">
+            <a ng-click="prepareSaveUser()" href="#!/user-profile-edit" class="btn btn-sm" id="btn-edit">Edit</a>
+            <a href="#!/timeline" class="btn btn-sm" id="btn-back-timeline">Back to timeline</a>
+    	</div>
+    </div>
+</div>
