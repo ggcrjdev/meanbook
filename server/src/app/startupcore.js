@@ -70,7 +70,7 @@ if (devMode) {
 
 // Static content configuration (app sources and libraries).
 var webConfig = {
-  basePath: __dirname + '/../../../web/', 
+  basePath: __dirname + config.express.webBasePath, 
   src: 'src/',
   lib: 'lib/',
   srcPath: function() {

@@ -9,6 +9,7 @@ var config = {
     port: 3000,
     origins: '*',
     timestampFormat: 'HH:MM:ss.l',
+    webBasePath: '/../../../web/',
     apiBaseUri: '/api/1.0',
     sessionName: 'NODESID',
     sessionSecret: 'CastleVania2030'
