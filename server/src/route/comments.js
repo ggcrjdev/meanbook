@@ -3,40 +3,24 @@ var PostService = require('../service/postservice').PostService;
 var CommentService = require('../service/commentservice').CommentService;
 var RouterUtils = require('./routerutils').RouterUtils;
 
-var commentsRouter = function(express, apiBaseUri, usersRouter) {
-  this.init(express, apiBaseUri, usersRouter);
+var commentsRouter = function(express, usersRouter) {
+  this.init(express, usersRouter);
 };
 commentsRouter.prototype = {
-  init: function(express, apiBaseUri, usersRouter) {
+  init: function(express, usersRouter) {
+    var that = this;
     this.postService = new PostService();
     this.commentService = new CommentService();
-
-    this.apiBaseUri = apiBaseUri;
     this.usersRouter = usersRouter;
-    this.routerBaseUri = '/comments';
-    this.router = express.Router();
-    this.initRouterMiddleware();
-    this.initRoutes();
-  },
-  initRouterMiddleware: function() {
-    // middleware that is specific to this router
-    var that = this;
-    that.router.use(function(req, res, next) {
-      console.log('Processing request to ' + that.routerBaseUri + ' router.');
-      next();
-    });
-  },
-  initRoutes: function() {
-    var that = this;
-    that.router.post('/add', function(req, res) {
+    
+    var router = express.Router();
+    router.post('/comments/add', function(req, res) {
       that.add(req, res);
     });
-    that.router.post('/like', function(req, res) {
+    router.post('/comments/like', function(req, res) {
       that.like(req, res);
     });
-  },
-  useRouter: function(app) {
-    app.use(this.apiBaseUri + this.routerBaseUri, this.router);
+    this.router = router;
   },
 
   add: function(req, res) {

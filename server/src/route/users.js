@@ -6,43 +6,27 @@ var usersRouter = function(express, apiBaseUri) {
   this.init(express, apiBaseUri);
 };
 usersRouter.prototype = {
-  init: function(express, apiBaseUri) {
+  init: function(express) {
+    var that = this;
     this.userService = new UserService();
 
-    this.apiBaseUri = apiBaseUri;
-    this.routerBaseUri = '/users';
-    this.router = express.Router();
-    this.initRouterMiddleware();
-    this.initRoutes();
-  },
-  initRouterMiddleware: function() {
-    // middleware that is specific to this router
-    var that = this;
-    that.router.use(function(req, res, next) {
-      console.log('Processing request to ' + that.routerBaseUri + ' router.');
-      next();
-    });
-  },
-  initRoutes: function() {
-    var that = this;
-    that.router.get('/list', function(req, res) {
+    var router = express.Router();
+    router.get('/users/list', function(req, res) {
       that.list(req, res);
     });
-    that.router.post('/current', function(req, res) {
+    router.post('/users/current', function(req, res) {
       that.currentUser(req, res);
     });
-    that.router.put('/edit', function(req, res) {
+    router.put('/users/edit', function(req, res) {
       that.saveUser(req, res);
     });
-    that.router.post('/login', function(req, res) {
+    router.post('/users/login', function(req, res) {
       that.login(req, res);
     });
-    that.router.post('/logout', function(req, res) {
+    router.post('/users/logout', function(req, res) {
       that.logout(req, res);
     });
-  },
-  useRouter: function(app) {
-    app.use(this.apiBaseUri + this.routerBaseUri, this.router);
+    this.router = router;
   },
 
   getCurrentUserName: function(req, res) {
@@ -66,7 +50,7 @@ usersRouter.prototype = {
     var that = this;
     var data = req.body;
     if (data.username) {
-      that.userService.saveUser(data, function(err, user) {
+      this.userService.saveUser(data, function(err, user) {
         if (err) {
           RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
         } else {
@@ -79,7 +63,7 @@ usersRouter.prototype = {
   },
   list: function(req, res) {
     var that = this;
-    that.userService.listActiveUsers(function(err, results) {
+    this.userService.listActiveUsers(function(err, results) {
       if (err) {
         RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
       } else {
@@ -98,8 +82,8 @@ usersRouter.prototype = {
   login: function(req, res) {
     var that = this;
     var data = req.body;
-    if (that.userService.validateUsername(data.username)) {
-      that.userService.registerLoggedUser(data.username, function(err, user) {
+    if (this.userService.validateUsername(data.username)) {
+      this.userService.registerLoggedUser(data.username, function(err, user) {
         if (err) {
           RouterUtils.sendErrorResponse('MONGODB_QUERY_EXEC_ERROR', res, err);
         } else {
@@ -118,7 +102,7 @@ usersRouter.prototype = {
     var loggedOut = false;
     if (this.isLoggedIn(req, res)) {
       var currentUserName = this.getCurrentUserName(req, res);
-      that.userService.markActive(currentUserName, false, function(err, result) {
+      this.userService.markActive(currentUserName, false, function(err, result) {
         if (err)
           console.log('The user ' + currentUserName + ' logged out, but cannot be passed to inactive state.');
       });

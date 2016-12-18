@@ -6,38 +6,22 @@ var postsRouter = function(express, apiBaseUri, usersRouter) {
   this.init(express, apiBaseUri, usersRouter);
 };
 postsRouter.prototype = {
-  init: function(express, apiBaseUri, usersRouter) {
+  init: function(express, usersRouter) {
+    var that = this;
     this.postService = new PostService();
-
-    this.apiBaseUri = apiBaseUri;
     this.usersRouter = usersRouter;
-    this.routerBaseUri = '/posts';
-    this.router = express.Router();
-    this.initRouterMiddleware();
-    this.initRoutes();
-  },
-  initRouterMiddleware: function() {
-    // middleware that is specific to this router
-    var that = this;
-    that.router.use(function(req, res, next) {
-      console.log('Processing request to ' + that.routerBaseUri + ' router.');
-      next();
-    });
-  },
-  initRoutes: function() {
-    var that = this;
-    that.router.get('/list/:username/:pageNumber', function(req, res) {
+
+    var router = express.Router();
+    router.get('/posts/list/:username/:pageNumber', function(req, res) {
       that.list(req, res);
     });
-    that.router.post('/add', function(req, res) {
+    router.post('/posts/add', function(req, res) {
       that.add(req, res);
     });
-    that.router.post('/like', function(req, res) {
+    router.post('/posts/like', function(req, res) {
       that.like(req, res);
     });
-  },
-  useRouter: function(app) {
-    app.use(this.apiBaseUri + this.routerBaseUri, this.router);
+    this.router = router;
   },
 
   list: function(req, res) {
